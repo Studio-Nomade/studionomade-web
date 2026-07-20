@@ -1,0 +1,15 @@
+drop table if exists public.team_members;
+drop table if exists public.clients;
+drop table if exists public.capabilities;
+drop table if exists public.industries;
+drop table if exists public.area_services;
+drop table if exists public.services;
+drop table if exists public.user_area_permissions;
+drop table if exists public.areas;
+drop table if exists public.user_roles;
+drop table if exists public.permissions;
+drop table if exists public.roles;
+drop table if exists public.profiles;
+drop type if exists public.area_relation_kind;
+drop type if exists public.lead_status;
+drop type if exists public.content_status;
