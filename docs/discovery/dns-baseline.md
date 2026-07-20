@@ -12,26 +12,26 @@ La exportación real de la zona SiteGround no fue entregada. Está registrada co
 4. Revisar que la captura incluya nombre, tipo, TTL, prioridad y valor, sin credenciales.
 5. Sustituir la tabla vacía siguiente mediante una revisión auditada antes de modificar DNS.
 
-| Capturado en | Operador | Fuente | Archivo/evidencia |
-|---|---|---|---|
-| Pendiente | Pendiente | SiteGround | Pendiente (PB-04) |
+| Capturado en | Operador  | Fuente     | Archivo/evidencia |
+| ------------ | --------- | ---------- | ----------------- |
+| Pendiente    | Pendiente | SiteGround | Pendiente (PB-04) |
 
-| Nombre | Tipo | TTL | Prioridad | Valor real actual | Observación |
-|---|---|---:|---:|---|---|
-| Pendiente | Pendiente | Pendiente | Pendiente | Pendiente | Espera exportación PB-04 |
+| Nombre    | Tipo      |       TTL | Prioridad | Valor real actual | Observación              |
+| --------- | --------- | --------: | --------: | ----------------- | ------------------------ |
+| Pendiente | Pendiente | Pendiente | Pendiente | Pendiente         | Espera exportación PB-04 |
 
 ## Mapa conceptual de destinos
 
 No contiene valores técnicos. Los targets definitivos dependen de [PB-06](preguntas-bloqueantes.md).
 
-| Nombre conceptual | Plataforma prevista | Uso |
-|---|---|---|
-| `@` | Vercel | Sitio público |
-| `www` | Vercel | Alias del sitio público |
-| `admin` | Vercel | Web Admin |
-| `noma` | Vercel | Servicio existente; no modificar en M00 |
-| `prototipos` | SiteGround | Prototipos |
-| MX / SPF / DKIM / DMARC | Google Workspace | Correo y autenticación de dominio; conservar valores reales |
+| Nombre conceptual       | Plataforma prevista | Uso                                                         |
+| ----------------------- | ------------------- | ----------------------------------------------------------- |
+| `@`                     | Vercel              | Sitio público                                               |
+| `www`                   | Vercel              | Alias del sitio público                                     |
+| `admin`                 | Vercel              | Web Admin                                                   |
+| `noma`                  | Vercel              | Servicio existente; no modificar en M00                     |
+| `prototipos`            | SiteGround          | Prototipos                                                  |
+| MX / SPF / DKIM / DMARC | Google Workspace    | Correo y autenticación de dominio; conservar valores reales |
 
 ## Validación y rollback de un cambio futuro
 

@@ -3,11 +3,28 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./eslint": "./eslint/index.mjs",
+    "./eslint/library": "./eslint/library.mjs",
+    "./prettier": "./prettier/index.mjs",
+    "./tsconfig": "./tsconfig/base.json"
+  },
   "scripts": {
     "build": "tsc",
-    "lint": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0",
     "typecheck": "tsc --noEmit"
   },
-  "devDependencies": { "typescript": "5.8.3" }
+  "dependencies": {
+    "@eslint/eslintrc": "3.3.1",
+    "eslint-config-next": "15.5.18",
+    "typescript-eslint": "8.31.0"
+  },
+  "devDependencies": {
+    "eslint": "9.25.1",
+    "typescript": "5.8.3"
+  },
+  "peerDependencies": {
+    "eslint": "^9.25.1"
+  }
 }

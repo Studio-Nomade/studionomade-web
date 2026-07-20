@@ -1,2 +1,3 @@
-// Placeholder de M00. La API pública se definirá en hitos posteriores.
-export {};
+export const environments = ["local", "preview", "production"] as const;
+
+export type Environment = (typeof environments)[number];

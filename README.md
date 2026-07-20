@@ -13,6 +13,8 @@ Monorepo público del ecosistema web de Studio Nomade. Contiene las aplicaciones
 pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
+pnpm test:unit
+pnpm test:e2e
 pnpm build
 ```
 
@@ -28,3 +30,5 @@ Las aplicaciones iniciales son placeholders de fundación; M00 no incorpora lóg
 - `tests`: pruebas transversales futuras
 
 No se requieren secretos ni el repositorio privado para instalar o construir este proyecto.
+
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md) y [las convenciones](docs/convenciones.md) antes de contribuir.
