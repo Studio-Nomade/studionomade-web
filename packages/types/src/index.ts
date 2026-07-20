@@ -1,2 +1,7 @@
-// Placeholder de M00. La API pública se definirá en hitos posteriores.
-export {};
+export type AppId = "web" | "admin";
+
+export interface AppIdentity {
+  id: AppId;
+  name: string;
+  description: string;
+}

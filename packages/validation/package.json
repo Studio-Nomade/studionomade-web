@@ -6,8 +6,16 @@
   "exports": "./src/index.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "tsc --noEmit",
+    "lint": "eslint src --max-warnings=0",
     "typecheck": "tsc --noEmit"
   },
-  "devDependencies": { "typescript": "5.8.3" }
+  "dependencies": {
+    "zod": "3.24.3"
+  },
+  "devDependencies": {
+    "@studionomade/config": "workspace:*",
+    "eslint": "9.25.1",
+    "typescript": "5.8.3",
+    "vitest": "3.2.6"
+  }
 }
