@@ -1,0 +1,1 @@
+-- M00: sin datos iniciales. Los seeds se definirán en un hito posterior.

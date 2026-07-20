@@ -1,0 +1,13 @@
+node_modules/
+.pnpm-store/
+.turbo/
+.next/
+dist/
+coverage/
+*.tsbuildinfo
+.DS_Store
+
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
