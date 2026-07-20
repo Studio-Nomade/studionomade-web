@@ -1,0 +1,10 @@
+drop table if exists public.prototype_media;
+drop table if exists public.prototype_features;
+drop table if exists public.prototypes;
+drop table if exists public.project_links;
+drop table if exists public.project_media;
+drop table if exists public.project_team;
+drop table if exists public.project_capabilities;
+drop table if exists public.project_services;
+drop table if exists public.project_areas;
+drop table if exists public.projects;
