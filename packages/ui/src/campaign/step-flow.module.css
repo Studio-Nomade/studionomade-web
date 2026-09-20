@@ -8,7 +8,7 @@
   text-align: center;
 }
 .number {
-  color: var(--accent);
+  color: var(--text-strong);
   font-family: var(--font-campaign);
   font-size: var(--fs-campaign-3);
   font-weight: var(--fw-heavy);

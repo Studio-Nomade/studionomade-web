@@ -30,6 +30,7 @@
 }
 .title {
   margin-bottom: var(--sp-4);
+  color: var(--sn-white);
   font-size: var(--fs-body);
   font-weight: var(--fw-bold);
 }

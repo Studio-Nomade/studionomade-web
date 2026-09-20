@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test("la superficie pública actual no desborda a 360px", async ({ page }) => {
+test("la campaña no desborda a 360px", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto("/");
+  await page.goto("/campanas/inmobiliarias");
   const dimensions = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth

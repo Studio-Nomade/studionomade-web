@@ -52,8 +52,21 @@
   text-transform: uppercase;
 }
 @media (max-width: 48em) {
+  .hero {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .inner {
+    padding-block: var(--sp-9);
+  }
   .art {
-    height: 55%;
-    opacity: var(--press-fade);
+    position: static;
+    order: 2;
+    width: 100%;
+    height: auto;
+  }
+  .art > * {
+    width: 100%;
+    height: auto;
   }
 }

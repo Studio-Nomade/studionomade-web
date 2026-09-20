@@ -4,6 +4,7 @@ const isCI = Boolean(process.env.CI);
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
@@ -14,7 +15,8 @@ export default defineConfig({
   projects: [
     {
       name: "web",
-      testMatch: /web\.smoke\.spec\.ts/,
+      testMatch: /(?:web\.smoke|campaign)\.spec\.ts/,
+      testIgnore: /visual\//,
       use: { baseURL: "http://127.0.0.1:3000" }
     },
     {

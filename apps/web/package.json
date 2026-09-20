@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@studionomade/config": "workspace:*",
+    "@studionomade/content-schema": "workspace:*",
     "@studionomade/database": "workspace:*",
     "@studionomade/design-system": "workspace:*",
     "@studionomade/types": "workspace:*",
