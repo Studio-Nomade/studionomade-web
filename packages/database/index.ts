@@ -39,3 +39,11 @@ export {
 } from "./repositories/pages";
 
 export { createAreaRepository, type AreaRepository } from "./repositories/areas";
+
+export {
+  createPageSectionRepository,
+  type CreateSectionInput,
+  type PageSection,
+  type PageSectionRepository,
+  type UpdateSectionInput
+} from "./repositories/page-sections";

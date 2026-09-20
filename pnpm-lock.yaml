@@ -215,6 +215,10 @@ importers:
         version: 5.8.3
 
   packages/content-schema:
+    dependencies:
+      zod:
+        specifier: 3.24.3
+        version: 3.24.3
     devDependencies:
       '@studionomade/config':
         specifier: workspace:*
@@ -225,6 +229,9 @@ importers:
       typescript:
         specifier: 5.8.3
         version: 5.8.3
+      vitest:
+        specifier: 3.2.6
+        version: 3.2.6(@types/node@22.15.3)(jsdom@26.1.0)
 
   packages/contracts:
     devDependencies:
