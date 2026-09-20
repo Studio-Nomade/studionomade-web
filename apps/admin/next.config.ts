@@ -13,7 +13,8 @@ const nextConfig: NextConfig = {
     "@studionomade/types",
     "@studionomade/validation",
     "@studionomade/auth",
-    "@studionomade/database"
+    "@studionomade/database",
+    "@studionomade/domain"
   ],
   async headers() {
     return [
