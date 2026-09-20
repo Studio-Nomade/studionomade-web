@@ -1,0 +1,59 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--sn-hero-height, clamp(var(--sp-14), 70vh, 44em));
+  overflow: hidden;
+  background: var(--sn-charcoal);
+}
+.texture {
+  position: absolute;
+  inset: 0;
+}
+.texture > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.art {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 88%;
+}
+.art > * {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+.inner {
+  position: relative;
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-inline: var(--page-margin);
+}
+.eyebrow {
+  margin-bottom: var(--sp-6);
+  color: var(--text-on-invert-muted);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+}
+.title {
+  color: var(--sn-white);
+  font-family: var(--font-campaign);
+  font-size: var(--fs-campaign-1);
+  font-weight: var(--fw-heavy);
+  font-stretch: 75%;
+  letter-spacing: var(--tr-campaign);
+  line-height: var(--lh-campaign);
+  text-transform: uppercase;
+}
+@media (max-width: 48em) {
+  .art {
+    height: 55%;
+    opacity: var(--press-fade);
+  }
+}

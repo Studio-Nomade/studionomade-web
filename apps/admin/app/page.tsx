@@ -1,4 +1,5 @@
 import type { AppIdentity } from "@studionomade/types";
+import { Button, Eyebrow, Section } from "@studionomade/ui";
 import { readPublicEnvironment } from "@studionomade/validation";
 
 const app: AppIdentity = {
@@ -15,12 +16,12 @@ export default function HomePage() {
 
   return (
     <main>
-      <section>
-        <p>{environment.NEXT_PUBLIC_APP_ENV}</p>
+      <Section>
+        <Eyebrow>{environment.NEXT_PUBLIC_APP_ENV}</Eyebrow>
         <h1>{app.name}</h1>
         <p>{app.description}. Sin autenticación ni contenido en M01.</p>
-        <a href="https://studionomade.cl">Volver al sitio</a>
-      </section>
+        <Button href="https://studionomade.cl">Volver al sitio</Button>
+      </Section>
     </main>
   );
 }

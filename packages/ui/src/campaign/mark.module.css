@@ -1,0 +1,5 @@
+.mark {
+  padding-inline: 0.08em;
+  background: var(--accent-2);
+  color: var(--sn-ink);
+}

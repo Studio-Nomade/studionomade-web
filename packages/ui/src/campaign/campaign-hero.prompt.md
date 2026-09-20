@@ -1,0 +1,1 @@
+Campaign page opener — the loud end of the system. Dark paper texture, condensed 800-weight uppercase headline with the first word knocked out on accent, cut-out collage art bleeding off the right edge. Only valid inside a `data-accent` scope.

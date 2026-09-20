@@ -1,0 +1,10 @@
+.eyebrow {
+  color: var(--text-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+}
+.eyebrow[data-invert] {
+  color: var(--text-on-invert);
+}
