@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import manifest from "../_ds_manifest.json";
+import manifest from "../../../docs/design-system/ds-manifest.json";
 import { ACCENTS } from "./accents";
 import { TOKENS } from "./tokens";
 
