@@ -1013,11 +1013,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      role_permissions: {
+        Row: {
+          permission_id: string;
+          role_id: string;
+        };
+        Insert: {
+          permission_id: string;
+          role_id: string;
+        };
+        Update: {
+          permission_id?: string;
+          role_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "role_permissions_permission_id_fkey";
+            columns: ["permission_id"];
+            isOneToOne: false;
+            referencedRelation: "permissions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "role_permissions_role_id_fkey";
+            columns: ["role_id"];
+            isOneToOne: false;
+            referencedRelation: "roles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       roles: {
         Row: {
           created_at: string;
           description: string | null;
           id: string;
+          is_active: boolean;
           name: string;
           slug: string;
         };
@@ -1025,6 +1056,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          is_active?: boolean;
           name: string;
           slug: string;
         };
@@ -1032,6 +1064,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          is_active?: boolean;
           name?: string;
           slug?: string;
         };
@@ -1289,7 +1322,11 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      can_edit_area: { Args: { target: string }; Returns: boolean };
+      can_publish_area: { Args: { target: string }; Returns: boolean };
+      current_role_slugs: { Args: never; Returns: string[] };
+      has_permission: { Args: { target: string }; Returns: boolean };
+      has_role: { Args: { target: string }; Returns: boolean };
     };
     Enums: {
       area_relation_kind: "principal" | "complementaria";

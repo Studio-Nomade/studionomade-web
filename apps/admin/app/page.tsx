@@ -1,30 +1,55 @@
-import type { AppIdentity } from "@studionomade/types";
-import { Button, Container, Link } from "@studionomade/ui";
-import { readPublicEnvironment } from "@studionomade/validation";
+import { isAuthError, requireAdminAccess } from "@studionomade/auth";
+import { redirect } from "next/navigation";
 
-const app: AppIdentity = {
-  id: "admin",
-  name: "Studio Nomade Admin",
-  description: "Base técnica del CMS propio"
-};
+import { readAdminServerEnvironment } from "../lib/env";
+import { createAdminServerClient } from "../lib/supabase-server";
+import { signOut } from "./login/actions";
 
-export default function HomePage() {
-  const environment = readPublicEnvironment({
-    NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001"
-  });
+/**
+ * Segunda capa de la autorización en profundidad.
+ *
+ * El middleware ya garantizó que hay sesión, pero la verificación que vale es
+ * esta: se vuelve a validar el JWT contra el servidor, se aplica la allowlist y
+ * se exige al menos un rol activo. Nunca se confía en que el middleware pasó.
+ */
 
-  return (
-    <main>
-      <Container>
-        <p className="eyebrow">{environment.NEXT_PUBLIC_APP_ENV}</p>
-        <h1>{app.name}</h1>
-        <p>{app.description}. Sin autenticación ni contenido en M01.</p>
-        <div className="actions">
-          <Button disabled>Acceso próximamente</Button>
-          <Link href="https://studionomade.cl">Volver al sitio</Link>
-        </div>
-      </Container>
-    </main>
-  );
+// El panel depende de la sesión de cada usuario: no se prerenderiza nunca. Sin
+// esto, el build intentaría generarlo en estático (y en CI ni siquiera hay
+// credenciales de Supabase).
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const client = await createAdminServerClient();
+  const { allowlist } = readAdminServerEnvironment();
+
+  try {
+    const { user, access } = await requireAdminAccess(client, allowlist);
+
+    return (
+      <main>
+        <h1>Studio Nomade Admin</h1>
+        <p>
+          Sesión iniciada como <strong>{user.displayName ?? user.email}</strong>.
+        </p>
+
+        <h2>Acceso efectivo</h2>
+        <p>
+          Roles: <strong>{access.roles.join(", ")}</strong>
+        </p>
+        <p>
+          Permisos: <strong>{access.permissions.join(", ") || "ninguno"}</strong>
+        </p>
+
+        <form action={signOut}>
+          <button type="submit">Cerrar sesión</button>
+        </form>
+      </main>
+    );
+  } catch (error) {
+    if (isAuthError(error)) {
+      if (error.code === "no_session") redirect("/login");
+      redirect("/auth/denegado");
+    }
+    throw error;
+  }
 }
