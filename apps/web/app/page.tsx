@@ -1,5 +1,4 @@
 import type { AppIdentity } from "@studionomade/types";
-import { Button, Container, Link } from "@studionomade/ui";
 import { readPublicEnvironment } from "@studionomade/validation";
 
 const app: AppIdentity = {
@@ -16,15 +15,12 @@ export default function HomePage() {
 
   return (
     <main>
-      <Container>
-        <p className="eyebrow">{environment.NEXT_PUBLIC_APP_ENV}</p>
+      <section>
+        <p>{environment.NEXT_PUBLIC_APP_ENV}</p>
         <h1>{app.name}</h1>
         <p>{app.description}. Fundación pública lista para continuar.</p>
-        <div className="actions">
-          <Button disabled>Próximamente</Button>
-          <Link href="/lab">Digital Lab</Link>
-        </div>
-      </Container>
+        <a href="/lab">Digital Lab</a>
+      </section>
     </main>
   );
 }

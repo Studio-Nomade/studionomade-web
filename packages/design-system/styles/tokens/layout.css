@@ -1,0 +1,19 @@
+:root {
+  --page-max: 1440px;
+  --page-margin: clamp(20px, 5.3vw, 76px);
+  --content-max: 1288px;
+  --measure: 68ch; /* @kind other */
+  --measure-tight: 46ch; /* @kind other */
+  --grid-cols: 12; /* @kind other */
+  --grid-gutter: 24px;
+  --media-ratio-wide: 16/9; /* @kind other */
+  --media-ratio-editorial: 4/3; /* @kind other */
+  --media-ratio-portrait: 3/4; /* @kind other */
+  --media-ratio-square: 1/1; /* @kind other */
+  --admin-sidebar: 248px;
+  --admin-topbar: 56px;
+  --admin-max: 1600px;
+  --z-nav: 100; /* @kind other */
+  --z-overlay: 200; /* @kind other */
+  --z-modal: 300; /* @kind other */
+}

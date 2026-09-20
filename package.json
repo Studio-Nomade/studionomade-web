@@ -26,6 +26,7 @@
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@vitejs/plugin-react": "4.4.1",
+    "fontkit": "2.0.4",
     "jsdom": "26.1.0",
     "prettier": "3.5.3",
     "react": "19.1.0",
