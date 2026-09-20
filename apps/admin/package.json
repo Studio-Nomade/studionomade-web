@@ -11,6 +11,7 @@
     "@studionomade/auth": "workspace:*",
     "@studionomade/config": "workspace:*",
     "@studionomade/database": "workspace:*",
+    "@studionomade/domain": "workspace:*",
     "@studionomade/types": "workspace:*",
     "@studionomade/ui": "workspace:*",
     "@studionomade/validation": "workspace:*",

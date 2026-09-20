@@ -68,6 +68,9 @@ importers:
       '@studionomade/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@studionomade/domain':
+        specifier: workspace:*
+        version: link:../../packages/domain
       '@studionomade/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -265,6 +268,37 @@ importers:
       typescript:
         specifier: 5.8.3
         version: 5.8.3
+
+  packages/domain:
+    dependencies:
+      '@studionomade/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@studionomade/database':
+        specifier: workspace:*
+        version: link:../database
+      '@studionomade/validation':
+        specifier: workspace:*
+        version: link:../validation
+      '@supabase/supabase-js':
+        specifier: 2.52.0
+        version: 2.52.0
+      zod:
+        specifier: 3.24.3
+        version: 3.24.3
+    devDependencies:
+      '@studionomade/config':
+        specifier: workspace:*
+        version: link:../config
+      eslint:
+        specifier: 9.25.1
+        version: 9.25.1
+      typescript:
+        specifier: 5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: 3.2.6
+        version: 3.2.6(@types/node@22.15.3)(jsdom@26.1.0)
 
   packages/types:
     devDependencies:
