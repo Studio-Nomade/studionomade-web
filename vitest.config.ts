@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
-    include: ["packages/**/*.test.{ts,tsx}", "tests/db/**/*.test.ts"],
+    include: ["packages/**/*.test.{ts,tsx}", "apps/**/*.test.{ts,tsx}", "tests/db/**/*.test.ts"],
     setupFiles: ["./tests/vitest.setup.ts"]
   }
 });

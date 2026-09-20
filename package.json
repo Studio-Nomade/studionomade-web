@@ -10,7 +10,7 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "test:unit": "vitest run packages",
+    "test:unit": "vitest run packages apps",
     "test:db": "vitest run tests/db",
     "db:start": "supabase start -x vector",
     "db:reset": "supabase db reset",
