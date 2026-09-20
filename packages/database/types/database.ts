@@ -520,25 +520,34 @@ export type Database = {
           content: Json;
           created_at: string;
           id: string;
+          is_hidden: boolean;
           page_id: string;
           section_type: string;
           sort_order: number;
+          updated_at: string;
+          variant: string | null;
         };
         Insert: {
           content?: Json;
           created_at?: string;
           id?: string;
+          is_hidden?: boolean;
           page_id: string;
           section_type: string;
           sort_order?: number;
+          updated_at?: string;
+          variant?: string | null;
         };
         Update: {
           content?: Json;
           created_at?: string;
           id?: string;
+          is_hidden?: boolean;
           page_id?: string;
           section_type?: string;
           sort_order?: number;
+          updated_at?: string;
+          variant?: string | null;
         };
         Relationships: [
           {
@@ -1327,6 +1336,10 @@ export type Database = {
       current_role_slugs: { Args: never; Returns: string[] };
       has_permission: { Args: { target: string }; Returns: boolean };
       has_role: { Args: { target: string }; Returns: boolean };
+      reorder_page_sections: {
+        Args: { p_ordered_ids: string[]; p_page_id: string };
+        Returns: number;
+      };
     };
     Enums: {
       area_relation_kind: "principal" | "complementaria";
