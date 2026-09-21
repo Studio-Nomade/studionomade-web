@@ -13,9 +13,9 @@
   --fs-h5: clamp(16px, calc(15.628571px + 0.095238vw), 17px);
   --fs-lead: clamp(17px, calc(15.885714px + 0.285714vw), 20px);
   --fs-eyebrow: clamp(11px, calc(10.628571px + 0.095238vw), 12px);
-  --fs-xxxl:clamp(96px,calc(52.914286px + 11.047619vw),212px);
-  --fs-xxl:clamp(54px,calc(27.257143px + 6.857143vw),126px);
-  --fs-xl:clamp(46px,calc(25.2px + 5.333333vw),102px);
+  --fs-xxxl: clamp(96px, calc(52.914286px + 11.047619vw), 212px);
+  --fs-xxl: clamp(54px, calc(27.257143px + 6.857143vw), 126px);
+  --fs-xl: clamp(46px, calc(25.2px + 5.333333vw), 102px);
 }
 
 @media (min-width: 480px) {

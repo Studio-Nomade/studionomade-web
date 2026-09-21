@@ -20,19 +20,16 @@
 }
 
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  :global(html:not([data-reveal-failed]))
-    .reveal[data-variant="rise"]:not([data-revealed]) {
+  :global(html:not([data-reveal-failed])) .reveal[data-variant="rise"]:not([data-revealed]) {
     transform: translate3d(0, var(--reveal-shift), 0);
     opacity: 0;
   }
 
-  :global(html:not([data-reveal-failed]))
-    .reveal[data-variant="fade"]:not([data-revealed]) {
+  :global(html:not([data-reveal-failed])) .reveal[data-variant="fade"]:not([data-revealed]) {
     opacity: 0;
   }
 
-  :global(html:not([data-reveal-failed]))
-    .reveal[data-variant="mask"]:not([data-revealed]) {
+  :global(html:not([data-reveal-failed])) .reveal[data-variant="mask"]:not([data-revealed]) {
     clip-path: inset(0 100% 0 0);
   }
 }

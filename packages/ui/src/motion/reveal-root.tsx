@@ -76,12 +76,10 @@ export function RevealRoot() {
     let scheduled = false;
     const sweep = () => {
       scheduled = false;
-      const pending = document.querySelectorAll<HTMLElement>(
-        "[data-reveal]:not([data-revealed])"
-      );
+      const pending = document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-revealed])");
       if (pending.length === 0) {
         window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("load", onScroll);
+        window.removeEventListener("load", onScroll);
         return;
       }
       for (const element of pending) {

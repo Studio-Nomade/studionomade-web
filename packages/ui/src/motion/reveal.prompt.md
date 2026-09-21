@@ -4,11 +4,17 @@ Revela su contenido al entrar en viewport, **una sola vez**. Es el patrón domin
 del sitio de Studio Nomade: 26 disparadores de scroll, casi todos sin scrubbing.
 
 ```tsx
-<Reveal variant="rise"><p>Un párrafo que aparece al llegar.</p></Reveal>
+<Reveal variant="rise">
+  <p>Un párrafo que aparece al llegar.</p>
+</Reveal>;
 
-{items.map((item, index) => (
-  <Reveal key={item.id} step={index}>{item.label}</Reveal>
-))}
+{
+  items.map((item, index) => (
+    <Reveal key={item.id} step={index}>
+      {item.label}
+    </Reveal>
+  ));
+}
 ```
 
 - `variant="rise"` (por defecto) sube 24px y aparece · `fade` solo aparece ·

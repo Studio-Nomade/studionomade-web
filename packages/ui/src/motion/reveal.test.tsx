@@ -39,10 +39,11 @@ describe("Reveal", () => {
     expect(screen.getByText("con clase")).toHaveClass("service-card");
   });
 
-  it("nace visible: el ocultado depende de html[data-reveal-ready], no del componente", () => {
+  it("nace visible: el ocultado depende del estado en <html> y del observador, no del componente", () => {
     render(<Reveal>visible</Reveal>);
-    // Sin data-revealed y sin el atributo en <html>, no hay estado armado.
+    // Sin data-revealed en el elemento no hay estado armado, y el <html> tampoco
+    // trae el marcador de fallo del watchdog (data-reveal-failed).
     expect(screen.getByText("visible")).not.toHaveAttribute("data-revealed");
-    expect(document.documentElement).not.toHaveAttribute("data-reveal-ready");
+    expect(document.documentElement).not.toHaveAttribute("data-reveal-failed");
   });
 });
