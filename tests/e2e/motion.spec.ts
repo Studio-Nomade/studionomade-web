@@ -26,19 +26,24 @@ test.describe("revelado al scroll", () => {
     expect(await page.locator("[data-reveal]").count()).toBeGreaterThan(0);
 
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await page.waitForTimeout(1500);
 
-    const contradiccion = await page.evaluate(`
-      [...document.querySelectorAll("[data-reveal][data-revealed]")].filter((element) => {
-        const inner = element.querySelector("span > span");
-        const style = getComputedStyle(inner ?? element);
-        const desplazado =
-          style.transform !== "none" && style.transform !== "matrix(1, 0, 0, 1, 0, 0)";
-        return desplazado || style.opacity === "0";
-      }).length
-    `);
-
-    expect(contradiccion, "un elemento marcado como revelado sigue invisible").toBe(0);
+    // Espera por condición, no por tiempo: bajo carga el servidor de desarrollo
+    // tarda, las imágenes llegan tarde y un timeout fijo vuelve el test frágil.
+    await expect
+      .poll(
+        () =>
+          page.evaluate(`
+            [...document.querySelectorAll("[data-reveal][data-revealed]")].filter((element) => {
+              const inner = element.querySelector("span > span");
+              const style = getComputedStyle(inner ?? element);
+              const desplazado =
+                style.transform !== "none" && style.transform !== "matrix(1, 0, 0, 1, 0, 0)";
+              return desplazado || style.opacity === "0";
+            }).length
+          `),
+        { message: "un elemento marcado como revelado sigue invisible", timeout: 15000 }
+      )
+      .toBe(0);
   });
 
   test("ESTADO 1 — un salto de scroll no deja contenido atrás oculto", async ({ page }) => {
@@ -47,20 +52,23 @@ test.describe("revelado al scroll", () => {
 
     // Salto de un solo frame: IntersectionObserver no cruza ningún umbral.
     await page.evaluate(() => window.scrollTo(0, 3000));
-    await page.waitForTimeout(1500);
 
-    const atrasYOcultos = await page.evaluate(`
-      [...document.querySelectorAll("[data-reveal]")].filter((element) => {
-        if (element.getBoundingClientRect().bottom >= 0) return false;
-        const inner = element.querySelector("span > span");
-        const style = getComputedStyle(inner ?? element);
-        const desplazado =
-          style.transform !== "none" && style.transform !== "matrix(1, 0, 0, 1, 0, 0)";
-        return desplazado || style.opacity === "0";
-      }).length
-    `);
-
-    expect(atrasYOcultos, "contenido por encima del viewport quedó oculto").toBe(0);
+    await expect
+      .poll(
+        () =>
+          page.evaluate(`
+            [...document.querySelectorAll("[data-reveal]")].filter((element) => {
+              if (element.getBoundingClientRect().bottom >= 0) return false;
+              const inner = element.querySelector("span > span");
+              const style = getComputedStyle(inner ?? element);
+              const desplazado =
+                style.transform !== "none" && style.transform !== "matrix(1, 0, 0, 1, 0, 0)";
+              return desplazado || style.opacity === "0";
+            }).length
+          `),
+        { message: "contenido por encima del viewport quedó oculto", timeout: 15000 }
+      )
+      .toBe(0);
   });
 });
 
