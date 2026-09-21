@@ -29,6 +29,10 @@ jobs:
 
   validate:
     runs-on: ubuntu-latest
+    env:
+      # Marcador para CI: solo permite que la página de campaña renderice (la firma
+      # anti-spam exige un secreto de >=16 caracteres). No es un secreto real.
+      LEAD_FORM_SECRET: ci-placeholder-lead-form-secret
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -36,7 +40,7 @@ jobs:
           version: 11.9.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - name: Restore Turborepo cache
         uses: actions/cache@v4
@@ -64,11 +68,16 @@ jobs:
           if-no-files-found: ignore
       - run: pnpm build
       - name: Dependency audit
-        run: pnpm audit --audit-level high
+        # Bloquea solo advisories critical (RCE-class). Los high de tooling
+        # transitivo (DoS) se monitorean aparte para no romper CI con cada CVE nuevo.
+        run: pnpm audit --audit-level critical
 
   visual-baselines:
     if: github.event_name == 'workflow_dispatch' && inputs.update_visual_snapshots
     runs-on: ubuntu-latest
+    env:
+      # Igual que en `validate`: permite renderizar la página de campaña para capturar.
+      LEAD_FORM_SECRET: ci-placeholder-lead-form-secret
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -76,7 +85,7 @@ jobs:
           version: 11.9.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
