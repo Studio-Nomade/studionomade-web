@@ -8,6 +8,7 @@
 - [ADR-0001](adr/0001-monorepo-publico.md)
 - [ADR-0002](adr/0002-plataforma-aplicaciones.md)
 - [ADR-0003](adr/0003-datos-identidad.md)
+- [ADR-0004](adr/0004-topologia-despliegue-frontera-noma.md)
 - [Inventario](discovery/inventario.md)
 - [Baseline DNS](discovery/dns-baseline.md)
 - [Riesgos](discovery/riesgos.md)
