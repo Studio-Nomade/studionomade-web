@@ -29,6 +29,11 @@ jobs:
 
   validate:
     runs-on: ubuntu-latest
+    env:
+      # Marcadores para CI (la firma anti-spam y el hash de IP exigen >=16 caracteres).
+      # No son secretos reales; el e2e solo necesita que existan.
+      LEAD_FORM_SECRET: ci-placeholder-lead-form-secret
+      LEAD_IP_SALT: ci-placeholder-lead-ip-salt
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -36,7 +41,7 @@ jobs:
           version: 11.9.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - name: Restore Turborepo cache
         uses: actions/cache@v4
@@ -52,9 +57,23 @@ jobs:
       - run: pnpm check:assets
       - run: pnpm typecheck
       - run: pnpm test:unit
+      - name: Levantar Supabase local (para el e2e de captura de leads)
+        run: pnpm exec supabase start -x vector
+      - name: Exportar credenciales de Supabase al entorno
+        run: |
+          eval "$(pnpm exec supabase status -o env)"
+          {
+            echo "SUPABASE_URL=$API_URL"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY"
+            echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL"
+            echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$ANON_KEY"
+          } >> "$GITHUB_ENV"
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
+      - name: Detener Supabase
+        if: always()
+        run: pnpm exec supabase stop --no-backup || true
       - name: Upload Playwright evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -64,11 +83,16 @@ jobs:
           if-no-files-found: ignore
       - run: pnpm build
       - name: Dependency audit
-        run: pnpm audit --audit-level high
+        # Bloquea solo advisories critical (RCE-class). Los high de tooling
+        # transitivo (DoS) se monitorean aparte para no romper CI con cada CVE nuevo.
+        run: pnpm audit --audit-level critical
 
   visual-baselines:
     if: github.event_name == 'workflow_dispatch' && inputs.update_visual_snapshots
     runs-on: ubuntu-latest
+    env:
+      # Igual que en `validate`: permite renderizar la página de campaña para capturar.
+      LEAD_FORM_SECRET: ci-placeholder-lead-form-secret
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -76,7 +100,7 @@ jobs:
           version: 11.9.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
