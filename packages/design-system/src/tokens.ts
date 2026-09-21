@@ -169,7 +169,9 @@ export const TOKENS = {
   "--ease-standard": "cubic-bezier(.22,.61,.36,1)",
   "--ease-out": "cubic-bezier(.16,1,.3,1)",
   "--ease-in-out": "cubic-bezier(.65,0,.35,1)",
+  "--dur-stagger": "90ms",
   "--reveal-shift": "24px",
+  "--reveal-shift-lines": "105%",
   "--media-zoom": "1.03",
   "--hover-fade": ".62",
   "--press-fade": ".45"

@@ -7,7 +7,11 @@
   --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --dur-stagger: 90ms; /* @kind other */
   --reveal-shift: 24px;
+  /* Desplazamiento de una línea dentro de su máscara: >100% para que
+     arranque completamente fuera de la caja recortada. */
+  --reveal-shift-lines: 105%;
   --media-zoom: 1.03; /* @kind other */
   --hover-fade: 0.62; /* @kind other */
   --press-fade: 0.45; /* @kind other */
@@ -19,7 +23,9 @@
     --dur-base: 0ms; /* @kind other */
     --dur-slow: 0ms; /* @kind other */
     --dur-reveal: 0ms; /* @kind other */
+    --dur-stagger: 0ms; /* @kind other */
     --reveal-shift: 0px;
+    --reveal-shift-lines: 0%;
     --media-zoom: 1 /* @kind other */;
   }
 }

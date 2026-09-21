@@ -15,7 +15,7 @@ export default defineConfig({
   projects: [
     {
       name: "web",
-      testMatch: /(?:web\.smoke|campaign)\.spec\.ts/,
+      testMatch: /(?:web\.smoke|campaign|motion)\.spec\.ts/,
       testIgnore: /visual\//,
       use: { baseURL: "http://127.0.0.1:3000" }
     },

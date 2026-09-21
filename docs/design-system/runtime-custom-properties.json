@@ -8,6 +8,7 @@
     "--sn-font-neue-haas": "sans-serif",
     "--sn-font-plex-mono": "monospace",
     "--sn-hero-height": "70vh",
+    "--sn-reveal-step": "0",
     "--sn-step-count": "1"
   }
 }
