@@ -1,0 +1,9 @@
+drop table if exists public.seo_metadata;
+drop table if exists public.site_settings;
+drop table if exists public.redirects;
+drop table if exists public.navigation_items;
+drop table if exists public.navigation_menus;
+drop table if exists public.testimonials;
+drop table if exists public.media_assets;
+drop table if exists public.page_sections;
+drop table if exists public.pages;

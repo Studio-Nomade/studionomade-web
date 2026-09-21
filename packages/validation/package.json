@@ -1,0 +1,21 @@
+{
+  "name": "@studionomade/validation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "3.24.3"
+  },
+  "devDependencies": {
+    "@studionomade/config": "workspace:*",
+    "eslint": "9.25.1",
+    "typescript": "5.8.3",
+    "vitest": "3.2.6"
+  }
+}

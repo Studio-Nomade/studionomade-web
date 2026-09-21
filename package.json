@@ -1,0 +1,46 @@
+{
+  "name": "studionomade-web",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "lint": "turbo lint && pnpm lint:css",
+    "lint:css": "stylelint \"{apps,packages}/**/*.css\"",
+    "check:tokens": "vitest run packages/design-system/src/tokens.test.ts",
+    "check:assets": "node scripts/check-assets.mjs",
+    "typecheck": "turbo typecheck",
+    "test:unit": "vitest run packages apps",
+    "test:db": "vitest run tests/db",
+    "db:start": "supabase start -x vector",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > packages/database/types/database.ts && prettier --write packages/database/types/database.ts",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.1",
+    "@studionomade/config": "workspace:*",
+    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "14.6.1",
+    "@vitejs/plugin-react": "4.4.1",
+    "fontkit": "2.0.4",
+    "jsdom": "26.1.0",
+    "prettier": "3.5.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "stylelint": "^17.15.0",
+    "stylelint-declaration-strict-value": "^1.12.1",
+    "stylelint-value-no-unknown-custom-properties": "^6.1.1",
+    "supabase": "2.109.1",
+    "turbo": "2.5.6",
+    "typescript": "5.8.3",
+    "vite": "6.4.3",
+    "vitest": "3.2.6"
+  }
+}

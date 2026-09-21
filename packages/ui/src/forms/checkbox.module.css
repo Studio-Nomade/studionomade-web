@@ -1,0 +1,48 @@
+.field label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  color: var(--text-body);
+  font-size: var(--fs-body-sm);
+  cursor: pointer;
+}
+.field input {
+  flex: 0 0 auto;
+  width: var(--sp-4);
+  height: var(--sp-4);
+  margin-top: var(--sp-1);
+  border: 1px solid var(--sn-ink);
+  border-radius: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.field input:checked {
+  background: var(--sn-ink);
+}
+.field input:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--sp-1);
+}
+.field[data-invert] label,
+.field[data-invert] .hint {
+  color: var(--text-on-invert-muted);
+}
+.field[data-invert] input {
+  border-color: var(--text-on-invert-muted);
+}
+.field[data-invert] input:checked {
+  background: var(--sn-white);
+}
+.hint,
+.error {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-caption);
+}
+.hint {
+  color: var(--text-muted);
+}
+.error {
+  color: var(--state-critical);
+}

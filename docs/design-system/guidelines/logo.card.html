@@ -1,0 +1,43 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="Brand mark & wordmark" subtitle="Line mark on dark and light; wordmark is typographic" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .g {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        height: 150px;
+      }
+      .p {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        padding: 0 28px;
+      }
+      .w {
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g">
+      <div class="p" style="background: var(--sn-black)">
+        <img src="../assets/logo-mark-white.png" alt="Studio Nomade" width="86" height="86" />
+        <div class="w" style="color: #fff">Studio <b>Nomade</b></div>
+      </div>
+      <div class="p" style="background: var(--surface-alt)">
+        <img src="../assets/logo-mark-black.png" alt="Studio Nomade" width="86" height="86" />
+        <div class="w" style="color: var(--text-strong)">Studio <b>Nomade</b></div>
+      </div>
+    </div>
+  </body>
+</html>

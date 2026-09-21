@@ -1,0 +1,53 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Grid & margins" subtitle="12 columns, 24px gutter, 76px page margin at 1440" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .p {
+        position: relative;
+        background: var(--surface-alt);
+        padding: 0 26px;
+        height: 104px;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 8px;
+      }
+      .c {
+        background: var(--sn-fog);
+      }
+      .m {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: var(--text-faint);
+        margin-top: 8px;
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p">
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+      <div class="c"></div>
+    </div>
+    <div class="m">
+      <span>page-margin 76px</span><span>12 × col / 24px gutter</span><span>page-max 1440</span>
+    </div>
+  </body>
+</html>

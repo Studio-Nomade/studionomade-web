@@ -1,0 +1,14 @@
+.rule {
+  width: 100%;
+  height: 1px;
+  background: var(--sn-rule);
+}
+.rule[data-variant="short"] {
+  width: var(--rule-short-w);
+}
+.rule[data-align="center"] {
+  margin: 0 auto;
+}
+.rule[data-invert] {
+  background: var(--text-on-invert-muted);
+}

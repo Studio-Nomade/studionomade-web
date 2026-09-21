@@ -1,0 +1,83 @@
+<!-- @dsCard group="Colors" viewport="700x200" name="Accent scopes" subtitle="Colour enters only through data-accent; default is ink" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .g {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+      }
+      .n {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+      .sw {
+        display: flex;
+        height: 48px;
+      }
+      .sw > i {
+        flex: 1;
+      }
+      .c {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: var(--text-faint);
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g">
+      <div>
+        <div class="n">default</div>
+        <div class="sw">
+          <i style="background: var(--accent)"></i><i style="background: var(--accent-2)"></i
+          ><i style="background: var(--accent-soft)"></i>
+        </div>
+        <div class="c">ink</div>
+      </div>
+      <div data-accent="inmobiliarias">
+        <div class="n">inmobiliarias</div>
+        <div class="sw">
+          <i style="background: var(--accent)"></i><i style="background: var(--accent-2)"></i
+          ><i style="background: var(--accent-contrast)"></i>
+        </div>
+        <div class="c">00C85F</div>
+      </div>
+      <div data-accent="cinnalove">
+        <div class="n">cinnalove</div>
+        <div class="sw">
+          <i style="background: var(--accent)"></i><i style="background: var(--accent-line)"></i
+          ><i style="background: var(--accent-2)"></i><i style="background: var(--accent-soft)"></i>
+        </div>
+        <div class="c">813408</div>
+      </div>
+      <div data-accent="kumelen">
+        <div class="n">kumelen</div>
+        <div class="sw">
+          <i style="background: var(--accent)"></i><i style="background: var(--accent-2)"></i
+          ><i style="background: var(--accent-soft)"></i>
+        </div>
+        <div class="c">E0A63F</div>
+      </div>
+      <div data-accent="nexa">
+        <div class="n">nexa</div>
+        <div class="sw">
+          <i style="background: var(--accent)"></i><i style="background: var(--accent-2)"></i
+          ><i style="background: var(--accent-soft)"></i>
+        </div>
+        <div class="c">F05A28</div>
+      </div>
+    </div>
+  </body>
+</html>

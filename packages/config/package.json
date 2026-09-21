@@ -1,0 +1,33 @@
+{
+  "name": "@studionomade/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./eslint": "./eslint/index.mjs",
+    "./eslint/library": "./eslint/library.mjs",
+    "./eslint/design-system": "./eslint/design-system.mjs",
+    "./prettier": "./prettier/index.mjs",
+    "./tsconfig": "./tsconfig/base.json"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eslint/eslintrc": "3.3.1",
+    "@next/eslint-plugin-next": "15.5.18",
+    "eslint-config-next": "15.5.18",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "typescript-eslint": "8.31.0"
+  },
+  "devDependencies": {
+    "eslint": "9.25.1",
+    "typescript": "5.8.3"
+  },
+  "peerDependencies": {
+    "eslint": "^9.25.1"
+  }
+}
