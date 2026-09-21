@@ -52,7 +52,6 @@
   font-family: var(--font-campaign);
   font-size: clamp(var(--fs-campaign-2), 8vw, var(--fs-campaign-1));
   font-weight: var(--fw-heavy);
-  font-stretch: 75%;
   line-height: var(--lh-campaign);
 }
 .hero blockquote {
