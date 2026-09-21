@@ -1,0 +1,16 @@
+.display {
+  color: var(--text-strong);
+  font-family: var(--font-campaign);
+  font-weight: var(--fw-heavy);
+  font-stretch: 75%;
+  line-height: var(--lh-campaign);
+}
+.display[data-level="1"] {
+  font-size: var(--fs-campaign-1);
+}
+.display[data-level="2"] {
+  font-size: var(--fs-campaign-2);
+}
+.display[data-level="3"] {
+  font-size: var(--fs-campaign-3);
+}

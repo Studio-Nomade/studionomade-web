@@ -1,0 +1,28 @@
+# Design-system package rules
+
+- Treat the 175-token manifest as immutable baseline compatibility.
+- Keep CSS custom properties and `src/tokens.ts` synchronized both ways.
+- Define primitives before semantic aliases.
+- Add no raw design values outside the token layer.
+- Keep accent scopes to the five required accent properties.
+- Preserve every original accent name.
+- Keep public exports explicit in `package.json`.
+- Expose only `.`, `./styles.css`, `./fonts`, and approved assets.
+- Keep `next/font` usage inside `fonts/` only.
+- Do not request font files from third-party origins at runtime.
+- Use San Diego for approved display roles.
+- Use Archivo for core text.
+- Use IBM Plex Mono for mono roles.
+- Restrict Cook Gothif and Missing Lovely to the approved Lab specimen.
+- Do not commit unlicensed font binaries.
+- Do not rename or delete original tokens.
+- Add new tokens only with documented design approval.
+- Keep responsive values fluid between the approved breakpoints.
+- Preserve reduced-motion behavior.
+- Never add Tailwind or a competing style system.
+- Run `pnpm check:tokens` after token changes.
+- Run `pnpm lint:css` after CSS changes.
+- Run `pnpm --filter @studionomade/design-system typecheck`.
+- Verify local font loading without Google runtime requests.
+- Document an intentional token change in `docs/design-system/`.
+- Update the manifest only from the authoritative design-system source.

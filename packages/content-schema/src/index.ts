@@ -1,2 +1,2 @@
-// Placeholder de M00. La API pública se definirá en hitos posteriores.
-export {};
+export { campaignContentSchema } from "./campaign";
+export type { CampaignContent } from "./campaign";

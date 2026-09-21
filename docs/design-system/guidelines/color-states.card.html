@@ -1,0 +1,69 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Admin status colours" subtitle="Functional only — never used on the public site" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .g {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .p {
+        padding: 10px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        border-left: 2px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g">
+      <div
+        class="p"
+        style="
+          background: var(--state-positive-soft);
+          border-color: var(--state-positive);
+          color: var(--state-positive);
+        "
+      >
+        Publicado
+      </div>
+      <div
+        class="p"
+        style="
+          background: var(--state-warning-soft);
+          border-color: var(--state-warning);
+          color: var(--state-warning);
+        "
+      >
+        Borrador
+      </div>
+      <div
+        class="p"
+        style="
+          background: var(--state-critical-soft);
+          border-color: var(--state-critical);
+          color: var(--state-critical);
+        "
+      >
+        Error
+      </div>
+      <div
+        class="p"
+        style="
+          background: var(--state-info-soft);
+          border-color: var(--state-info);
+          color: var(--state-info);
+        "
+      >
+        Programado
+      </div>
+    </div>
+  </body>
+</html>

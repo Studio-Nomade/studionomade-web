@@ -1,0 +1,13 @@
+.row {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.row span {
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+}
+.row[data-invert] span {
+  color: var(--text-on-invert-muted);
+}

@@ -1,0 +1,28 @@
+# UI package rules
+
+- Export every public component and public type from `src/index.ts`.
+- Keep package exports closed to `.` and `./package.json`.
+- Use kebab-case for component, CSS, test, and prompt filenames.
+- Keep one `.prompt.md` beside every component.
+- Keep one `*.test.tsx` beside every component.
+- Use CSS Modules for all component styling.
+- Use only design-system custom properties for design values.
+- Do not write raw hex, rgb, hsl, spacing pixels, or font families.
+- Use `data-*` attributes for visual enums.
+- Allow inline `style` only for props-to-CSS custom properties beginning `--`.
+- Do not import `next/image` or `next/font`.
+- Receive framework media as `ReactNode` slots.
+- Import sibling modules relatively and consumers through `@studionomade/ui`.
+- Do not expose or consume deep package imports.
+- Do not add Tailwind, styled-components, Emotion, Stitches, `cva`, or `clsx`.
+- Preserve visible `:focus-visible` treatment on interactive controls.
+- Prefer Server Components.
+- Restrict `"use client"` to actual browser interaction.
+- Keep native form names and semantics intact.
+- Keep forms usable without client JavaScript.
+- Link errors and hints with `aria-describedby`.
+- Never use `dangerouslySetInnerHTML`.
+- Never introduce emoji as UI decoration.
+- Validate with `pnpm --filter @studionomade/ui lint`.
+- Validate with `pnpm test:unit` and `pnpm lint:css`.
+- Update intentional visual baselines at all required viewports.

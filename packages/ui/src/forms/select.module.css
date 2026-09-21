@@ -1,0 +1,53 @@
+.field {
+  display: block;
+  color: var(--text-strong);
+}
+.field label {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+}
+.field select {
+  width: 100%;
+  margin-top: var(--sp-3);
+  padding: var(--sp-3) 0;
+  border: 0;
+  border-bottom: 1px solid var(--sn-rule);
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-core);
+  font-size: var(--fs-body);
+}
+.field select:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--sp-1);
+}
+.field[data-error] select {
+  border-bottom-color: var(--state-critical);
+}
+.field[data-invert] {
+  color: var(--sn-white);
+}
+.field[data-invert] label,
+.field[data-invert] .hint {
+  color: var(--text-on-invert-muted);
+}
+.field[data-invert] select {
+  border-bottom-color: var(--text-on-invert-muted);
+}
+.hint,
+.error {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-caption);
+}
+.hint {
+  color: var(--text-muted);
+}
+.error {
+  color: var(--state-critical);
+}

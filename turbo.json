@@ -1,7 +1,20 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "build": { "dependsOn": ["^build"], "outputs": [".next/**", "!.next/cache/**", "dist/**"] },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": [
+        "SUPABASE_URL",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "LEAD_IP_SALT",
+        "LEAD_FORM_SECRET",
+        "SLACK_LEADS_WEBHOOK_URL",
+        "GOOGLE_SMTP_USER",
+        "GOOGLE_SMTP_APP_PASSWORD",
+        "LEADS_NOTIFY_TO"
+      ]
+    },
     "lint": { "dependsOn": ["^lint"] },
     "typecheck": { "dependsOn": ["^typecheck"] },
     "test:unit": { "dependsOn": ["^build"], "outputs": ["coverage/**"] }

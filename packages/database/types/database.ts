@@ -245,6 +245,8 @@ export type Database = {
           payload: Json;
           source_path: string | null;
           submitted_at: string;
+          submitter_ip_hash: string | null;
+          submitter_user_agent: string | null;
         };
         Insert: {
           form_id: string;
@@ -252,6 +254,8 @@ export type Database = {
           payload: Json;
           source_path?: string | null;
           submitted_at?: string;
+          submitter_ip_hash?: string | null;
+          submitter_user_agent?: string | null;
         };
         Update: {
           form_id?: string;
@@ -259,6 +263,8 @@ export type Database = {
           payload?: Json;
           source_path?: string | null;
           submitted_at?: string;
+          submitter_ip_hash?: string | null;
+          submitter_user_agent?: string | null;
         };
         Relationships: [
           {
@@ -371,39 +377,107 @@ export type Database = {
       };
       leads: {
         Row: {
+          assigned_to: string | null;
+          company: string | null;
+          consent_at: string | null;
+          consent_given: boolean;
+          consent_purpose: string | null;
+          consent_version: string | null;
           created_at: string;
+          discard_reason: string | null;
           email: string | null;
           id: string;
+          landing_path: string | null;
+          message: string | null;
           name: string | null;
           notes: string | null;
+          origin_slug: string | null;
+          origin_type: Database["public"]["Enums"]["lead_origin_type"];
+          page_id: string | null;
           phone: string | null;
+          referrer: string | null;
           status: Database["public"]["Enums"]["lead_status"];
           submission_id: string | null;
           updated_at: string;
+          utm_campaign: string | null;
+          utm_content: string | null;
+          utm_medium: string | null;
+          utm_source: string | null;
+          utm_term: string | null;
         };
         Insert: {
+          assigned_to?: string | null;
+          company?: string | null;
+          consent_at?: string | null;
+          consent_given?: boolean;
+          consent_purpose?: string | null;
+          consent_version?: string | null;
           created_at?: string;
+          discard_reason?: string | null;
           email?: string | null;
           id?: string;
+          landing_path?: string | null;
+          message?: string | null;
           name?: string | null;
           notes?: string | null;
+          origin_slug?: string | null;
+          origin_type?: Database["public"]["Enums"]["lead_origin_type"];
+          page_id?: string | null;
           phone?: string | null;
+          referrer?: string | null;
           status?: Database["public"]["Enums"]["lead_status"];
           submission_id?: string | null;
           updated_at?: string;
+          utm_campaign?: string | null;
+          utm_content?: string | null;
+          utm_medium?: string | null;
+          utm_source?: string | null;
+          utm_term?: string | null;
         };
         Update: {
+          assigned_to?: string | null;
+          company?: string | null;
+          consent_at?: string | null;
+          consent_given?: boolean;
+          consent_purpose?: string | null;
+          consent_version?: string | null;
           created_at?: string;
+          discard_reason?: string | null;
           email?: string | null;
           id?: string;
+          landing_path?: string | null;
+          message?: string | null;
           name?: string | null;
           notes?: string | null;
+          origin_slug?: string | null;
+          origin_type?: Database["public"]["Enums"]["lead_origin_type"];
+          page_id?: string | null;
           phone?: string | null;
+          referrer?: string | null;
           status?: Database["public"]["Enums"]["lead_status"];
           submission_id?: string | null;
           updated_at?: string;
+          utm_campaign?: string | null;
+          utm_content?: string | null;
+          utm_medium?: string | null;
+          utm_source?: string | null;
+          utm_term?: string | null;
         };
         Relationships: [
+          {
+            foreignKeyName: "leads_assigned_to_fkey";
+            columns: ["assigned_to"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "leads_page_id_fkey";
+            columns: ["page_id"];
+            isOneToOne: false;
+            referencedRelation: "pages";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "leads_submission_id_fkey";
             columns: ["submission_id"];
@@ -1289,11 +1363,12 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      capture_lead: { Args: { p: Json }; Returns: string };
     };
     Enums: {
       area_relation_kind: "principal" | "complementaria";
       content_status: "borrador" | "revision" | "publicado" | "archivado";
+      lead_origin_type: "campana" | "area" | "contacto" | "importacion" | "referido";
       lead_status: "nuevo" | "contactado" | "calificado" | "descartado" | "convertido";
     };
     CompositeTypes: {
@@ -1425,6 +1500,7 @@ export const Constants = {
     Enums: {
       area_relation_kind: ["principal", "complementaria"],
       content_status: ["borrador", "revision", "publicado", "archivado"],
+      lead_origin_type: ["campana", "area", "contacto", "importacion", "referido"],
       lead_status: ["nuevo", "contactado", "calificado", "descartado", "convertido"]
     }
   }
