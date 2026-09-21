@@ -1,0 +1,504 @@
+.page {
+  min-height: 100%;
+  overflow-x: clip;
+  background: var(--sn-black);
+  color: var(--sn-white);
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.header {
+  position: sticky;
+  z-index: var(--z-nav);
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--sp-11);
+  padding-inline: var(--page-margin);
+  background: var(--sn-black);
+}
+.wordmark {
+  color: var(--sn-white);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.22em;
+  text-decoration: none;
+}
+.hero {
+  position: relative;
+  min-height: calc(100svh - var(--sp-11));
+  background: var(--sn-charcoal);
+}
+.hero img {
+  object-fit: cover;
+}
+.movement,
+.services,
+.reel,
+.instagram,
+.blog,
+.locations,
+.footer {
+  padding: var(--sp-10) var(--page-margin);
+}
+.movement,
+.services {
+  min-height: 100svh;
+}
+.movement h2,
+.services h2,
+.reel h2,
+.instagram h2,
+.contact h2 {
+  color: var(--sn-white);
+  font-family: var(--font-campaign);
+  font-size: var(--fs-campaign-1);
+  font-weight: var(--fw-heavy);
+  font-stretch: 75%;
+  line-height: var(--lh-campaign);
+  text-align: center;
+}
+.movementGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-10);
+  align-items: center;
+  max-width: var(--page-max);
+  margin: var(--sp-12) auto 0;
+}
+.introCopy {
+  max-width: 38ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-body);
+}
+.introCopy p + p {
+  margin-top: var(--sp-5);
+}
+.orbit {
+  width: min(100%, 24rem);
+  margin-inline: auto;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.orbitFill {
+  fill: currentColor;
+}
+.movement .orbit,
+.branding {
+  color: var(--state-positive);
+}
+.serviceGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-11);
+  max-width: 52rem;
+  margin: var(--sp-11) auto 0;
+}
+.service {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.service a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.service a:hover span,
+.service a:focus-visible span {
+  transform: translateY(-0.2rem);
+}
+.service span {
+  transition: transform var(--dur-fast) var(--ease-standard);
+  padding: var(--sp-1) var(--sp-3);
+  background: currentColor;
+  color: var(--sn-black);
+  font-family: var(--font-campaign);
+  font-size: var(--fs-h5);
+  font-weight: var(--fw-heavy);
+}
+.audiovisual {
+  color: var(--state-info);
+}
+.branding {
+  color: var(--state-positive);
+}
+.architecture {
+  color: var(--state-critical);
+}
+.web {
+  color: var(--state-warning);
+}
+.meeting {
+  position: relative;
+  min-height: 32rem;
+  margin: var(--sp-10) var(--page-margin);
+  overflow: hidden;
+}
+.meeting > img,
+.articleCard > img,
+.contact > img,
+.reelMedia > img,
+.socialTile > img {
+  object-fit: cover;
+}
+.mediaShade {
+  position: absolute;
+  inset: 0;
+  background: var(--sn-black);
+  opacity: 0.62;
+}
+.meetingContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-6);
+  text-align: center;
+}
+.shortRule {
+  display: block;
+  width: var(--sp-12);
+  height: 1px;
+  margin: 0 auto var(--sp-6);
+  background: var(--sn-white);
+}
+.meetingContent p {
+  font-weight: var(--fw-bold);
+}
+.meetingContent h2,
+.blog h2 {
+  margin-top: var(--sp-5);
+  color: var(--sn-white);
+  font-size: var(--fs-display-2);
+  font-weight: var(--fw-light);
+}
+.meetingContent a {
+  margin-top: var(--sp-6);
+  padding: var(--sp-4) var(--sp-10);
+  border: var(--border-on-invert);
+  border-radius: var(--radius-pill);
+  color: var(--sn-white);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+}
+.reelMedia {
+  position: relative;
+  min-height: 38rem;
+  margin: var(--sp-9) auto 0;
+  max-width: var(--page-max);
+  overflow: hidden;
+}
+.reelMedia button {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: var(--sp-12);
+  height: var(--sp-12);
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: var(--radius-circle);
+  background: var(--sn-charcoal);
+  color: var(--sn-white);
+  cursor: pointer;
+}
+.socialGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--sp-4);
+  max-width: var(--page-max);
+  min-height: 48rem;
+  margin: var(--sp-9) auto 0;
+}
+.socialTile {
+  position: relative;
+  overflow: hidden;
+}
+.socialTile[data-featured] {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+.blog {
+  text-align: center;
+}
+.articleCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+  min-height: 28rem;
+  max-width: var(--page-max);
+  margin: var(--sp-9) auto 0;
+  overflow: hidden;
+  text-align: left;
+}
+.articleCard time,
+.articleCard > div:last-child {
+  position: relative;
+  padding: var(--sp-5);
+}
+.articleCard time {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-bold);
+}
+.articleCard h3 {
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-light);
+  text-align: center;
+}
+.articleCard p {
+  margin-top: var(--sp-5);
+  text-align: center;
+}
+.contact {
+  position: relative;
+  min-height: 54rem;
+  overflow: hidden;
+}
+.contactInner {
+  position: relative;
+  max-width: 58rem;
+  margin-inline: auto;
+  padding: var(--sp-10) var(--page-margin);
+}
+.contactForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  margin-top: var(--sp-10);
+}
+.contactForm label span {
+  position: absolute;
+  width: var(--sp-1);
+  height: var(--sp-1);
+  overflow: hidden;
+}
+.contactForm input,
+.contactForm textarea,
+.contactForm button {
+  width: 100%;
+  padding: var(--sp-4);
+  border: var(--border-on-invert);
+  background: transparent;
+  color: var(--sn-white);
+  font: inherit;
+}
+.contactForm input::placeholder,
+.contactForm textarea::placeholder {
+  color: var(--text-on-invert-muted);
+  font-style: italic;
+}
+.contactForm .message,
+.contactForm button {
+  grid-column: 1 / -1;
+}
+.contactForm textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+.contactForm button {
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.25em;
+  cursor: pointer;
+}
+.contactForm .consent {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+.contactForm .consent input {
+  width: var(--sp-5);
+  height: var(--sp-5);
+  flex: none;
+  padding: 0;
+}
+.contactForm .consent span {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  color: var(--text-on-invert-muted);
+  font-size: var(--fs-caption);
+}
+.honeypot {
+  position: absolute;
+  width: var(--sp-1);
+  height: var(--sp-1);
+  opacity: 0;
+  pointer-events: none;
+}
+.formError {
+  grid-column: 1 / -1;
+  color: var(--state-critical);
+}
+.formSuccess {
+  margin-top: var(--sp-10);
+  color: var(--accent);
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-bold);
+}
+.locations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-11);
+}
+.locations article > p {
+  color: var(--text-muted);
+  font-weight: var(--fw-semibold);
+  text-align: center;
+}
+.locations h2 {
+  margin: var(--sp-5) 0;
+  color: var(--text-heading);
+  font-size: var(--fs-display-3);
+  font-weight: var(--fw-light);
+  text-align: center;
+}
+.map {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34rem;
+  border: var(--border-strong);
+  background: var(--sn-charcoal);
+  color: var(--text-muted);
+  font-size: var(--fs-h3);
+  text-align: center;
+}
+.footer {
+  max-width: var(--page-max);
+  margin-inline: auto;
+}
+.tagline {
+  font-size: var(--fs-display-3);
+  font-weight: var(--fw-light);
+}
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--sp-8);
+  align-items: center;
+  margin-top: var(--sp-9);
+  padding-block: var(--sp-8);
+  border-block: var(--border-on-invert);
+}
+.footerGrid strong {
+  display: block;
+  margin-bottom: var(--sp-4);
+}
+.footerGrid p {
+  color: var(--text-on-invert-muted);
+  line-height: var(--lh-body);
+}
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  padding-top: var(--sp-6);
+}
+.menuOverlay {
+  position: fixed;
+  z-index: var(--z-modal);
+  inset: 0;
+  overflow-y: auto;
+  background: var(--sn-charcoal);
+}
+.closeMenu {
+  position: absolute;
+  top: var(--sp-7);
+  right: var(--page-margin);
+  border: 0;
+  background: transparent;
+  color: var(--sn-white);
+  font-size: var(--fs-h4);
+  cursor: pointer;
+}
+.menuOverlay nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-10);
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding: var(--sp-13) var(--page-margin);
+}
+.menuOverlay a {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--sn-white);
+  font-size: var(--fs-display-2);
+  font-weight: var(--fw-light);
+  text-decoration: underline;
+  text-underline-offset: var(--sp-3);
+}
+.menuOverlay small {
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  text-decoration: none;
+}
+@media (max-width: 48em) {
+  .movementGrid,
+  .serviceGrid,
+  .locations,
+  .contactForm,
+  .menuOverlay nav {
+    grid-template-columns: 1fr;
+  }
+  .movementGrid {
+    margin-top: var(--sp-9);
+  }
+  .serviceGrid {
+    gap: var(--sp-8);
+  }
+  .meeting {
+    min-height: 26rem;
+  }
+  .reelMedia {
+    min-height: 24rem;
+  }
+  .socialGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 18rem);
+    min-height: auto;
+  }
+  .socialTile[data-featured] {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+  .articleCard {
+    grid-template-columns: 1fr;
+    min-height: 30rem;
+  }
+  .articleCard time {
+    align-self: end;
+  }
+  .contactForm .message,
+  .contactForm button {
+    grid-column: auto;
+  }
+  .footerGrid {
+    grid-template-columns: 1fr;
+  }
+  .footerBottom {
+    flex-direction: column;
+  }
+  .menuOverlay nav {
+    padding-top: var(--sp-12);
+  }
+}

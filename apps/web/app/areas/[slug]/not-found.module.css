@@ -1,0 +1,9 @@
+.page {
+  min-height: 100svh;
+  padding: var(--sp-9);
+  background: var(--surface-invert);
+  color: var(--text-on-invert);
+}
+.page a {
+  color: inherit;
+}
