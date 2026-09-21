@@ -129,13 +129,13 @@
   font-weight: var(--fw-heavy);
 }
 .audiovisual {
-  color: var(--state-info);
+  color: var(--accent-2);
 }
 .branding {
-  color: var(--state-positive);
+  color: var(--accent);
 }
 .architecture {
-  color: var(--state-critical);
+  color: var(--accent);
 }
 .web {
   color: var(--state-warning);

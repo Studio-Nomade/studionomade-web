@@ -34,6 +34,11 @@ describe("Reveal", () => {
     expect(screen.getByText("seccion").tagName).toBe("SECTION");
   });
 
+  it("conserva la clase de la composición", () => {
+    render(<Reveal className="service-card">con clase</Reveal>);
+    expect(screen.getByText("con clase")).toHaveClass("service-card");
+  });
+
   it("nace visible: el ocultado depende de html[data-reveal-ready], no del componente", () => {
     render(<Reveal>visible</Reveal>);
     // Sin data-revealed y sin el atributo en <html>, no hay estado armado.

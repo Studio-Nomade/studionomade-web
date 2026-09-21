@@ -9,15 +9,28 @@ import { CURRENT_LEAD_CONSENT_VERSION, LEAD_CONSENTS } from "../../content/legal
 import styles from "./home-landing.module.css";
 
 const services = [
-  { name: "AUDIOVISUAL", kind: styles.audiovisual, symbol: 2, href: null },
-  { name: "BRANDING", kind: styles.branding, symbol: 1, href: "/areas/branding" },
+  {
+    name: "AUDIOVISUAL",
+    kind: styles.audiovisual,
+    symbol: 2,
+    href: null,
+    accent: "branding"
+  },
+  {
+    name: "BRANDING",
+    kind: styles.branding,
+    symbol: 1,
+    href: "/areas/branding",
+    accent: "branding"
+  },
   {
     name: "ARCHITECTURE",
     kind: styles.architecture,
     symbol: 3,
-    href: "/areas/architecture"
+    href: "/areas/architecture",
+    accent: "architecture"
   },
-  { name: "WEB DESIGN", kind: styles.web, symbol: 4, href: null }
+  { name: "WEB DESIGN", kind: styles.web, symbol: 4, href: null, accent: undefined }
 ];
 const socialImages = [
   "/home/branding-project-1.webp",
@@ -193,6 +206,7 @@ export function HomeLanding() {
               className={`${styles.service} ${service.kind}`}
               key={service.name}
               step={index}
+              data-accent={service.accent}
             >
               {service.href ? (
                 <Link href={service.href} aria-label={`Ver área ${service.name}`}>

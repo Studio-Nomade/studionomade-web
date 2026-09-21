@@ -21,13 +21,13 @@ export interface RevealProps extends HTMLAttributes<HTMLElement> {
  * El contenido es visible por defecto y solo se oculta si JavaScript confirmó
  * estar vivo (ver `reveal.module.css`). Sin JS no desaparece nada.
  */
-export function Reveal({ variant = "rise", step, as, children, ...rest }: RevealProps) {
+export function Reveal({ variant = "rise", step, as, children, className, ...rest }: RevealProps) {
   const Tag = (as ?? "div") as ElementType;
 
   return (
     <Tag
       {...rest}
-      className={styles.reveal}
+      className={[styles.reveal, className].filter(Boolean).join(" ")}
       data-reveal=""
       data-variant={variant}
       style={step ? ({ "--sn-reveal-step": step } as CSSProperties) : undefined}

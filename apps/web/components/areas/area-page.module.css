@@ -48,6 +48,10 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.heroHeading p {
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--accent);
+}
 .hero h1 {
   font-family: var(--font-campaign);
   font-size: clamp(var(--fs-campaign-2), 8vw, var(--fs-campaign-1));
@@ -153,6 +157,9 @@
 .stats span {
   color: var(--text-body);
 }
+.values article > span {
+  color: var(--accent);
+}
 .values h3 {
   font-size: var(--fs-h4);
 }
@@ -184,6 +191,11 @@
 }
 .sectionTitle {
   margin-bottom: var(--sp-9);
+}
+.sectionTitle h2 {
+  width: fit-content;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--accent);
 }
 .projectGrid {
   display: grid;
@@ -237,7 +249,8 @@
 }
 .tags span {
   padding: var(--sp-3) var(--sp-4);
-  border: var(--border-strong);
+  border: var(--border-hairline);
+  border-color: var(--accent);
   border-radius: 999px;
   text-align: center;
 }
@@ -279,6 +292,10 @@
   font-size: clamp(1.5rem, 3vw, 3rem);
   text-decoration: none;
 }
+.areaNav a:hover,
+.areaNav a:focus-visible {
+  color: var(--accent);
+}
 .cta {
   background: var(--surface-invert-soft);
   color: var(--text-on-invert);
@@ -290,9 +307,10 @@
 .cta a {
   display: inline-block;
   padding: var(--sp-4) var(--sp-6);
-  border: var(--border-on-invert);
+  border: var(--border-hairline);
+  border-color: var(--accent);
   border-radius: 999px;
-  color: var(--text-on-invert);
+  color: var(--accent);
   text-decoration: none;
 }
 .footer {
