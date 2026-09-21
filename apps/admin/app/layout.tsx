@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./globals.css";
+import { fontVariables } from "@studionomade/design-system/fonts";
+import "@studionomade/design-system/styles.css";
 
 const allowIndexing = process.env.VERCEL_ENV === "production";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="es">
+    <html lang="es" className={fontVariables}>
       <body>{children}</body>
     </html>
   );

@@ -1,0 +1,1291 @@
+{
+  "namespace": "StudioNomadeDesignSystem_39d487",
+  "components": [
+    { "name": "AdminCard", "sourcePath": "components/admin/AdminCard.jsx" },
+    { "name": "AdminShell", "sourcePath": "components/admin/AdminShell.jsx" },
+    { "name": "DataTable", "sourcePath": "components/admin/DataTable.jsx" },
+    { "name": "StatusBadge", "sourcePath": "components/admin/StatusBadge.jsx" },
+    { "name": "Toolbar", "sourcePath": "components/admin/Toolbar.jsx" },
+    { "name": "CampaignCTA", "sourcePath": "components/campaign/CampaignCTA.jsx" },
+    { "name": "CampaignHero", "sourcePath": "components/campaign/CampaignHero.jsx" },
+    { "name": "StepFlow", "sourcePath": "components/campaign/StepFlow.jsx" },
+    { "name": "Button", "sourcePath": "components/core/Button.jsx" },
+    { "name": "Eyebrow", "sourcePath": "components/core/Eyebrow.jsx" },
+    { "name": "PillTag", "sourcePath": "components/core/PillTag.jsx" },
+    { "name": "Rule", "sourcePath": "components/core/Rule.jsx" },
+    { "name": "SectionHeading", "sourcePath": "components/core/SectionHeading.jsx" },
+    { "name": "TextLink", "sourcePath": "components/core/TextLink.jsx" },
+    { "name": "AreaHero", "sourcePath": "components/editorial/AreaHero.jsx" },
+    { "name": "AreaNav", "sourcePath": "components/editorial/AreaNav.jsx" },
+    { "name": "ContactCTA", "sourcePath": "components/editorial/ContactCTA.jsx" },
+    { "name": "CreditsList", "sourcePath": "components/editorial/CreditsList.jsx" },
+    { "name": "DeliverablesBlock", "sourcePath": "components/editorial/DeliverablesBlock.jsx" },
+    { "name": "GalleryStrip", "sourcePath": "components/editorial/GalleryStrip.jsx" },
+    { "name": "ProjectGrid", "sourcePath": "components/editorial/ProjectGrid.jsx" },
+    { "name": "PullQuote", "sourcePath": "components/editorial/PullQuote.jsx" },
+    { "name": "QuestionBlock", "sourcePath": "components/editorial/QuestionBlock.jsx" },
+    { "name": "StatBlock", "sourcePath": "components/editorial/StatBlock.jsx" },
+    { "name": "TeamGrid", "sourcePath": "components/editorial/TeamGrid.jsx" },
+    { "name": "ValueList", "sourcePath": "components/editorial/ValueList.jsx" },
+    { "name": "Checkbox", "sourcePath": "components/forms/Checkbox.jsx" },
+    { "name": "Field", "sourcePath": "components/forms/Field.jsx" },
+    { "name": "Select", "sourcePath": "components/forms/Select.jsx" },
+    { "name": "SubmitRow", "sourcePath": "components/forms/SubmitRow.jsx" },
+    { "name": "TextArea", "sourcePath": "components/forms/TextArea.jsx" },
+    { "name": "Footer", "sourcePath": "components/layout/Footer.jsx" },
+    { "name": "MediaFrame", "sourcePath": "components/layout/MediaFrame.jsx" },
+    { "name": "PageHeader", "sourcePath": "components/layout/PageHeader.jsx" },
+    { "name": "Section", "sourcePath": "components/layout/Section.jsx" }
+  ],
+  "startingPoints": [
+    {
+      "name": "admin",
+      "path": "ui_kits/admin/index.html",
+      "previewPath": "ui_kits/admin/index.html",
+      "kind": "screen",
+      "section": "Admin",
+      "subtitle": "Studio Nomade Web Admin",
+      "viewport": "1440x900"
+    },
+    {
+      "name": "campaign",
+      "path": "ui_kits/campaign/index.html",
+      "previewPath": "ui_kits/campaign/index.html",
+      "kind": "screen",
+      "section": "Campaign",
+      "subtitle": "Collage campaign landing page",
+      "viewport": "1440x900"
+    },
+    {
+      "name": "website",
+      "path": "ui_kits/website/index.html",
+      "previewPath": "ui_kits/website/index.html",
+      "kind": "screen",
+      "section": "Website",
+      "subtitle": "Editorial business-area page",
+      "viewport": "1440x900"
+    }
+  ],
+  "cards": [
+    {
+      "path": "guidelines/elevation.card.html",
+      "group": "Brand",
+      "viewport": "700x170",
+      "subtitle": "None on the public site; one flat level in the Admin",
+      "name": "Elevation"
+    },
+    {
+      "path": "guidelines/icons.card.html",
+      "group": "Brand",
+      "viewport": "700x170",
+      "subtitle": "Social marks, the typographic @, and the two-bar menu — nothing else",
+      "name": "Iconography"
+    },
+    {
+      "path": "guidelines/imagery.card.html",
+      "group": "Brand",
+      "viewport": "700x200",
+      "subtitle": "Square corners, no border, no shadow — real work only",
+      "name": "Imagery ratios"
+    },
+    {
+      "path": "guidelines/logo.card.html",
+      "group": "Brand",
+      "viewport": "700x200",
+      "subtitle": "Line mark on dark and light; wordmark is typographic",
+      "name": "Brand mark & wordmark"
+    },
+    {
+      "path": "guidelines/motion.card.html",
+      "group": "Brand",
+      "viewport": "700x180",
+      "subtitle": "24px rise + fade on reveal; 1.03 media zoom; everything zeroes under reduced-motion",
+      "name": "Motion"
+    },
+    {
+      "path": "guidelines/radius.card.html",
+      "group": "Brand",
+      "viewport": "700x180",
+      "subtitle": "Square by default; pill and circle are deliberate exceptions",
+      "name": "Corners"
+    },
+    {
+      "path": "guidelines/rules.card.html",
+      "group": "Brand",
+      "viewport": "700x190",
+      "subtitle": "200px centred opener, full hairline closer, short accent underline",
+      "name": "Rules & dividers"
+    },
+    {
+      "path": "guidelines/states.card.html",
+      "group": "Brand",
+      "viewport": "700x210",
+      "subtitle": "Hover fills or fades; press drops opacity; focus is a 2px ink ring",
+      "name": "Interaction states"
+    },
+    {
+      "path": "ui_kits/campaign/index.html",
+      "group": "Campaign",
+      "viewport": "1440x900",
+      "subtitle": "The expressive end of the system, still on the same tokens",
+      "name": "Campaign landing — Inmobiliarias"
+    },
+    {
+      "path": "guidelines/color-accents.card.html",
+      "group": "Colors",
+      "viewport": "700x200",
+      "subtitle": "Colour enters only through data-accent; default is ink",
+      "name": "Accent scopes"
+    },
+    {
+      "path": "guidelines/color-neutrals.card.html",
+      "group": "Colors",
+      "viewport": "700x150",
+      "subtitle": "The whole framework lives on this greyscale",
+      "name": "Neutral ramp"
+    },
+    {
+      "path": "guidelines/color-states.card.html",
+      "group": "Colors",
+      "viewport": "700x150",
+      "subtitle": "Functional only — never used on the public site",
+      "name": "Admin status colours"
+    },
+    {
+      "path": "guidelines/color-surfaces.card.html",
+      "group": "Colors",
+      "viewport": "700x180",
+      "subtitle": "Page, band, warm band, media, mid CTA, footer",
+      "name": "Surfaces"
+    },
+    {
+      "path": "guidelines/color-text.card.html",
+      "group": "Colors",
+      "viewport": "700x170",
+      "subtitle": "Headings are grey; black is reserved for emphasis",
+      "name": "Text colours"
+    },
+    {
+      "path": "components/admin/admin.card.html",
+      "group": "Components",
+      "viewport": "700x420",
+      "subtitle": "Shell, toolbar, table, status badges, card",
+      "name": "Admin"
+    },
+    {
+      "path": "components/campaign/campaign.card.html",
+      "group": "Components",
+      "viewport": "700x420",
+      "subtitle": "High-expression layer — accent scope only",
+      "name": "Campaign"
+    },
+    {
+      "path": "components/core/core.card.html",
+      "group": "Components",
+      "viewport": "700x330",
+      "subtitle": "Buttons, links, pills, eyebrow, rules",
+      "name": "Core"
+    },
+    {
+      "path": "components/editorial/editorial.card.html",
+      "group": "Components",
+      "viewport": "700x620",
+      "subtitle": "Hero, question block, values, stats, team, CTA",
+      "name": "Editorial"
+    },
+    {
+      "path": "components/forms/forms.card.html",
+      "group": "Components",
+      "viewport": "700x300",
+      "subtitle": "Underline fields, select, checkbox, submit row",
+      "name": "Forms"
+    },
+    {
+      "path": "components/layout/layout.card.html",
+      "group": "Components",
+      "viewport": "700x560",
+      "subtitle": "Header, media frame, section bands, footer",
+      "name": "Layout"
+    },
+    {
+      "path": "guidelines/space-grid.card.html",
+      "group": "Spacing",
+      "viewport": "700x180",
+      "subtitle": "12 columns, 24px gutter, 76px page margin at 1440",
+      "name": "Grid & margins"
+    },
+    {
+      "path": "guidelines/space-scale.card.html",
+      "group": "Spacing",
+      "viewport": "700x170",
+      "subtitle": "4px base — 4 to 200",
+      "name": "Spacing ladder"
+    },
+    {
+      "path": "guidelines/space-section.card.html",
+      "group": "Spacing",
+      "viewport": "700x260",
+      "subtitle": "--section-y clamp(72,9vw,160) top and bottom; emptiness is the design",
+      "name": "Section rhythm"
+    },
+    {
+      "path": "guidelines/type-body.card.html",
+      "group": "Type",
+      "viewport": "700x230",
+      "subtitle": "Grey copy with two or three bold near-black phrases",
+      "name": "Lead & body"
+    },
+    {
+      "path": "guidelines/type-campaign.card.html",
+      "group": "Type",
+      "viewport": "700x210",
+      "subtitle": "Weight 800, width 75, leading 1.0 — campaign contexts only",
+      "name": "Campaign display"
+    },
+    {
+      "path": "guidelines/type-display.card.html",
+      "group": "Type",
+      "viewport": "700x200",
+      "subtitle": "Weight 300, +0.02em, grey — the area name and nothing else",
+      "name": "Editorial display"
+    },
+    {
+      "path": "guidelines/type-eyebrow.card.html",
+      "group": "Type",
+      "viewport": "700x150",
+      "subtitle": "Uppercase +0.14em for eyebrows; 12px grey for captions",
+      "name": "Eyebrow & caption"
+    },
+    {
+      "path": "guidelines/type-headings.card.html",
+      "group": "Type",
+      "viewport": "700x230",
+      "subtitle": "700 weight, -0.005em, grey",
+      "name": "Headings"
+    },
+    {
+      "path": "guidelines/type-scale.card.html",
+      "group": "Type",
+      "viewport": "700x220",
+      "subtitle": "Every step, set at its real size",
+      "name": "Full scale"
+    },
+    {
+      "path": "guidelines/type-stat.card.html",
+      "group": "Type",
+      "viewport": "700x180",
+      "subtitle": "+ sign, light numeral, small grey label underneath",
+      "name": "Statistics"
+    },
+    {
+      "path": "ui_kits/admin/index.html",
+      "group": "Web Admin",
+      "viewport": "1440x900",
+      "subtitle": "Same tokens, denser ladder — extrapolated, no source material",
+      "name": "Web Admin"
+    },
+    {
+      "path": "ui_kits/website/index.html",
+      "group": "Website",
+      "viewport": "1440x900",
+      "subtitle": "Branding / Architecture area page with case-study click-through",
+      "name": "Public site — área page"
+    }
+  ],
+  "templates": [],
+  "hasThumbnailHtml": true,
+  "globalCssPaths": [
+    "tokens/fonts.css",
+    "tokens/colors.css",
+    "tokens/typography.css",
+    "tokens/spacing.css",
+    "tokens/layout.css",
+    "tokens/borders.css",
+    "tokens/motion.css",
+    "tokens/accents.css",
+    "tokens/base.css",
+    "styles.css"
+  ],
+  "tokens": [
+    { "name": "--sn-white", "value": "#ffffff", "kind": "color", "definedIn": "tokens/colors.css" },
+    { "name": "--sn-paper", "value": "#f5f5f5", "kind": "color", "definedIn": "tokens/colors.css" },
+    { "name": "--sn-mist", "value": "#eeeeee", "kind": "color", "definedIn": "tokens/colors.css" },
+    { "name": "--sn-fog", "value": "#e4e4e4", "kind": "color", "definedIn": "tokens/colors.css" },
+    { "name": "--sn-linen", "value": "#dedad4", "kind": "color", "definedIn": "tokens/colors.css" },
+    { "name": "--sn-rule", "value": "#d8d8d8", "kind": "color", "definedIn": "tokens/colors.css" },
+    {
+      "name": "--sn-border",
+      "value": "#e0e0e0",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--sn-silver",
+      "value": "#b3b3b3",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    { "name": "--sn-steel", "value": "#8a8a8a", "kind": "color", "definedIn": "tokens/colors.css" },
+    { "name": "--sn-slate", "value": "#6e6e6e", "kind": "color", "definedIn": "tokens/colors.css" },
+    {
+      "name": "--sn-graphite",
+      "value": "#4d4d4d",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--sn-shadow-band",
+      "value": "#4f4f4f",
+      "kind": "shadow",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--sn-charcoal",
+      "value": "#2a2a2a",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    { "name": "--sn-ink", "value": "#0a0a0a", "kind": "color", "definedIn": "tokens/colors.css" },
+    { "name": "--sn-black", "value": "#000000", "kind": "color", "definedIn": "tokens/colors.css" },
+    {
+      "name": "--surface-page",
+      "value": "var(--sn-white)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--surface-alt",
+      "value": "var(--sn-paper)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--surface-band",
+      "value": "var(--sn-mist)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--surface-warm",
+      "value": "var(--sn-linen)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--surface-invert",
+      "value": "var(--sn-black)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--surface-invert-soft",
+      "value": "var(--sn-shadow-band)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--surface-media",
+      "value": "var(--sn-fog)",
+      "kind": "color",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-display",
+      "value": "var(--sn-slate)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-heading",
+      "value": "var(--sn-graphite)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-body",
+      "value": "var(--sn-graphite)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-muted",
+      "value": "var(--sn-steel)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-faint",
+      "value": "var(--sn-silver)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-strong",
+      "value": "var(--sn-ink)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-on-invert",
+      "value": "var(--sn-white)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-on-invert-muted",
+      "value": "rgba(255,255,255,.72)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-link",
+      "value": "var(--sn-ink)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--text-link-hover",
+      "value": "var(--sn-steel)",
+      "kind": "font",
+      "definedIn": "tokens/colors.css"
+    },
+    {
+      "name": "--font-core",
+      "value": "'Archivo','Helvetica Now Display','Helvetica Neue',Helvetica,Arial,sans-serif",
+      "kind": "font",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--font-display",
+      "value": "'Archivo','Helvetica Now Display','Helvetica Neue',Helvetica,Arial,sans-serif",
+      "kind": "font",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--font-mono",
+      "value": "'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace",
+      "kind": "font",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fw-thin",
+      "value": "200",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fw-light",
+      "value": "300",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fw-regular",
+      "value": "400",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fw-medium",
+      "value": "500",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fw-semibold",
+      "value": "600",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fw-bold",
+      "value": "700",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fw-heavy",
+      "value": "800",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fwd-condensed",
+      "value": "75",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fwd-normal",
+      "value": "100",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fs-display-1",
+      "value": "72px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-display-2",
+      "value": "56px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-display-3",
+      "value": "44px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--lh-display",
+      "value": "1.06",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--tr-display",
+      "value": "0.02em",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    { "name": "--fs-h1", "value": "36px", "kind": "spacing", "definedIn": "tokens/typography.css" },
+    { "name": "--fs-h2", "value": "30px", "kind": "spacing", "definedIn": "tokens/typography.css" },
+    { "name": "--fs-h3", "value": "24px", "kind": "spacing", "definedIn": "tokens/typography.css" },
+    { "name": "--fs-h4", "value": "20px", "kind": "spacing", "definedIn": "tokens/typography.css" },
+    { "name": "--fs-h5", "value": "17px", "kind": "spacing", "definedIn": "tokens/typography.css" },
+    {
+      "name": "--lh-heading",
+      "value": "1.22",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--tr-heading",
+      "value": "-0.005em",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-lead",
+      "value": "20px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-body",
+      "value": "16px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-body-sm",
+      "value": "14px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-caption",
+      "value": "12px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--lh-body",
+      "value": "1.62",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--lh-lead",
+      "value": "1.5",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--lh-tight",
+      "value": "1.35",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fs-eyebrow",
+      "value": "12px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--tr-eyebrow",
+      "value": "0.14em",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fw-eyebrow",
+      "value": "600",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fs-stat",
+      "value": "68px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fw-stat",
+      "value": "300",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--fs-campaign-1",
+      "value": "88px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-campaign-2",
+      "value": "60px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--fs-campaign-3",
+      "value": "40px",
+      "kind": "spacing",
+      "definedIn": "tokens/typography.css"
+    },
+    {
+      "name": "--lh-campaign",
+      "value": "1.0",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    {
+      "name": "--tr-campaign",
+      "value": "-0.01em",
+      "kind": "font",
+      "definedIn": "tokens/typography.css",
+      "annotation": "font"
+    },
+    { "name": "--sp-1", "value": "4px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-2", "value": "8px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-3", "value": "12px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-4", "value": "16px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-5", "value": "24px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-6", "value": "32px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-7", "value": "40px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-8", "value": "48px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-9", "value": "64px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-10", "value": "80px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-11", "value": "96px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-12", "value": "128px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-13", "value": "160px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    { "name": "--sp-14", "value": "200px", "kind": "spacing", "definedIn": "tokens/spacing.css" },
+    {
+      "name": "--section-y",
+      "value": "clamp(72px,9vw,var(--sp-13))",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--section-y-tight",
+      "value": "clamp(48px,6vw,var(--sp-11))",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--stack-xs",
+      "value": "var(--sp-2)",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--stack-sm",
+      "value": "var(--sp-4)",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--stack-md",
+      "value": "var(--sp-6)",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--stack-lg",
+      "value": "var(--sp-9)",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--stack-xl",
+      "value": "var(--sp-12)",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--admin-gap",
+      "value": "var(--sp-4)",
+      "kind": "spacing",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--admin-pad",
+      "value": "var(--sp-5)",
+      "kind": "spacing",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--admin-row-y",
+      "value": "var(--sp-3)",
+      "kind": "color",
+      "definedIn": "tokens/spacing.css"
+    },
+    {
+      "name": "--page-max",
+      "value": "1440px",
+      "kind": "spacing",
+      "definedIn": "tokens/layout.css"
+    },
+    {
+      "name": "--page-margin",
+      "value": "clamp(20px,5.3vw,76px)",
+      "kind": "spacing",
+      "definedIn": "tokens/layout.css"
+    },
+    {
+      "name": "--content-max",
+      "value": "1288px",
+      "kind": "spacing",
+      "definedIn": "tokens/layout.css"
+    },
+    {
+      "name": "--measure",
+      "value": "68ch",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--measure-tight",
+      "value": "46ch",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--grid-cols",
+      "value": "12",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--grid-gutter",
+      "value": "24px",
+      "kind": "spacing",
+      "definedIn": "tokens/layout.css"
+    },
+    {
+      "name": "--media-ratio-wide",
+      "value": "16/9",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--media-ratio-editorial",
+      "value": "4/3",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--media-ratio-portrait",
+      "value": "3/4",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--media-ratio-square",
+      "value": "1/1",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--admin-sidebar",
+      "value": "248px",
+      "kind": "spacing",
+      "definedIn": "tokens/layout.css"
+    },
+    {
+      "name": "--admin-topbar",
+      "value": "56px",
+      "kind": "spacing",
+      "definedIn": "tokens/layout.css"
+    },
+    {
+      "name": "--admin-max",
+      "value": "1600px",
+      "kind": "spacing",
+      "definedIn": "tokens/layout.css"
+    },
+    {
+      "name": "--z-nav",
+      "value": "100",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--z-overlay",
+      "value": "200",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--z-modal",
+      "value": "300",
+      "kind": "other",
+      "definedIn": "tokens/layout.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--radius-none",
+      "value": "0px",
+      "kind": "radius",
+      "definedIn": "tokens/borders.css"
+    },
+    { "name": "--radius-xs", "value": "2px", "kind": "radius", "definedIn": "tokens/borders.css" },
+    { "name": "--radius-sm", "value": "4px", "kind": "radius", "definedIn": "tokens/borders.css" },
+    {
+      "name": "--radius-pill",
+      "value": "999px",
+      "kind": "radius",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--radius-circle",
+      "value": "50%",
+      "kind": "radius",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--border-width",
+      "value": "1px",
+      "kind": "spacing",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--border-hairline",
+      "value": "1px solid var(--sn-border)",
+      "kind": "color",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--border-rule",
+      "value": "1px solid var(--sn-rule)",
+      "kind": "color",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--border-strong",
+      "value": "1px solid var(--sn-ink)",
+      "kind": "color",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--border-on-invert",
+      "value": "1px solid rgba(255,255,255,.28)",
+      "kind": "other",
+      "definedIn": "tokens/borders.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--rule-short-w",
+      "value": "200px",
+      "kind": "spacing",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--shadow-none",
+      "value": "none",
+      "kind": "shadow",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--shadow-admin",
+      "value": "0 1px 2px rgba(10,10,10,.06)",
+      "kind": "shadow",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--shadow-admin-raised",
+      "value": "0 4px 16px rgba(10,10,10,.10)",
+      "kind": "shadow",
+      "definedIn": "tokens/borders.css"
+    },
+    {
+      "name": "--focus-ring",
+      "value": "2px solid var(--sn-ink)",
+      "kind": "other",
+      "definedIn": "tokens/borders.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--focus-offset",
+      "value": "2px",
+      "kind": "other",
+      "definedIn": "tokens/borders.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--dur-instant",
+      "value": "0ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--dur-fast",
+      "value": "0ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--dur-base",
+      "value": "0ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--dur-slow",
+      "value": "0ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--dur-reveal",
+      "value": "0ms",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--ease-standard",
+      "value": "cubic-bezier(.22,.61,.36,1)",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--ease-out",
+      "value": "cubic-bezier(.16,1,.3,1)",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--ease-in-out",
+      "value": "cubic-bezier(.65,0,.35,1)",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--reveal-shift",
+      "value": "0px",
+      "kind": "spacing",
+      "definedIn": "tokens/motion.css"
+    },
+    {
+      "name": "--media-zoom",
+      "value": "1",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--hover-fade",
+      "value": ".62",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--press-fade",
+      "value": ".45",
+      "kind": "other",
+      "definedIn": "tokens/motion.css",
+      "annotation": "other"
+    },
+    {
+      "name": "--accent",
+      "value": "var(--sn-ink)",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--accent-contrast",
+      "value": "var(--sn-white)",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--accent-soft",
+      "value": "var(--sn-mist)",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--accent-line",
+      "value": "var(--sn-rule)",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--accent-2",
+      "value": "var(--sn-graphite)",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--accent",
+      "value": "#00c85f",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"inmobiliarias\"]"
+    },
+    {
+      "name": "--accent-contrast",
+      "value": "#0a0a0a",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"inmobiliarias\"]"
+    },
+    {
+      "name": "--accent-soft",
+      "value": "#f5a623",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"inmobiliarias\"]"
+    },
+    {
+      "name": "--accent-line",
+      "value": "#00c85f",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"inmobiliarias\"]"
+    },
+    {
+      "name": "--accent-2",
+      "value": "#f5a623",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"inmobiliarias\"]"
+    },
+    {
+      "name": "--accent",
+      "value": "#813408",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"cinnalove\"]"
+    },
+    {
+      "name": "--accent-contrast",
+      "value": "#ffffff",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"cinnalove\"]"
+    },
+    {
+      "name": "--accent-soft",
+      "value": "#cfc4b2",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"cinnalove\"]"
+    },
+    {
+      "name": "--accent-line",
+      "value": "#925628",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"cinnalove\"]"
+    },
+    {
+      "name": "--accent-2",
+      "value": "#676127",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"cinnalove\"]"
+    },
+    {
+      "name": "--accent",
+      "value": "#e0a63f",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"kumelen\"]"
+    },
+    {
+      "name": "--accent-contrast",
+      "value": "#0a0a0a",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"kumelen\"]"
+    },
+    {
+      "name": "--accent-soft",
+      "value": "#f0e3cb",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"kumelen\"]"
+    },
+    {
+      "name": "--accent-line",
+      "value": "#e0a63f",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"kumelen\"]"
+    },
+    {
+      "name": "--accent-2",
+      "value": "#3b3617",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"kumelen\"]"
+    },
+    {
+      "name": "--accent",
+      "value": "#f05a28",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"nexa\"]"
+    },
+    {
+      "name": "--accent-contrast",
+      "value": "#ffffff",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"nexa\"]"
+    },
+    {
+      "name": "--accent-soft",
+      "value": "#d8e6f2",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"nexa\"]"
+    },
+    {
+      "name": "--accent-line",
+      "value": "#f05a28",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"nexa\"]"
+    },
+    {
+      "name": "--accent-2",
+      "value": "#9cc4e4",
+      "kind": "color",
+      "definedIn": "tokens/accents.css",
+      "scope": "[data-accent=\"nexa\"]"
+    },
+    {
+      "name": "--state-positive",
+      "value": "#1f7a4d",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--state-warning",
+      "value": "#b07000",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--state-critical",
+      "value": "#b3261e",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--state-info",
+      "value": "#2a5d9f",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--state-positive-soft",
+      "value": "#e8f3ed",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--state-warning-soft",
+      "value": "#fbf1df",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--state-critical-soft",
+      "value": "#fbeae9",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    },
+    {
+      "name": "--state-info-soft",
+      "value": "#e9f0f9",
+      "kind": "color",
+      "definedIn": "tokens/accents.css"
+    }
+  ],
+  "themes": [
+    { "selector": "[data-accent=\"inmobiliarias\"]", "label": "Accent Inmobiliarias" },
+    { "selector": "[data-accent=\"cinnalove\"]", "label": "Accent Cinnalove" },
+    { "selector": "[data-accent=\"kumelen\"]", "label": "Accent Kumelen" },
+    { "selector": "[data-accent=\"nexa\"]", "label": "Accent Nexa" }
+  ],
+  "fonts": [],
+  "brandFonts": [
+    {
+      "family": "Archivo",
+      "status": "ok",
+      "tokens": ["--font-core", "--font-display"],
+      "path": "tokens/typography.css"
+    },
+    {
+      "family": "IBM Plex Mono",
+      "status": "ok",
+      "tokens": ["--font-mono"],
+      "path": "tokens/typography.css"
+    }
+  ],
+  "source": "spa"
+}

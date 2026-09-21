@@ -1,0 +1,30 @@
+:root {
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 40px;
+  --sp-8: 48px;
+  --sp-9: 64px;
+  --sp-10: 80px;
+  --sp-11: 96px;
+  --sp-12: 128px;
+  --sp-13: 160px;
+  --sp-14: 200px;
+
+  /* vertical rhythm of a public-site section */
+  --section-y: clamp(56px, 9vw, var(--sp-13));
+  --section-y-tight: clamp(48px, 6vw, var(--sp-11));
+  --stack-xs: var(--sp-2);
+  --stack-sm: var(--sp-4);
+  --stack-md: var(--sp-6);
+  --stack-lg: var(--sp-9);
+  --stack-xl: var(--sp-12);
+
+  /* Web Admin runs on a denser ladder built from the same 4px base */
+  --admin-gap: var(--sp-4);
+  --admin-pad: var(--sp-5);
+  --admin-row-y: var(--sp-3);
+}

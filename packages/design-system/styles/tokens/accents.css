@@ -1,0 +1,53 @@
+/* Accents are the ONLY place colour enters the system.
+   The base framework stays neutral; a project, business area or campaign
+   sets --accent-* on a wrapper and every component follows. */
+:root {
+  --accent: var(--sn-ink);
+  --accent-contrast: var(--sn-white);
+  --accent-soft: var(--sn-mist);
+  --accent-line: var(--sn-rule);
+  --accent-2: var(--sn-graphite);
+}
+/* Campaign — Inmobiliarias (collage / high-expression) */
+[data-accent="inmobiliarias"] {
+  --accent: #00c85f;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #f5a623;
+  --accent-line: #00c85f;
+  --accent-2: #f5a623;
+}
+/* Case — CinnaLove (palette taken verbatim from the case study board) */
+[data-accent="cinnalove"] {
+  --accent: #813408;
+  --accent-contrast: #ffffff;
+  --accent-soft: #cfc4b2;
+  --accent-line: #925628;
+  --accent-2: #676127;
+}
+/* Case — Kumelen */
+[data-accent="kumelen"] {
+  --accent: #e0a63f;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #f0e3cb;
+  --accent-line: #e0a63f;
+  --accent-2: #3b3617;
+}
+/* Case — Nexa */
+[data-accent="nexa"] {
+  --accent: #f05a28;
+  --accent-contrast: #ffffff;
+  --accent-soft: #d8e6f2;
+  --accent-line: #f05a28;
+  --accent-2: #9cc4e4;
+}
+/* Web Admin — functional state colours, used only for status */
+:root {
+  --state-positive: #1f7a4d;
+  --state-warning: #b07000;
+  --state-critical: #b3261e;
+  --state-info: #2a5d9f;
+  --state-positive-soft: #e8f3ed;
+  --state-warning-soft: #fbf1df;
+  --state-critical-soft: #fbeae9;
+  --state-info-soft: #e9f0f9;
+}

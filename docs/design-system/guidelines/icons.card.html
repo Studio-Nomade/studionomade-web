@@ -1,0 +1,84 @@
+<!-- @dsCard group="Brand" viewport="700x170" name="Iconography" subtitle="Social marks, the typographic @, and the two-bar menu — nothing else" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .g {
+        display: flex;
+        gap: 44px;
+        align-items: center;
+      }
+      .i {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      .l {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: var(--text-faint);
+      }
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .menu i {
+        display: block;
+        width: 26px;
+        height: 2px;
+        background: var(--sn-ink);
+      }
+      .at {
+        font-size: 24px;
+        color: var(--text-strong);
+      }
+      .step {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--sn-rule);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g">
+      <div class="i">
+        <img src="../assets/icons/social-linkedin.png" width="22" height="22" alt="LinkedIn" /><span
+          class="l"
+          >linkedin</span
+        >
+      </div>
+      <div class="i">
+        <img src="../assets/icons/social-vimeo.png" width="22" height="22" alt="Vimeo" /><span
+          class="l"
+          >vimeo</span
+        >
+      </div>
+      <div class="i">
+        <img
+          src="../assets/icons/social-instagram.png"
+          width="22"
+          height="22"
+          alt="Instagram"
+        /><span class="l">instagram</span>
+      </div>
+      <div class="i"><span class="at">@</span><span class="l">email (type)</span></div>
+      <div class="i">
+        <span class="menu"><i></i><i></i></span><span class="l">menú</span>
+      </div>
+      <div class="i"><span class="step">01</span><span class="l">step</span></div>
+    </div>
+  </body>
+</html>

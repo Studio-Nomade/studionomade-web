@@ -1,0 +1,47 @@
+<!-- @dsCard group="Colors" viewport="700x170" name="Text colours" subtitle="Headings are grey; black is reserved for emphasis" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .t {
+        font-size: 19px;
+      }
+      .m {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-faint);
+        margin-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="t" style="color: var(--text-display); font-weight: 300">
+        Display — 6E6E6E<span class="m">--text-display</span>
+      </div>
+      <div class="t" style="color: var(--text-heading); font-weight: 700">
+        Heading — 4D4D4D<span class="m">--text-heading</span>
+      </div>
+      <div class="t" style="color: var(--text-body)">
+        Body — 4D4D4D<span class="m">--text-body</span>
+      </div>
+      <div class="t" style="color: var(--text-muted)">
+        Muted — 8A8A8A<span class="m">--text-muted</span>
+      </div>
+      <div class="t" style="color: var(--text-strong); font-weight: 700">
+        Emphasis — 0A0A0A<span class="m">--text-strong</span>
+      </div>
+    </div>
+  </body>
+</html>

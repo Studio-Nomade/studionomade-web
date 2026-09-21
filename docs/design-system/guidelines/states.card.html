@@ -1,0 +1,110 @@
+<!-- @dsCard group="Brand" viewport="700x210" name="Interaction states" subtitle="Hover fills or fades; press drops opacity; focus is a 2px ink ring" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .g {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+      .n {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: var(--text-faint);
+        margin-bottom: 10px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--sn-ink);
+        border-radius: var(--radius-pill);
+        padding: 11px 22px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-strong);
+        background: transparent;
+      }
+      .hov {
+        background: var(--sn-ink);
+        color: #fff;
+      }
+      .pre {
+        background: var(--sn-ink);
+        color: #fff;
+        opacity: 0.45;
+      }
+      .foc {
+        outline: 2px solid var(--sn-ink);
+        outline-offset: 2px;
+      }
+      a.lnk {
+        font-size: 14px;
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g">
+      <div>
+        <div class="n">default</div>
+        <span class="btn">Contáctanos</span>
+      </div>
+      <div>
+        <div class="n">hover — fills</div>
+        <span class="btn hov">Contáctanos</span>
+      </div>
+      <div>
+        <div class="n">press — opacity .45</div>
+        <span class="btn pre">Contáctanos</span>
+      </div>
+      <div>
+        <div class="n">focus — ink ring</div>
+        <span class="btn foc">Contáctanos</span>
+      </div>
+    </div>
+    <div class="g" style="margin-top: 26px">
+      <div>
+        <div class="n">link default</div>
+        <a class="lnk" href="#">contact@studionomade.cl</a>
+      </div>
+      <div>
+        <div class="n">link hover</div>
+        <a class="lnk" href="#" style="color: var(--text-muted)">contact@studionomade.cl</a>
+      </div>
+      <div>
+        <div class="n">disabled — .38</div>
+        <span class="btn" style="opacity: 0.38">Enviar</span>
+      </div>
+      <div>
+        <div class="n">media hover — 1.03</div>
+        <span
+          style="
+            display: block;
+            width: 100%;
+            height: 44px;
+            overflow: hidden;
+            background: var(--surface-media);
+          "
+          ><i
+            style="
+              display: block;
+              width: 100%;
+              height: 100%;
+              background: var(--sn-silver);
+              transform: scale(1.03);
+            "
+          ></i
+        ></span>
+      </div>
+    </div>
+  </body>
+</html>

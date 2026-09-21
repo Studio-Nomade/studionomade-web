@@ -1,0 +1,11 @@
+{
+  "custom-properties": {
+    "--sn-font-archivo": "sans-serif",
+    "--sn-font-san-diego": "sans-serif",
+    "--sn-font-plex-mono": "monospace",
+    "--sn-font-cook-gothif": "sans-serif",
+    "--sn-font-missing-lovely": "cursive",
+    "--sn-hero-height": "70vh",
+    "--sn-step-count": "1"
+  }
+}

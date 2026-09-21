@@ -1,6 +1,12 @@
 name: CI
 
 on:
+  workflow_dispatch:
+    inputs:
+      update_visual_snapshots:
+        description: Generate visual baselines as an artifact
+        type: boolean
+        default: false
   pull_request:
     branches: [testing]
   push:
@@ -41,6 +47,9 @@ jobs:
             ${{ runner.os }}-turbo-
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
+      - run: pnpm lint:css
+      - run: pnpm check:tokens
+      - run: pnpm check:assets
       - run: pnpm typecheck
       - run: pnpm test:unit
       - name: Install Playwright browser
@@ -56,3 +65,24 @@ jobs:
       - run: pnpm build
       - name: Dependency audit
         run: pnpm audit --audit-level high
+
+  visual-baselines:
+    if: github.event_name == 'workflow_dispatch' && inputs.update_visual_snapshots
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.9.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright test --project=visual --update-snapshots
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines-linux
+          path: tests/e2e/visual/**/*-snapshots/
+          if-no-files-found: warn

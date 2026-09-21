@@ -1,0 +1,39 @@
+:root {
+  /* ---- Base neutrals: the whole system lives here ---- */
+  --sn-white: #ffffff;
+  --sn-paper: #f5f5f5; /* page alternate */
+  --sn-mist: #eeeeee; /* section band (team, credits) */
+  --sn-fog: #e4e4e4; /* image placeholder */
+  --sn-linen: #dedad4; /* warm neutral band */
+  --sn-rule: #d8d8d8;
+  --sn-border: #e0e0e0;
+  --sn-silver: #b3b3b3;
+  --sn-steel: #8a8a8a;
+  --sn-slate: #6e6e6e; /* light display type */
+  --sn-graphite: #4d4d4d; /* headings + body */
+  --sn-shadow-band: #4f4f4f; /* mid-grey CTA band */
+  --sn-charcoal: #2a2a2a; /* campaign ground */
+  --sn-ink: #0a0a0a;
+  --sn-black: #000000;
+
+  /* ---- Semantic surfaces ---- */
+  --surface-page: var(--sn-white);
+  --surface-alt: var(--sn-paper);
+  --surface-band: var(--sn-mist);
+  --surface-warm: var(--sn-linen);
+  --surface-invert: var(--sn-black);
+  --surface-invert-soft: var(--sn-shadow-band);
+  --surface-media: var(--sn-fog);
+
+  /* ---- Semantic text ---- */
+  --text-display: var(--sn-slate);
+  --text-heading: var(--sn-graphite);
+  --text-body: var(--sn-graphite);
+  --text-muted: var(--sn-steel);
+  --text-faint: var(--sn-silver);
+  --text-strong: var(--sn-ink);
+  --text-on-invert: var(--sn-white);
+  --text-on-invert-muted: rgba(255, 255, 255, 0.72);
+  --text-link: var(--sn-ink);
+  --text-link-hover: var(--sn-steel);
+}
