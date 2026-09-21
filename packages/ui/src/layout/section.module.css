@@ -1,0 +1,34 @@
+.section {
+  padding-block: var(--section-y);
+  background: var(--surface-page);
+  color: var(--text-body);
+}
+.section[data-tight] {
+  padding-block: var(--section-y-tight);
+}
+.section[data-tone="alt"] {
+  background: var(--surface-alt);
+}
+.section[data-tone="band"] {
+  background: var(--surface-band);
+}
+.section[data-tone="warm"] {
+  background: var(--surface-warm);
+}
+.section[data-tone="invert"] {
+  background: var(--surface-invert);
+  color: var(--text-on-invert);
+}
+.section[data-tone="invertSoft"] {
+  background: var(--surface-invert-soft);
+  color: var(--text-on-invert);
+}
+.inner {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-inline: var(--page-margin);
+}
+.inner[data-bleed] {
+  padding-inline: 0;
+}

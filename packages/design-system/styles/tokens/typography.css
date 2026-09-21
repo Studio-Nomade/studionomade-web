@@ -1,0 +1,65 @@
+:root {
+  --font-core: var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-display:
+    var(--sn-font-san-diego), var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-editorial: var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-campaign: var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--sn-font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-brand-gothic: var(--sn-font-cook-gothif), var(--font-display);
+  --font-brand-script: var(--sn-font-missing-lovely), cursive;
+  --fw-display-min: 500;
+
+  /* weights */
+  --fw-thin: 200; /* @kind font */
+  --fw-light: 300; /* @kind font */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium: 500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold: 700; /* @kind font */
+  --fw-heavy: 800; /* @kind font */
+
+  /* widths (Archivo variable width axis) */
+  --fwd-condensed: 75; /* @kind font */
+  --fwd-normal: 100; /* @kind font */
+
+  /* editorial display — light, wide-tracked, grey */
+  --fs-display-1: 72px;
+  --fs-display-2: 56px;
+  --fs-display-3: 44px;
+  --lh-display: 1.06; /* @kind font */
+  --tr-display: 0.02em;
+
+  /* headings */
+  --fs-h1: 36px;
+  --fs-h2: 30px;
+  --fs-h3: 24px;
+  --fs-h4: 20px;
+  --fs-h5: 17px;
+  --lh-heading: 1.22; /* @kind font */
+  --tr-heading: -0.005em;
+
+  /* body */
+  --fs-lead: 20px;
+  --fs-body: 16px;
+  --fs-body-sm: 14px;
+  --fs-caption: 12px;
+  --lh-body: 1.62; /* @kind font */
+  --lh-lead: 1.5; /* @kind font */
+  --lh-tight: 1.35; /* @kind font */
+
+  /* eyebrow / label — uppercase, tracked */
+  --fs-eyebrow: 12px;
+  --tr-eyebrow: 0.14em; /* @kind font */
+  --fw-eyebrow: 600; /* @kind font */
+
+  /* statistic numerals */
+  --fs-stat: 68px;
+  --fw-stat: 300; /* @kind font */
+
+  /* campaign display — heavy, condensed, tight */
+  --fs-campaign-1: 88px;
+  --fs-campaign-2: 60px;
+  --fs-campaign-3: 40px;
+  --lh-campaign: 1; /* @kind font */
+  --tr-campaign: -0.01em; /* @kind font */
+}

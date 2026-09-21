@@ -1,0 +1,68 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Neutral ramp" subtitle="The whole framework lives on this greyscale" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .r {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 0;
+      }
+      .s {
+        height: 56px;
+      }
+      .l {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        color: var(--text-muted);
+        margin-top: 8px;
+        font-family: var(--font-mono);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="r">
+      <div>
+        <div
+          class="s"
+          style="background: var(--sn-white); border: 1px solid var(--sn-border)"
+        ></div>
+        <div class="l">FFFFFF</div>
+      </div>
+      <div>
+        <div class="s" style="background: var(--sn-paper)"></div>
+        <div class="l">F5F5F5</div>
+      </div>
+      <div>
+        <div class="s" style="background: var(--sn-mist)"></div>
+        <div class="l">EEEEEE</div>
+      </div>
+      <div>
+        <div class="s" style="background: var(--sn-fog)"></div>
+        <div class="l">E4E4E4</div>
+      </div>
+      <div>
+        <div class="s" style="background: var(--sn-silver)"></div>
+        <div class="l">B3B3B3</div>
+      </div>
+      <div>
+        <div class="s" style="background: var(--sn-slate)"></div>
+        <div class="l">6E6E6E</div>
+      </div>
+      <div>
+        <div class="s" style="background: var(--sn-graphite)"></div>
+        <div class="l">4D4D4D</div>
+      </div>
+      <div>
+        <div class="s" style="background: var(--sn-black)"></div>
+        <div class="l">000000</div>
+      </div>
+    </div>
+  </body>
+</html>

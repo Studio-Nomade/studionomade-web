@@ -8,7 +8,13 @@ const baseHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@studionomade/ui", "@studionomade/types", "@studionomade/validation"],
+  experimental: { optimizePackageImports: ["@studionomade/ui"] },
+  transpilePackages: [
+    "@studionomade/design-system",
+    "@studionomade/ui",
+    "@studionomade/types",
+    "@studionomade/validation"
+  ],
   async headers() {
     return [
       {

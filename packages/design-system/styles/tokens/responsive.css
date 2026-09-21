@@ -1,0 +1,42 @@
+:root {
+  --fs-display-1: clamp(40px, calc(28.114286px + 3.047619vw), 72px);
+  --fs-display-2: clamp(34px, calc(25.828571px + 2.095238vw), 56px);
+  --fs-display-3: clamp(28px, calc(22.057143px + 1.52381vw), 44px);
+  --fs-campaign-1: clamp(44px, calc(27.657143px + 4.190476vw), 88px);
+  --fs-campaign-2: clamp(34px, calc(24.342857px + 2.47619vw), 60px);
+  --fs-campaign-3: clamp(26px, calc(20.8px + 1.333333vw), 40px);
+  --fs-stat: clamp(44px, calc(35.085714px + 2.285714vw), 68px);
+  --fs-h1: clamp(27px, calc(23.657143px + 0.857143vw), 36px);
+  --fs-h2: clamp(24px, calc(21.771429px + 0.571429vw), 30px);
+  --fs-h3: clamp(21px, calc(19.885714px + 0.285714vw), 24px);
+  --fs-h4: clamp(18px, calc(17.257143px + 0.190476vw), 20px);
+  --fs-h5: clamp(16px, calc(15.628571px + 0.095238vw), 17px);
+  --fs-lead: clamp(17px, calc(15.885714px + 0.285714vw), 20px);
+  --fs-eyebrow: clamp(11px, calc(10.628571px + 0.095238vw), 12px);
+}
+
+@media (min-width: 480px) {
+  :root {
+    --breakpoint-sm: 480px;
+  }
+}
+@media (min-width: 768px) {
+  :root {
+    --breakpoint-md: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --breakpoint-lg: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+  :root {
+    --breakpoint-xl: 1280px;
+  }
+}
+@media (min-width: 1440px) {
+  :root {
+    --breakpoint-2xl: 1440px;
+  }
+}

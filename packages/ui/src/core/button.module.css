@@ -1,0 +1,86 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--sn-ink);
+  font-family: var(--font-core);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    opacity var(--dur-instant) linear;
+}
+.button[data-size="sm"] {
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-caption);
+}
+.button[data-size="md"] {
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--fs-body-sm);
+}
+.button[data-size="lg"] {
+  padding: var(--sp-4) var(--sp-7);
+  font-size: var(--fs-body);
+}
+.button[data-shape="pill"] {
+  border-radius: var(--radius-pill);
+}
+.button[data-shape="square"] {
+  border-radius: var(--radius-none);
+}
+.button[data-variant="outline"] {
+  border-color: var(--sn-ink);
+}
+.button[data-variant="outline"]:hover {
+  background: var(--sn-ink);
+  color: var(--sn-white);
+}
+.button[data-variant="solid"] {
+  border-color: var(--sn-ink);
+  background: var(--sn-ink);
+  color: var(--sn-white);
+}
+.button[data-variant="solid"]:hover {
+  border-color: var(--sn-graphite);
+  background: var(--sn-graphite);
+}
+.button[data-variant="ghost"] {
+  padding: 0;
+  border-color: transparent;
+}
+.button[data-variant="ghost"]:hover {
+  color: var(--text-muted);
+}
+.button[data-variant="invert"] {
+  border-color: var(--text-on-invert-muted);
+  color: var(--sn-white);
+}
+.button[data-variant="invert"]:hover {
+  background: var(--sn-white);
+  color: var(--sn-ink);
+}
+.button[data-accented] {
+  --button-ink: var(--accent);
+  --button-on: var(--accent-contrast);
+  border-color: var(--button-ink);
+  background: var(--button-ink);
+  color: var(--button-on);
+}
+.button:active {
+  opacity: var(--press-fade);
+}
+.button:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--sp-1);
+}
+.button:disabled {
+  opacity: var(--press-fade);
+  pointer-events: none;
+}

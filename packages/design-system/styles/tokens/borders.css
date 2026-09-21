@@ -1,0 +1,22 @@
+:root {
+  /* Corners stay square. Pills are used deliberately, never by default. */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  --border-width: 1px;
+  --border-hairline: 1px solid var(--sn-border);
+  --border-rule: 1px solid var(--sn-rule);
+  --border-strong: 1px solid var(--sn-ink);
+  --border-on-invert: 1px solid rgba(255, 255, 255, 0.28); /* @kind other */
+  --rule-short-w: 200px;
+
+  /* No decorative elevation on the public site. The Admin gets one flat level. */
+  --shadow-none: none;
+  --shadow-admin: 0 1px 2px rgba(10, 10, 10, 0.06);
+  --shadow-admin-raised: 0 4px 16px rgba(10, 10, 10, 0.1);
+  --focus-ring: 2px solid var(--sn-ink); /* @kind other */
+  --focus-offset: 2px; /* @kind other */
+}

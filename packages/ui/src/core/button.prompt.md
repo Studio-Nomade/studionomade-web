@@ -1,0 +1,1 @@
+Primary action control — use `outline` on the public site, `solid` only in campaigns and the Web Admin, `invert` on black or photographic grounds. Hover fills an outline button with its border colour; press drops opacity to `--press-fade`. Never add a shadow or scale transform. With `href`, it renders an anchor and `disabled` is intentionally not applied.

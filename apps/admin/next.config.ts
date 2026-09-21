@@ -8,7 +8,9 @@ const baseHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  experimental: { optimizePackageImports: ["@studionomade/ui"] },
   transpilePackages: [
+    "@studionomade/design-system",
     "@studionomade/ui",
     "@studionomade/types",
     "@studionomade/validation",

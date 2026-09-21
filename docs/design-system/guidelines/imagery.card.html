@@ -1,0 +1,51 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="Imagery ratios" subtitle="Square corners, no border, no shadow — real work only" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .g {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 0.8fr 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      img {
+        width: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .l {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        color: var(--text-faint);
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g">
+      <div>
+        <img src="../assets/imagery/arch-gallery-1.png" style="aspect-ratio: 16/9" alt="" />
+        <div class="l">16/9 full-bleed strip</div>
+      </div>
+      <div>
+        <img src="../assets/imagery/branding-collateral-1.png" style="aspect-ratio: 4/3" alt="" />
+        <div class="l">4/3 editorial crop</div>
+      </div>
+      <div>
+        <img src="../assets/imagery/mockup-kumelen.png" style="aspect-ratio: 3/4" alt="" />
+        <div class="l">3/4 mockup</div>
+      </div>
+      <div>
+        <img src="../assets/imagery/cinnalove-gallery-1.png" style="aspect-ratio: 1/1" alt="" />
+        <div class="l">1/1 plate</div>
+      </div>
+    </div>
+  </body>
+</html>

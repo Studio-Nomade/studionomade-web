@@ -1,0 +1,47 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Surfaces" subtitle="Page, band, warm band, media, mid CTA, footer" -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      body {
+        padding: 24px 28px;
+        background: var(--surface-page);
+      }
+      .g {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+      }
+      .b {
+        height: 84px;
+        display: flex;
+        align-items: flex-end;
+        padding: 8px;
+        font-size: 10px;
+        font-family: var(--font-mono);
+        letter-spacing: 0.04em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="g">
+      <div
+        class="b"
+        style="
+          background: var(--surface-page);
+          border: 1px solid var(--sn-border);
+          color: var(--text-muted);
+        "
+      >
+        page
+      </div>
+      <div class="b" style="background: var(--surface-alt); color: var(--text-muted)">alt</div>
+      <div class="b" style="background: var(--surface-band); color: var(--text-muted)">band</div>
+      <div class="b" style="background: var(--surface-warm); color: var(--text-body)">warm</div>
+      <div class="b" style="background: var(--surface-invert-soft); color: #fff">invert-soft</div>
+      <div class="b" style="background: var(--surface-invert); color: #fff">invert</div>
+    </div>
+  </body>
+</html>

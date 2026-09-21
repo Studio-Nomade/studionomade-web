@@ -87,6 +87,112 @@ describe("RLS para el rol anónimo", () => {
       expect(await response.json()).toEqual([]);
     }
   });
+
+  it("no permite insertar envíos ni leads", async () => {
+    const formResponse = await request("forms?slug=eq.contacto-general&select=id");
+    const [{ id: formId }] = (await formResponse.json()) as Array<{ id: string }>;
+
+    const submission = await request("form_submissions", {
+      method: "POST",
+      body: JSON.stringify({ form_id: formId, payload: {} })
+    });
+    const lead = await request("leads", {
+      method: "POST",
+      body: JSON.stringify({ name: "Intruso" })
+    });
+
+    expect(submission.status).toBeGreaterThanOrEqual(400);
+    expect(lead.status).toBeGreaterThanOrEqual(400);
+  });
+
+  it("no permite ejecutar capture_lead", async () => {
+    const response = await request("rpc/capture_lead", {
+      method: "POST",
+      body: JSON.stringify({ p: { form_slug: "contacto-general" } })
+    });
+    expect(response.status).toBeGreaterThanOrEqual(400);
+  });
+});
+
+describe("captura atómica con service_role", () => {
+  it("crea submission, lead y evento con consentimiento y UTM", async () => {
+    const email = `db-${crypto.randomUUID()}@example.com`;
+    const response = await request(
+      "rpc/capture_lead",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          p: {
+            form_slug: "campana-inmobiliarias",
+            payload: { name: "Lead DB", email },
+            source_path: "/inmobiliarias",
+            ip_hash: "hash-no-reversible",
+            user_agent: "vitest",
+            name: "Lead DB",
+            email,
+            company: "Ejemplo SpA",
+            message: "Necesito una propuesta",
+            consent_given: true,
+            consent_at: "2026-09-20T12:00:00.000Z",
+            consent_purpose: "contacto-comercial",
+            consent_version: "2026-09",
+            utm_source: "linkedin",
+            utm_medium: "paid-social",
+            utm_campaign: "inmobiliarias",
+            utm_term: "branding",
+            utm_content: "video-a",
+            landing_path: "/inmobiliarias",
+            origin_type: "campana",
+            origin_slug: "inmobiliarias"
+          }
+        })
+      },
+      true
+    );
+    expect(response.status).toBe(200);
+    const leadId = (await response.json()) as string;
+
+    const leadResponse = await request(
+      `leads?id=eq.${leadId}&select=id,submission_id,consent_given,consent_at,consent_version,utm_source,utm_medium,utm_campaign,utm_term,utm_content`,
+      {},
+      true
+    );
+    const [lead] = (await leadResponse.json()) as Array<{
+      id: string;
+      submission_id: string;
+      consent_given: boolean;
+      consent_at: string;
+      consent_version: string;
+      utm_source: string;
+      utm_medium: string;
+      utm_campaign: string;
+      utm_term: string;
+      utm_content: string;
+    }>;
+    expect(lead).toMatchObject({
+      id: leadId,
+      consent_given: true,
+      consent_version: "2026-09",
+      utm_source: "linkedin",
+      utm_medium: "paid-social",
+      utm_campaign: "inmobiliarias",
+      utm_term: "branding",
+      utm_content: "video-a"
+    });
+    expect(lead.consent_at).toBeTruthy();
+
+    const [submissionResponse, eventResponse] = await Promise.all([
+      request(`form_submissions?id=eq.${lead.submission_id}&select=id,submitter_ip_hash`, {}, true),
+      request(`lead_events?lead_id=eq.${leadId}&select=event_type`, {}, true)
+    ]);
+    expect(await submissionResponse.json()).toEqual([
+      { id: lead.submission_id, submitter_ip_hash: "hash-no-reversible" }
+    ]);
+    expect(await eventResponse.json()).toEqual([{ event_type: "creado" }]);
+
+    await request(`leads?id=eq.${leadId}`, { method: "DELETE" }, true);
+    await request(`form_submissions?id=eq.${lead.submission_id}`, { method: "DELETE" }, true);
+  });
 });
 
 describe("constraints y relaciones", () => {
