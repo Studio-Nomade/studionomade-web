@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { createServerDatabaseClient } from "@studionomade/database";
-import { buildContentSecurityPolicy } from "@studionomade/config/security";
+import { buildStrictContentSecurityPolicy } from "@studionomade/config/security";
 
 /**
  * Primera capa de la autorización en profundidad: middleware → servidor → RLS.
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   const connectOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
     ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin
     : undefined;
-  const policy = buildContentSecurityPolicy(nonce, connectOrigin);
+  const policy = buildStrictContentSecurityPolicy(nonce, connectOrigin);
   requestHeaders.set("Content-Security-Policy", policy);
   const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Security-Policy", policy);

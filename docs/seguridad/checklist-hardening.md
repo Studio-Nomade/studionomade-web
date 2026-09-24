@@ -1,6 +1,8 @@
 # Checklist de hardening
 
-- [x] CSP con nonce, `frame-ancestors none` y frames limitados a Vimeo/Behance.
+- [x] CSP por superficie: nonce + `strict-dynamic` en el admin (todo dinámico) y
+      `'unsafe-inline'` en el público (prerenderizado). `frame-ancestors none` y frames
+      limitados a Vimeo/Behance en ambas. Ver el threat model para el riesgo asumido.
 - [x] HSTS, nosniff, referrer policy, permissions policy y anti-frame.
 - [x] Uploads validados y nombres UUID; embeds validados.
 - [x] Formulario con honeypot, token, rate limit y consentimiento versionado.

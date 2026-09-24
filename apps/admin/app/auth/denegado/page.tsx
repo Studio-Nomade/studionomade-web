@@ -7,6 +7,14 @@ export const metadata: Metadata = {
 };
 
 /**
+ * Se fuerza el renderizado por petición aunque la página no tenga datos: el CSP
+ * del admin lleva `'strict-dynamic'`, y el nonce que lo acompaña solo se puede
+ * estampar en el HTML si hay una petición que renderice. Prerenderizada, esta
+ * página saldría sin nonce y el navegador bloquearía todos sus scripts.
+ */
+export const dynamic = "force-dynamic";
+
+/**
  * Rechazo por allowlist. El mensaje es deliberadamente genérico: no confirma si
  * la cuenta existe, ni si el dominio es correcto, ni qué le faltaría para entrar.
  */
