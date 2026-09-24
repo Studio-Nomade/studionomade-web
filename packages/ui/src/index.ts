@@ -32,3 +32,8 @@ export { Checkbox } from "./forms/checkbox";
 export type { CheckboxProps } from "./forms/checkbox";
 export { SubmitRow } from "./forms/submit-row";
 export type { SubmitRowProps } from "./forms/submit-row";
+export { Reveal } from "./motion/reveal";
+export type { RevealProps } from "./motion/reveal";
+export { SplitLines } from "./motion/split-lines";
+export type { SplitLinesProps } from "./motion/split-lines";
+export { RevealRoot } from "./motion/reveal-root";
