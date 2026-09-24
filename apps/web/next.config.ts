@@ -7,8 +7,16 @@ const baseHeaders = [
   { key: "X-Frame-Options", value: "DENY" }
 ];
 
+/**
+ * `optimizePackageImports` ahorra ~4 kB de JS compartido reescribiendo el barrel
+ * de @studionomade/ui a imports directos, pero su caché de desarrollo se queda
+ * obsoleta cada vez que ese barrel cambia y la página revienta con
+ * "Element type is invalid". Se mantiene en build y se desactiva en `next dev`.
+ */
+const isDevelopment = process.env.NODE_ENV === "development";
+
 const nextConfig: NextConfig = {
-  experimental: { optimizePackageImports: ["@studionomade/ui"] },
+  experimental: isDevelopment ? {} : { optimizePackageImports: ["@studionomade/ui"] },
   transpilePackages: [
     "@studionomade/design-system",
     "@studionomade/ui",

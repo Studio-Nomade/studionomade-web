@@ -3,21 +3,34 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
-import { MenuToggle } from "@studionomade/ui";
+import { MenuToggle, Reveal, SplitLines } from "@studionomade/ui";
 import { submitContactLead } from "../../app/actions";
 import { CURRENT_LEAD_CONSENT_VERSION, LEAD_CONSENTS } from "../../content/legal/consentimientos";
 import styles from "./home-landing.module.css";
 
 const services = [
-  { name: "AUDIOVISUAL", kind: styles.audiovisual, symbol: 2, href: null },
-  { name: "BRANDING", kind: styles.branding, symbol: 1, href: "/areas/branding" },
+  {
+    name: "AUDIOVISUAL",
+    kind: styles.audiovisual,
+    symbol: 2,
+    href: null,
+    accent: "branding"
+  },
+  {
+    name: "BRANDING",
+    kind: styles.branding,
+    symbol: 1,
+    href: "/areas/branding",
+    accent: "branding"
+  },
   {
     name: "ARCHITECTURE",
     kind: styles.architecture,
     symbol: 3,
-    href: "/areas/architecture"
+    href: "/areas/architecture",
+    accent: "architecture"
   },
-  { name: "WEB DESIGN", kind: styles.web, symbol: 4, href: null }
+  { name: "WEB DESIGN", kind: styles.web, symbol: 4, href: null, accent: undefined }
 ];
 const socialImages = [
   "/home/branding-project-1.webp",
@@ -171,24 +184,30 @@ export function HomeLanding() {
       </section>
 
       <section id="nosotros" className={styles.movement}>
-        <h2>MOVEMENT</h2>
+        <SplitLines as="h2" lines={["MOVEMENT"]} />
         <div className={styles.movementGrid}>
           <Orbit variant={1} />
-          <div className={styles.introCopy}>
+          <Reveal as="div" className={styles.introCopy} step={1}>
             <p>Somos un estudio enfocado en la comunicación asertiva y la creatividad.</p>
             <p>
               Buscamos trabajar en conjunto con personas que desean llevar sus ideas y expresiones a
               resoluciones, respuestas e identidades auténticas.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <section id="servicios" className={styles.services}>
-        <h2>SERVICIOS</h2>
+        <SplitLines as="h2" lines={["SERVICIOS"]} />
         <div className={styles.serviceGrid}>
-          {services.map((service) => (
-            <article className={`${styles.service} ${service.kind}`} key={service.name}>
+          {services.map((service, index) => (
+            <Reveal
+              as="article"
+              className={`${styles.service} ${service.kind}`}
+              key={service.name}
+              step={index}
+              data-accent={service.accent}
+            >
               {service.href ? (
                 <Link href={service.href} aria-label={`Ver área ${service.name}`}>
                   <Orbit variant={service.symbol} />
@@ -200,7 +219,7 @@ export function HomeLanding() {
                   <span>{service.name} •</span>
                 </>
               )}
-            </article>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -211,13 +230,13 @@ export function HomeLanding() {
         <div className={styles.meetingContent}>
           <span className={styles.shortRule} />
           <p>¿Tienes un proyecto en mente?</p>
-          <h2>Agendemos una reunión</h2>
+          <SplitLines as="h2" lines={["Agendemos", "una reunión"]} />
           <a href="#contacto">Agenda una reunión</a>
         </div>
       </section>
 
       <section className={styles.reel}>
-        <h2>REEL</h2>
+        <SplitLines as="h2" lines={["REEL"]} />
         <div className={styles.reelMedia}>
           <Image
             src="/home/arch-1.webp"
@@ -232,7 +251,7 @@ export function HomeLanding() {
       </section>
 
       <section className={styles.instagram}>
-        <h2>INSTAGRAM</h2>
+        <SplitLines as="h2" lines={["INSTAGRAM"]} />
         <div className={styles.socialGrid}>
           {socialImages.map((src, index) => (
             <div className={styles.socialTile} key={src} data-featured={index === 2 || undefined}>

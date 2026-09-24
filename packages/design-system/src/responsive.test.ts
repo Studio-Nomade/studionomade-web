@@ -24,11 +24,26 @@ const legacyMaximums = {
   "--fs-eyebrow": 12
 } as const;
 
+/** Escalera grande tomada del sitio vivo. Se blinda igual que la legada. */
+const liveMaximums = {
+  "--fs-xxxl": 212,
+  "--fs-xxl": 126,
+  "--fs-xl": 102
+} as const;
+
 describe("escala fluida", () => {
   it("mantiene el máximo legado como tercer argumento de cada clamp", () => {
     for (const [token, maximum] of Object.entries(legacyMaximums)) {
       const value = css.match(new RegExp(`${token}:\\s*clamp\\(([^;]+)\\);`))?.[1];
       expect(value).toBeDefined();
+      expect(value?.split(",").at(-1)?.trim()).toBe(`${maximum}px`);
+    }
+  });
+
+  it("mantiene el máximo del sitio vivo en la escalera grande", () => {
+    for (const [token, maximum] of Object.entries(liveMaximums)) {
+      const value = css.match(new RegExp(`${token}:\\s*clamp\\(([^;]+)\\);`))?.[1];
+      expect(value, token).toBeDefined();
       expect(value?.split(",").at(-1)?.trim()).toBe(`${maximum}px`);
     }
   });

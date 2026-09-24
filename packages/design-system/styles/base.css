@@ -71,6 +71,6 @@ hr {
   margin: 0;
 }
 ::selection {
-  background: var(--sn-ink);
-  color: var(--sn-white);
+  background: var(--accent);
+  color: var(--accent-contrast);
 }

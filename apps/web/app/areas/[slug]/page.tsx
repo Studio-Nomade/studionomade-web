@@ -26,5 +26,10 @@ export async function generateMetadata({
 export default async function AreaRoute({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   if (!isAreaSlug(slug)) notFound();
-  return <AreaPage area={areas[slug]} />;
+  const area = areas[slug];
+  return (
+    <div data-accent={area.accent}>
+      <AreaPage area={area} />
+    </div>
+  );
 }

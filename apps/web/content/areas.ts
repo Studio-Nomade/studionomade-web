@@ -2,6 +2,7 @@ export type AreaSlug = "branding" | "architecture";
 
 export type AreaContent = {
   slug: AreaSlug;
+  accent: AreaSlug;
   title: string;
   services: string[];
   quote: string;
@@ -23,6 +24,7 @@ export type AreaContent = {
 export const areas: Record<AreaSlug, AreaContent> = {
   branding: {
     slug: "branding",
+    accent: "branding",
     title: "BRANDING",
     services: ["Logo", "Identity", "Illustrations", "Banners", "Print Production"],
     quote:
@@ -77,6 +79,7 @@ export const areas: Record<AreaSlug, AreaContent> = {
   },
   architecture: {
     slug: "architecture",
+    accent: "architecture",
     title: "ARCHITECTURE",
     services: ["Research", "Art Direction", "Render", "Prototipos", "Stand"],
     quote:
