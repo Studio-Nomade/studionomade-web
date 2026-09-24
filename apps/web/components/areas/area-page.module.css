@@ -54,7 +54,15 @@
 }
 .hero h1 {
   font-family: var(--font-campaign);
-  font-size: clamp(var(--fs-campaign-2), 8vw, var(--fs-campaign-1));
+  /*
+   * 5.6vw, no 8vw. El titular es una sola palabra indivisible y la pista `1.2fr`
+   * no puede encoger por debajo de su min-content, así que un titular demasiado
+   * grande empuja la cita fuera del viewport y aparece scroll horizontal. Con el
+   * nombre de área más largo (ARCHITECTURE, 12 caracteres en Cy Grotesk) el tope
+   * que entra es ~5.85vw entre 1024px y 1440px; 5.6vw deja margen. Desde ~1570px
+   * manda `--fs-campaign-1` y el tamaño es el mismo de antes.
+   */
+  font-size: clamp(var(--fs-campaign-2), 5.6vw, var(--fs-campaign-1));
   font-weight: var(--fw-heavy);
   line-height: var(--lh-campaign);
 }
