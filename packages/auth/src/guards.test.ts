@@ -21,7 +21,10 @@ function fakeClient(options: {
     auth: {
       getUser: async () =>
         email
-          ? { data: { user: { id: "user-1", email, user_metadata: { full_name: "Edi Tor" } } }, error: null }
+          ? {
+              data: { user: { id: "user-1", email, user_metadata: { full_name: "Edi Tor" } } },
+              error: null
+            }
           : { data: { user: null }, error: new Error("no session") }
     },
     from: () => ({
@@ -43,7 +46,11 @@ function fakeClient(options: {
 }
 
 const EDITOR = [
-  { slug: "editor", is_active: true, permissions: ["content.read", "content.write", "content.publish"] }
+  {
+    slug: "editor",
+    is_active: true,
+    permissions: ["content.read", "content.write", "content.publish"]
+  }
 ];
 
 describe("requireAdminAccess", () => {
@@ -74,7 +81,9 @@ describe("requireAdminAccess", () => {
     const client = fakeClient({
       roles: [{ slug: "author", is_active: false, permissions: ["content.write"] }]
     });
-    await expect(requireAdminAccess(client, ALLOWLIST)).rejects.toMatchObject({ code: "no_profile" });
+    await expect(requireAdminAccess(client, ALLOWLIST)).rejects.toMatchObject({
+      code: "no_profile"
+    });
   });
 
   it("acepta a un editor y devuelve sus permisos efectivos", async () => {
@@ -88,7 +97,11 @@ describe("requireAdminAccess", () => {
 
 describe("requirePermission", () => {
   it("deja pasar con el permiso", async () => {
-    const context = await requirePermission(fakeClient({ roles: EDITOR }), ALLOWLIST, "content.write");
+    const context = await requirePermission(
+      fakeClient({ roles: EDITOR }),
+      ALLOWLIST,
+      "content.write"
+    );
     expect(hasPermission(context.access, "content.write")).toBe(true);
   });
 

@@ -1,0 +1,16 @@
+begin;
+alter table public.leads alter column status drop default;
+alter type public.lead_status rename to lead_status_legacy;
+create type public.lead_status as enum ('nuevo','revisado','contactado','calificado','derivado','descartado','spam');
+alter table public.leads alter column status type public.lead_status using (case status::text when 'convertido' then 'derivado' else status::text end::public.lead_status);
+alter table public.lead_events alter column from_status type public.lead_status using (case from_status::text when 'convertido' then 'derivado' else from_status::text end::public.lead_status);
+alter table public.lead_events alter column to_status type public.lead_status using (case to_status::text when 'convertido' then 'derivado' else to_status::text end::public.lead_status);
+alter table public.leads alter column status set default 'nuevo'::public.lead_status;
+drop type public.lead_status_legacy;
+alter type public.lead_origin_type rename to lead_origin_type_legacy;
+create type public.lead_origin_type as enum ('campana','area','contacto','prototipo','importacion','referido');
+alter table public.leads alter column origin_type drop default;
+alter table public.leads alter column origin_type type public.lead_origin_type using origin_type::text::public.lead_origin_type;
+alter table public.leads alter column origin_type set default 'contacto'::public.lead_origin_type;
+drop type public.lead_origin_type_legacy;
+commit;

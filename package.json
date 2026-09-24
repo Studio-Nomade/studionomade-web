@@ -19,6 +19,9 @@
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local > packages/database/types/database.ts && prettier --write packages/database/types/database.ts",
     "test:e2e": "playwright test",
+    "prototype:prepare": "node scripts/publicar-prototipo.mjs",
+    "maintenance:links": "node scripts/mantenimiento/check-links.mjs",
+    "maintenance:temporary": "node scripts/mantenimiento/temporary-uploads-plan.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

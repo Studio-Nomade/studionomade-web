@@ -1,5 +1,6 @@
 import { isAuthError, requireAdminAccess } from "@studionomade/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 import { readAdminServerEnvironment } from "../lib/env";
 import { createAdminServerClient } from "../lib/supabase-server";
@@ -39,6 +40,23 @@ export default async function HomePage() {
         <p>
           Permisos: <strong>{access.permissions.join(", ") || "ninguno"}</strong>
         </p>
+
+        <nav aria-label="Módulos de administración">
+          <ul>
+            <li>
+              <Link href="/proyectos">Proyectos y medios</Link>
+            </li>
+            <li>
+              <Link href="/leads">Leads</Link>
+            </li>
+            <li>
+              <Link href="/lab">Digital Lab</Link>
+            </li>
+            <li>
+              <Link href="/senales">Señales operativas</Link>
+            </li>
+          </ul>
+        </nav>
 
         <form action={signOut}>
           <button type="submit">Cerrar sesión</button>

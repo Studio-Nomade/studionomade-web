@@ -1,8 +1,4 @@
-import {
-  type EffectiveAccess,
-  AuthError,
-  hasPermission
-} from "@studionomade/auth";
+import { type EffectiveAccess, AuthError, hasPermission } from "@studionomade/auth";
 import {
   type ContentStatus,
   type ListPagesFilter,
@@ -13,11 +9,7 @@ import {
 } from "@studionomade/database";
 
 import type { Logger } from "../logging";
-import {
-  canTransition,
-  requiresPublishPermission,
-  resolveStatusChange
-} from "../publishing";
+import { canTransition, requiresPublishPermission, resolveStatusChange } from "../publishing";
 import { ensureUniqueSlug, generateSlug } from "../slug";
 
 /**

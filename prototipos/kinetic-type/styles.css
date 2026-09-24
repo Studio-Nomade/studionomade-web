@@ -1,0 +1,27 @@
+:root {
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #090909;
+  color: #fafafa;
+  font-family: Arial, sans-serif;
+}
+main {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  padding: 8vw;
+}
+h1 {
+  font-size: clamp(5rem, 18vw, 16rem);
+  line-height: 0.72;
+  margin: 0.2em 0;
+  text-transform: uppercase;
+}
+a {
+  color: #8fffbe;
+}
