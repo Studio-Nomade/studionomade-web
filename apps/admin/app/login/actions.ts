@@ -16,9 +16,7 @@ export async function signInWithGoogle(formData: FormData) {
   const next = formData.get("next");
   const headerList = await headers();
   const origin =
-    headerList.get("origin") ??
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    "http://localhost:3001";
+    headerList.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001";
 
   const callback = new URL("/auth/callback", origin);
   if (typeof next === "string" && next.startsWith("/") && !next.startsWith("//")) {

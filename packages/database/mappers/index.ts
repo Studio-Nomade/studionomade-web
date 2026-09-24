@@ -7,8 +7,7 @@ import type { Database } from "../types/database";
  * tablas: `snake_case`, columnas internas y `jsonb` sin tipar se quedan aquí.
  */
 
-type Row<T extends keyof Database["public"]["Tables"]> =
-  Database["public"]["Tables"][T]["Row"];
+type Row<T extends keyof Database["public"]["Tables"]> = Database["public"]["Tables"][T]["Row"];
 
 export type ContentStatus = Database["public"]["Enums"]["content_status"];
 

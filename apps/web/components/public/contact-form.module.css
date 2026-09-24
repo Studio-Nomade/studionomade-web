@@ -1,0 +1,24 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-5);
+  max-width: var(--content-max);
+}
+.wide {
+  grid-column: 1 / -1;
+}
+.honeypot {
+  position: absolute;
+  width: var(--sp-1);
+  height: var(--sp-1);
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+@media (max-width: 48em) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+  .wide {
+    grid-column: auto;
+  }
+}

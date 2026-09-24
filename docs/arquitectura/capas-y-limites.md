@@ -24,14 +24,14 @@ Postgres + RLS                             supabase/migrations
 
 ## Qué decide cada capa
 
-| Decisión | Dónde | Por qué ahí |
-|---|---|---|
-| Forma de la entrada | BFF, con zod | Es el borde: todo lo de fuera es hostil hasta que se valida |
-| ¿Quién eres? | `packages/auth` (`getUser()`) | Validar el JWT contra el servidor, no confiar en la cookie |
-| ¿Puedes hacerlo? | Dominio (`assertPermission`) + **RLS** | El dominio da un error claro; RLS es la garantía real |
-| Reglas de negocio | `packages/domain` | Testeable sin base de datos ni HTTP |
-| Cómo se consulta | `packages/database` | Un solo lugar que sabe de tablas y columnas |
-| Última palabra | RLS | Aunque todo lo anterior falle, la base deniega |
+| Decisión            | Dónde                                  | Por qué ahí                                                 |
+| ------------------- | -------------------------------------- | ----------------------------------------------------------- |
+| Forma de la entrada | BFF, con zod                           | Es el borde: todo lo de fuera es hostil hasta que se valida |
+| ¿Quién eres?        | `packages/auth` (`getUser()`)          | Validar el JWT contra el servidor, no confiar en la cookie  |
+| ¿Puedes hacerlo?    | Dominio (`assertPermission`) + **RLS** | El dominio da un error claro; RLS es la garantía real       |
+| Reglas de negocio   | `packages/domain`                      | Testeable sin base de datos ni HTTP                         |
+| Cómo se consulta    | `packages/database`                    | Un solo lugar que sabe de tablas y columnas                 |
+| Última palabra      | RLS                                    | Aunque todo lo anterior falle, la base deniega              |
 
 ## El patrón BFF
 
@@ -55,9 +55,9 @@ Cuatro pasos, siempre en este orden. Hay una implementación de referencia de ca
 
 Dos familias, misma forma: `code`, `status`, `message` público y `detail` interno que **solo** va al log.
 
-| Familia | Dónde | Códigos |
-|---|---|---|
-| `AuthError` | `packages/auth` | `no_session` (401), `not_allowlisted` (403), `no_profile` (403), `forbidden` (403) |
+| Familia     | Dónde               | Códigos                                                                                            |
+| ----------- | ------------------- | -------------------------------------------------------------------------------------------------- |
+| `AuthError` | `packages/auth`     | `no_session` (401), `not_allowlisted` (403), `no_profile` (403), `forbidden` (403)                 |
 | `DataError` | `packages/database` | `not_found` (404), `conflict` (409), `forbidden` (403), `validation` (422), `infrastructure` (500) |
 
 `mapPostgrestError()` traduce los códigos de Postgres: `23505`/`23503` → `conflict`, `42501` → `forbidden` (RLS denegó una escritura), `23514`/`23502`/`22P02` → `validation`, `PGRST116` → `not_found`.

@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { createServerDatabaseClient } from "@studionomade/database";
+import { buildContentSecurityPolicy } from "@studionomade/config/security";
 
 /**
  * Primera capa de la autorización en profundidad: middleware → servidor → RLS.
@@ -21,7 +22,16 @@ function isPublicPath(pathname: string): boolean {
 }
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next({ request });
+  const nonce = btoa(crypto.randomUUID());
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
+  const connectOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin
+    : undefined;
+  const policy = buildContentSecurityPolicy(nonce, connectOrigin);
+  requestHeaders.set("Content-Security-Policy", policy);
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  response.headers.set("Content-Security-Policy", policy);
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -68,5 +78,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   // Se excluyen estáticos e imágenes: no hay nada que proteger ahí y evita
   // un getUser() por cada recurso.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif)$).*)"]
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif)$).*)"
+  ]
 };

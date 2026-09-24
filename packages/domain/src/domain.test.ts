@@ -113,7 +113,9 @@ describe("resolveIndexing", () => {
 describe("logger estructurado", () => {
   it("emite JSON de una línea con la correlación", () => {
     const lines: string[] = [];
-    const logger = createLogger({ requestId: "req-1", route: "/api/paginas" }, (l) => lines.push(l));
+    const logger = createLogger({ requestId: "req-1", route: "/api/paginas" }, (l) =>
+      lines.push(l)
+    );
 
     logger.info("page.listed", { total: 3 });
 

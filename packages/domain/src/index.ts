@@ -42,3 +42,13 @@ export type {
 } from "./services/contracts";
 
 export { toHttpError, type HttpErrorBody } from "./http";
+export {
+  parseSafeEmbed,
+  manualSocialCardProvider,
+  type EmbedProvider,
+  type SafeEmbed
+} from "./embeds";
+export { createMediaObjectPath, validateMediaUpload, type PublicMediaBucket } from "./media";
+export { projectPublicationIssues, type PublishableProject } from "./project-publication";
+export { deliverLeadToNoma, type NomaDeliveryDependencies } from "./noma";
+export { redactSensitiveFields, secureCompare } from "./security";

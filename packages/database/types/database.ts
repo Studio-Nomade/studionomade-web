@@ -1419,8 +1419,15 @@ export type Database = {
     Enums: {
       area_relation_kind: "principal" | "complementaria";
       content_status: "borrador" | "revision" | "publicado" | "archivado";
-      lead_origin_type: "campana" | "area" | "contacto" | "importacion" | "referido";
-      lead_status: "nuevo" | "contactado" | "calificado" | "descartado" | "convertido";
+      lead_origin_type: "campana" | "area" | "contacto" | "prototipo" | "importacion" | "referido";
+      lead_status:
+        | "nuevo"
+        | "revisado"
+        | "contactado"
+        | "calificado"
+        | "derivado"
+        | "descartado"
+        | "spam";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -1551,8 +1558,16 @@ export const Constants = {
     Enums: {
       area_relation_kind: ["principal", "complementaria"],
       content_status: ["borrador", "revision", "publicado", "archivado"],
-      lead_origin_type: ["campana", "area", "contacto", "importacion", "referido"],
-      lead_status: ["nuevo", "contactado", "calificado", "descartado", "convertido"]
+      lead_origin_type: ["campana", "area", "contacto", "prototipo", "importacion", "referido"],
+      lead_status: [
+        "nuevo",
+        "revisado",
+        "contactado",
+        "calificado",
+        "derivado",
+        "descartado",
+        "spam"
+      ]
     }
   }
 } as const;

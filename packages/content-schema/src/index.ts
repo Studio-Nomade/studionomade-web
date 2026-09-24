@@ -50,7 +50,8 @@ export function parseBlock(sectionType: string, content: unknown): ParseBlockRes
     const issue = parsed.error.issues[0];
     return {
       ok: false,
-      error: `Contenido inválido en el bloque ${sectionType}: ${issue?.path.join(".") || "raíz"} ${issue?.message ?? ""}`.trim()
+      error:
+        `Contenido inválido en el bloque ${sectionType}: ${issue?.path.join(".") || "raíz"} ${issue?.message ?? ""}`.trim()
     };
   }
 

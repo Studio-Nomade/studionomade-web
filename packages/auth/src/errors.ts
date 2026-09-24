@@ -6,11 +6,7 @@
  * log estructurado del servidor, no a la respuesta.
  */
 
-export type AuthErrorCode =
-  | "no_session"
-  | "not_allowlisted"
-  | "no_profile"
-  | "forbidden";
+export type AuthErrorCode = "no_session" | "not_allowlisted" | "no_profile" | "forbidden";
 
 const STATUS: Record<AuthErrorCode, number> = {
   no_session: 401,

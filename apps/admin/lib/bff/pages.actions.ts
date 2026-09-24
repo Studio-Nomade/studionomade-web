@@ -21,7 +21,12 @@ import { createBffContext } from "./context";
 
 export type ActionResult<T> =
   | { readonly ok: true; readonly data: T; readonly requestId: string }
-  | { readonly ok: false; readonly code: string; readonly message: string; readonly requestId: string };
+  | {
+      readonly ok: false;
+      readonly code: string;
+      readonly message: string;
+      readonly requestId: string;
+    };
 
 export async function createPageAction(
   _previous: unknown,

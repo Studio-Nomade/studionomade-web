@@ -6,11 +6,11 @@ Cómo entra alguien al panel de Studio Nomade y qué puede hacer una vez dentro.
 
 Tres capas independientes. Ninguna confía en la anterior.
 
-| Capa | Dónde | Qué decide |
-|---|---|---|
-| **Middleware** | `apps/admin/middleware.ts` | Si hay **sesión válida**. Refresca la cookie y redirige a `/login`. No consulta roles: obligaría a un viaje a la base de datos en cada request y **no es la frontera de seguridad real**. |
-| **Servidor** | `packages/auth` (`requireAdminAccess`, `requirePermission`, `requireAnyRole`) | Vuelve a validar el JWT, aplica la **allowlist** y exige rol/permiso antes de ejecutar nada. |
-| **RLS** | Políticas de Postgres (migración `202609201200`) | La última palabra. Aunque el servidor se equivocara, la base de datos deniega. |
+| Capa           | Dónde                                                                         | Qué decide                                                                                                                                                                                |
+| -------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Middleware** | `apps/admin/middleware.ts`                                                    | Si hay **sesión válida**. Refresca la cookie y redirige a `/login`. No consulta roles: obligaría a un viaje a la base de datos en cada request y **no es la frontera de seguridad real**. |
+| **Servidor**   | `packages/auth` (`requireAdminAccess`, `requirePermission`, `requireAnyRole`) | Vuelve a validar el JWT, aplica la **allowlist** y exige rol/permiso antes de ejecutar nada.                                                                                              |
+| **RLS**        | Políticas de Postgres (migración `202609201200`)                              | La última palabra. Aunque el servidor se equivocara, la base de datos deniega.                                                                                                            |
 
 En las tres se usa `auth.getUser()`, **nunca `auth.getSession()`**: `getSession()` se limita a leer la cookie y confiar en ella, lo que permitiría falsificar la identidad.
 
@@ -31,16 +31,16 @@ Dónde se aplica: en `app/auth/callback/route.ts`. Supabase Auth crea la cuenta 
 
 Matriz de menor privilegio (`threat-model.md` §3), sembrada en `public.role_permissions`.
 
-| Rol | content.read | content.write | content.publish | settings.manage | users.manage |
-|---|:--:|:--:|:--:|:--:|:--:|
-| `superadmin` | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `admin` | ✅ | ✅ | ✅ | ✅ | — |
-| `editor` | ✅ | ✅ | ✅ | — | — |
-| `reviewer` | ✅ | — | ✅ | — | — |
-| `area_editor` | ✅ | ✅ * | — | — | — |
-| `commercial` | — | — | — | — | — |
-| `analyst` | ✅ | — | — | — | — |
-| `collaborator` | ✅ | — | — | — | — |
+| Rol            | content.read | content.write | content.publish | settings.manage | users.manage |
+| -------------- | :----------: | :-----------: | :-------------: | :-------------: | :----------: |
+| `superadmin`   |      ✅      |      ✅       |       ✅        |       ✅        |      ✅      |
+| `admin`        |      ✅      |      ✅       |       ✅        |       ✅        |      —       |
+| `editor`       |      ✅      |      ✅       |       ✅        |        —        |      —       |
+| `reviewer`     |      ✅      |       —       |       ✅        |        —        |      —       |
+| `area_editor`  |      ✅      |     ✅ \*     |        —        |        —        |      —       |
+| `commercial`   |      —       |       —       |        —        |        —        |      —       |
+| `analyst`      |      ✅      |       —       |        —        |        —        |      —       |
+| `collaborator` |      ✅      |       —       |        —        |        —        |      —       |
 
 \* `area_editor` solo puede editar las áreas que tenga asignadas en `user_area_permissions`, y publicar solo si además tiene `can_publish`. Lo hace cumplir `public.can_edit_area()` / `can_publish_area()` dentro de las políticas RLS, no la UI.
 
@@ -54,14 +54,14 @@ M03 sembró 4 roles provisionales (`admin`, `editor`, `author`, `viewer`) que no
 
 ## Helpers de base de datos
 
-Todos `SECURITY DEFINER` con `search_path` fijo — obligatorio para no ser vulnerables a *search_path hijacking* — y sin permiso de ejecución para `anon`.
+Todos `SECURITY DEFINER` con `search_path` fijo — obligatorio para no ser vulnerables a _search_path hijacking_ — y sin permiso de ejecución para `anon`.
 
-| Función | Devuelve |
-|---|---|
-| `current_role_slugs()` | Slugs de los roles **activos** del usuario |
-| `has_role(slug)` | Si tiene ese rol |
-| `has_permission(code)` | Si algún rol suyo otorga ese permiso |
-| `can_edit_area(area)` | `content.write`, acotado por área si es `area_editor` |
+| Función                  | Devuelve                                                |
+| ------------------------ | ------------------------------------------------------- |
+| `current_role_slugs()`   | Slugs de los roles **activos** del usuario              |
+| `has_role(slug)`         | Si tiene ese rol                                        |
+| `has_permission(code)`   | Si algún rol suyo otorga ese permiso                    |
+| `can_edit_area(area)`    | `content.write`, acotado por área si es `area_editor`   |
 | `can_publish_area(area)` | `content.publish`, acotado por área si es `area_editor` |
 
 ## Aprovisionamiento de perfiles
@@ -80,12 +80,12 @@ El identificador de entidad se deriva del `jsonb` de la fila, no de `new.id`: `u
 
 ## Variables de entorno
 
-| Variable | Dónde | Notas |
-|---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | admin | pública |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | admin | pública por diseño; sujeta a RLS. **Nunca la service role key** |
-| `AUTH_ALLOWLIST` | admin | deny by default |
-| `GOOGLE_OAUTH_CLIENT_ID` / `_SECRET` | Supabase | los consume Supabase Auth, no Next.js |
+| Variable                               | Dónde    | Notas                                                           |
+| -------------------------------------- | -------- | --------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`             | admin    | pública                                                         |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | admin    | pública por diseño; sujeta a RLS. **Nunca la service role key** |
+| `AUTH_ALLOWLIST`                       | admin    | deny by default                                                 |
+| `GOOGLE_OAUTH_CLIENT_ID` / `_SECRET`   | Supabase | los consume Supabase Auth, no Next.js                           |
 
 El **redirect URI** que hay que registrar en Google Cloud Console apunta a **Supabase**, no a Next.js, porque Supabase actúa de broker OAuth:
 

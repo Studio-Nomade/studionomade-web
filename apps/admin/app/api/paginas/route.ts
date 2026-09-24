@@ -22,9 +22,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   // 1. Validación de entrada.
-  const parsed = listPagesQuerySchema.safeParse(
-    Object.fromEntries(request.nextUrl.searchParams)
-  );
+  const parsed = listPagesQuerySchema.safeParse(Object.fromEntries(request.nextUrl.searchParams));
 
   if (!parsed.success) {
     return NextResponse.json(
