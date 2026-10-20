@@ -10,7 +10,7 @@
     "build": "turbo build",
     "lint": "turbo lint && pnpm lint:css",
     "lint:css": "stylelint \"{apps,packages}/**/*.css\"",
-    "check:tokens": "vitest run packages/design-system/src/tokens.test.ts",
+    "check:tokens": "vitest run packages/design-system/src",
     "check:assets": "node scripts/check-assets.mjs",
     "typecheck": "turbo typecheck",
     "test:unit": "vitest run packages apps",

@@ -11,6 +11,7 @@
   --sn-steel: #8a8a8a;
   --sn-slate: #6e6e6e; /* light display type */
   --sn-graphite: #4d4d4d; /* headings + body */
+  --sn-iron: #555555; /* titulares del rediseño sobre claro */
   --sn-shadow-band: #4f4f4f; /* mid-grey CTA band */
   --sn-charcoal: #2a2a2a; /* campaign ground */
   --sn-ink: #0a0a0a;
@@ -28,6 +29,7 @@
   /* ---- Semantic text ---- */
   --text-display: var(--sn-slate);
   --text-heading: var(--sn-graphite);
+  --text-title: var(--sn-iron);
   --text-body: var(--sn-graphite);
   --text-muted: var(--sn-steel);
   --text-faint: var(--sn-silver);
