@@ -1,7 +1,22 @@
 import { z } from "zod";
 
-export { consentSchema, leadSubmissionSchema, utmSchema } from "./leads";
-export type { LeadSubmission } from "./leads";
+export {
+  campaignLeadSubmissionSchema,
+  clickAttributionSchema,
+  consentSchema,
+  leadSubmissionSchema,
+  normalizeChileanPhone,
+  optionalChileanPhoneSchema,
+  PROJECT_STAGES,
+  projectStageSchema,
+  utmSchema
+} from "./leads";
+export type {
+  CampaignLeadSubmission,
+  LeadSubmission,
+  LeadSubmissionSchema,
+  ProjectStage
+} from "./leads";
 export { readServerEnvironment } from "./server-env";
 export type { ServerEnvironment } from "./server-env";
 

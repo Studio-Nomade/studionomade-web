@@ -19,6 +19,13 @@ const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
   : undefined;
 
 /**
+ * El CSP solo abre los orígenes de Meta si hay un ID de píxel válido; sin él el
+ * píxel no se carga y la política queda como antes. Misma validación que
+ * `normalizeMetaPixelId` (lib/analytics/meta-pixel.ts).
+ */
+const metaPixelEnabled = /^\d{5,20}$/.test(process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() ?? "");
+
+/**
  * `optimizePackageImports` ahorra ~4 kB de JS compartido reescribiendo el barrel
  * de @studionomade/ui a imports directos, pero su caché de desarrollo se queda
  * obsoleta cada vez que ese barrel cambia y la página revienta con
@@ -29,6 +36,7 @@ const isDevelopment = process.env.NODE_ENV === "development";
 const nextConfig: NextConfig = {
   experimental: isDevelopment ? {} : { optimizePackageImports: ["@studionomade/ui"] },
   transpilePackages: [
+    "@studionomade/analytics",
     "@studionomade/design-system",
     "@studionomade/ui",
     "@studionomade/types",
@@ -37,7 +45,10 @@ const nextConfig: NextConfig = {
   async headers() {
     const headers = [
       ...SECURITY_HEADERS,
-      { key: "Content-Security-Policy", value: buildStaticContentSecurityPolicy(supabaseOrigin) }
+      {
+        key: "Content-Security-Policy",
+        value: buildStaticContentSecurityPolicy(supabaseOrigin, { metaPixel: metaPixelEnabled })
+      }
     ];
     return [
       {
