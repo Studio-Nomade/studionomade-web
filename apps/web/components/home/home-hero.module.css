@@ -1,0 +1,274 @@
+/* Hero de la home: slider de proyectos a pantalla completa.
+
+   El carrusel es `Carousel` de @studionomade/ui. Sus hijos directos son, en
+   orden: el carril (`track`), los controles y la región `aria-live`. Como sus
+   clases son de otro módulo, aquí se alcanzan por posición y por los atributos
+   públicos `data-enhanced` (hidratado) y `data-active` (diapositiva actual). */
+
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: calc(var(--sp-14) * 3);
+  overflow: hidden;
+  background: var(--surface-invert);
+  color: var(--text-on-invert);
+}
+
+.carousel {
+  height: 100%;
+}
+
+.carousel > :first-child {
+  height: 100%;
+}
+
+/* Controles sobre la imagen, alineados con la retícula. */
+.carousel > :nth-child(2) {
+  position: absolute;
+  z-index: var(--z-content);
+  right: var(--site-margin);
+  bottom: var(--sp-6);
+  left: var(--site-margin);
+  margin: 0;
+}
+
+.slide {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+}
+
+.media img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.media[data-focus="left"] img {
+  object-position: 25% 50%;
+}
+
+.media[data-focus="right"] img {
+  object-position: 75% 50%;
+}
+
+/* Lectura del texto blanco: oscurece de abajo hacia arriba y un poco el total. */
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--sn-black) 0%, transparent 75%);
+  opacity: 0.82;
+  pointer-events: none;
+}
+
+/* Velo general para el texto blanco sobre fotos claras. */
+.shade::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sn-black);
+  opacity: 0.3;
+}
+
+/* Arriba, para la cabecera transparente. */
+.shade::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 30%;
+  background: linear-gradient(to bottom, var(--sn-black) 0%, transparent 100%);
+}
+
+.caption {
+  position: absolute;
+  right: var(--site-margin);
+  bottom: calc(var(--sp-6) + var(--sp-10));
+  left: var(--site-margin);
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-4);
+  pointer-events: none;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-core);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+}
+
+/* Código de área en pill con el acento del área. */
+.code {
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  color: var(--accent);
+  letter-spacing: 0;
+}
+
+.title {
+  max-width: 100%;
+  color: inherit;
+  font-family: var(--font-core);
+  font-size: min(var(--fs-xxl), 13.5vw);
+  /* 200 y no el 100 de los titulares: va sobre fotografía. */
+  font-weight: var(--fw-thin);
+  letter-spacing: var(--tr-masthead);
+  line-height: var(--lh-masthead);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.title[data-long] {
+  font-size: min(var(--fs-xl), 10.5vw);
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* La máscara deja aire a los lados: la tipografía fina con tracking negativo
+   asoma fuera de su caja y `overflow: hidden` la recortaría. */
+.charMask {
+  display: inline-block;
+  overflow: hidden;
+  padding-block: 0.06em;
+  vertical-align: top;
+}
+
+.char {
+  display: inline-block;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-5);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-light);
+}
+
+.year {
+  font-size: var(--fs-heading-4);
+  font-weight: var(--fw-thin);
+}
+
+.disciplines {
+  color: inherit;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  padding-block: var(--sp-2);
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-size: var(--fs-button);
+  font-weight: var(--fw-button);
+  letter-spacing: var(--tr-eyebrow);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+}
+
+.cover:focus-visible {
+  outline: var(--focus-ring);
+  outline-color: var(--sn-white);
+  outline-offset: calc(-1 * var(--sp-3));
+}
+
+.link svg {
+  width: var(--sp-5);
+  height: var(--sp-5);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.slide:hover .link svg {
+  transform: translateX(var(--sp-1));
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 64em) {
+  .caption {
+    bottom: calc(var(--sp-6) + var(--sp-11));
+  }
+}
+
+/* Mismas dos condiciones que el revelado de @studionomade/ui: sin JavaScript o
+   con movimiento reducido no se oculta ni se mueve nada. Antes de hidratar el
+   título queda bajo su máscara; la diapositiva activa lo arma letra a letra y
+   las inactivas lo devuelven abajo, listo para la siguiente vuelta. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-reveal-failed])) .char {
+    transform: translate3d(0, var(--reveal-shift-lines), 0);
+  }
+
+  :global(html:not([data-reveal-failed])) .meta,
+  :global(html:not([data-reveal-failed])) .details,
+  :global(html:not([data-reveal-failed])) .link {
+    opacity: 0;
+    transform: translate3d(0, var(--motion-jump-y), 0);
+  }
+
+  :global(html:not([data-reveal-failed])) .carousel[data-enhanced] [data-active] .char {
+    transform: none;
+    transition: transform var(--motion-dur) var(--motion-ease-expo-out);
+    transition-delay: calc(var(--sn-reveal-step) * 45ms + 150ms);
+  }
+
+  :global(html:not([data-reveal-failed])) .carousel[data-enhanced] [data-active] .meta,
+  :global(html:not([data-reveal-failed])) .carousel[data-enhanced] [data-active] .details,
+  :global(html:not([data-reveal-failed])) .carousel[data-enhanced] [data-active] .link {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--motion-dur) var(--motion-ease-power3-out),
+      transform var(--motion-dur) var(--motion-ease-power3-out);
+  }
+
+  :global(html:not([data-reveal-failed])) .carousel[data-enhanced] [data-active] .details {
+    transition-delay: 450ms;
+  }
+
+  :global(html:not([data-reveal-failed])) .carousel[data-enhanced] [data-active] .link {
+    transition-delay: 600ms;
+  }
+
+  /* Acercamiento lento de la imagen activa (escala del revelado 1.2 → 1, suave). */
+  .media {
+    transform: scale(1.08);
+    transition: transform var(--motion-dur-counter) var(--motion-ease-power3-out);
+  }
+
+  .carousel[data-enhanced] [data-active] .media {
+    transform: none;
+  }
+}
