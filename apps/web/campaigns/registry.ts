@@ -12,7 +12,7 @@ export const CAMPAIGNS = {
     meta: {
       title: "Branding para proyectos inmobiliarios | Studio Nomade",
       description:
-        "Construimos marcas inmobiliarias diferentes, coherentes y difíciles de confundir.",
+        "Branding, renders, sala de ventas, web y campañas para proyectos inmobiliarios. Cotiza sin compromiso.",
       ogImage: inmobiliariasAssets.renders
     },
     content: inmobiliariasContent,
