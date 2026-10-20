@@ -1,35 +1,10 @@
 .page {
   --area-pad: clamp(1.5rem, 6vw, 7rem);
+  position: relative;
+  z-index: var(--z-content);
   min-height: 100svh;
   background: var(--surface-alt);
   color: var(--text-strong);
-}
-.header {
-  position: sticky;
-  z-index: var(--z-nav);
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 6rem;
-  padding-inline: var(--area-pad);
-  background: var(--surface-invert);
-  color: var(--text-on-invert);
-}
-.wordmark,
-.back {
-  color: inherit;
-  text-decoration: none;
-}
-.wordmark {
-  font-size: var(--fs-caption);
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.24em;
-}
-.back {
-  display: flex;
-  gap: var(--sp-4);
-  align-items: center;
 }
 .hero {
   display: grid;
@@ -321,25 +296,7 @@
   color: var(--accent);
   text-decoration: none;
 }
-.footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--sp-6);
-  padding: var(--sp-8) var(--area-pad);
-  background: var(--surface-invert);
-  color: var(--text-on-invert);
-}
-.footer a {
-  color: inherit;
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.16em;
-  text-decoration: none;
-}
 @media (max-width: 48em) {
-  .header {
-    min-height: 4.5rem;
-  }
   .hero,
   .mockups,
   .question,
@@ -397,8 +354,5 @@
   }
   .team > div {
     grid-template-columns: 1fr 1fr;
-  }
-  .footer {
-    flex-direction: column;
   }
 }

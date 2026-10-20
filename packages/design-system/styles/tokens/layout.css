@@ -16,4 +16,18 @@
   --z-nav: 100; /* @kind other */
   --z-overlay: 200; /* @kind other */
   --z-modal: 300; /* @kind other */
+
+  /* Rediseño: retícula del sitio público, fluida entre 390 y 1440 px.
+     Margen 20 → 112 px, gutter 20 → 62 px (grillas 2x2 de Figma: 54–62). */
+  --site-margin: clamp(20px, calc(-14.171429px + 8.761905vw), 112px);
+  --site-content-max: 1236px;
+  --site-gutter: clamp(20px, calc(4.4px + 4vw), 62px);
+  --footer-logo-w: clamp(140px, calc(96.171429px + 11.238095vw), 258px);
+  --cursor-size: 12px;
+  --cursor-size-hover: 56px;
+  --cursor-size-label: 88px;
+  --z-content: 1; /* @kind other */
+  --z-curtain: 400; /* @kind other */
+  --z-cursor: 500; /* @kind other */
+  --z-preloader: 600; /* @kind other */
 }

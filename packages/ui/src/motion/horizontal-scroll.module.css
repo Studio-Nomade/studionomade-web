@@ -1,0 +1,38 @@
+.scroller {
+  position: relative;
+}
+
+.pin {
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  gap: var(--site-gutter);
+  padding-inline: var(--site-margin);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.track:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(var(--focus-offset) * -1);
+}
+
+.panel {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+/* Pinneada: el carril deja de desplazarse por sí mismo; lo mueve el scroll. */
+.scroller[data-pinned] .pin {
+  display: flex;
+  align-items: center;
+  height: 100svh;
+}
+
+.scroller[data-pinned] .track {
+  overflow: visible;
+  scroll-snap-type: none;
+  will-change: transform;
+}
