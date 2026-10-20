@@ -1,308 +1,357 @@
-"use client";
-
 import Image from "next/image";
-import Link from "next/link";
-import { useActionState, useEffect, useState } from "react";
-import { Reveal, SplitLines } from "@studionomade/ui";
-import { submitContactLead } from "../../app/actions";
-import { CURRENT_LEAD_CONSENT_VERSION, LEAD_CONSENTS } from "../../content/legal/consentimientos";
+import { Button, Counter, Parallax, Reveal, SplitText } from "@studionomade/ui";
+import {
+  HOME_FEATURED,
+  HOME_INSTAGRAM,
+  HOME_MANIFESTO,
+  HOME_MEETING,
+  HOME_OFFICES,
+  HOME_POSTS,
+  HOME_REEL,
+  HOME_SERVICES,
+  HOME_SERVICES_NOTE,
+  reelEmbedUrl
+} from "../../content/home";
+import { HomeContactForm } from "./home-contact-form";
+import { HomeHero } from "./home-hero";
+import { ReelPlayer } from "./reel-player";
 import styles from "./home-landing.module.css";
 
-const services = [
-  {
-    name: "AUDIOVISUAL",
-    kind: styles.audiovisual,
-    symbol: 2,
-    href: null,
-    accent: "branding"
-  },
-  {
-    name: "BRANDING",
-    kind: styles.branding,
-    symbol: 1,
-    href: "/areas/branding",
-    accent: "branding"
-  },
-  {
-    name: "ARCHITECTURE",
-    kind: styles.architecture,
-    symbol: 3,
-    href: "/areas/architecture",
-    accent: "architecture"
-  },
-  { name: "WEB DESIGN", kind: styles.web, symbol: 4, href: null, accent: undefined }
-];
-const socialImages = [
-  "/home/branding-project-1.webp",
-  "/home/mockup-nexa.webp",
-  "/home/branding-collateral-1.webp",
-  "/home/branding-project-2.webp",
-  "/home/branding-project-3.webp"
-];
+const pad = (value: number) => String(value).padStart(2, "0");
 
-function Orbit({ variant }: { variant: number }) {
+/** Órbita del manifiesto (rescatada de la home anterior); se dibuja al entrar. */
+function Orbit() {
   return (
-    <svg className={styles.orbit} data-variant={variant} viewBox="0 0 240 150" aria-hidden="true">
-      {variant === 1 && (
-        <>
-          <path d="M10 75 Q120 -10 230 75 Q120 160 10 75Z" />
-          <circle className={styles.orbitFill} cx="120" cy="75" r="26" />
-        </>
-      )}
-      {variant === 2 && (
-        <>
-          <path d="M20 50 H210 M70 95 H230" />
-          <rect
-            className={styles.orbitFill}
-            x="60"
-            y="32"
-            width="36"
-            height="36"
-            transform="rotate(45 78 50)"
-          />
-          <circle className={styles.orbitFill} cx="120" cy="95" r="24" />
-        </>
-      )}
-      {variant === 3 && (
-        <>
-          <circle cx="120" cy="82" r="58" />
-          <circle className={styles.orbitFill} cx="120" cy="82" r="20" />
-          <circle className={styles.orbitFill} cx="123" cy="24" r="7" />
-        </>
-      )}
-      {variant === 4 && (
-        <>
-          <rect x="58" y="18" width="124" height="118" rx="20" />
-          <path d="M58 56 H182 M76 36 H92 M106 35 H164" />
-        </>
-      )}
+    <svg className={styles.orbit} viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+      <path d="M10 75 Q120 -10 230 75 Q120 160 10 75Z" />
+      <path d="M40 75 Q120 20 200 75 Q120 130 40 75Z" />
+      <circle cx="120" cy="75" r="26" />
     </svg>
   );
 }
 
-function ContactForm() {
-  const [state, action] = useActionState(submitContactLead, null);
-  const [token, setToken] = useState<{ t: string; signature: string } | null>(null);
-
-  useEffect(() => {
-    let active = true;
-    fetch("/api/contacto/token", { cache: "no-store" })
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (active && data?.t && data?.signature) setToken(data);
-      })
-      .catch(() => {});
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const fieldError = (name: string) =>
-    state?.success === false ? state.fieldErrors?.[name]?.[0] : undefined;
-
-  if (state?.success) {
-    return (
-      <p className={styles.formSuccess} role="status">
-        Gracias por escribirnos. Te contactaremos pronto.
-      </p>
-    );
-  }
-
+/** Plano esquemático (decorativo): calles y un pin. Sin mapas de terceros. */
+function MapSketch({ variant }: { variant: number }) {
   return (
-    <form action={action} className={styles.contactForm} noValidate>
-      <label>
-        <span>Nombre y apellido</span>
-        <input name="name" placeholder="Escribe acá tu nombre y apellido*" required minLength={2} />
-      </label>
-      <label>
-        <span>Correo</span>
-        <input name="email" type="email" placeholder="Escribe acá tu correo*" required />
-      </label>
-      <label>
-        <span>Número</span>
-        <input name="phone" placeholder="Escribe acá tu número" />
-      </label>
-      <label>
-        <span>Empresa</span>
-        <input name="company" placeholder="Escribe acá tu empresa" />
-      </label>
-      <label className={styles.message}>
-        <span>Mensaje</span>
-        <textarea name="message" placeholder="Escribe acá tu mensaje" />
-      </label>
-      <label className={styles.consent}>
-        <input type="checkbox" name="consentimiento" required />
-        <span>{LEAD_CONSENTS[CURRENT_LEAD_CONSENT_VERSION].text}</span>
-      </label>
-      <input
-        type="text"
-        name="empresa_web"
-        className={styles.honeypot}
-        aria-label="Empresa web"
-        tabIndex={-1}
-        autoComplete="off"
+    <svg
+      className={styles.mapSketch}
+      viewBox="0 0 320 200"
+      aria-hidden="true"
+      focusable="false"
+      data-variant={variant}
+    >
+      {variant === 0 ? (
+        <>
+          <path d="M-10 128 L330 76" />
+          <path d="M-10 160 L330 108" />
+          <path d="M70 -10 L120 210" />
+          <path d="M210 -10 L250 210" />
+          <path d="M0 40 Q160 70 330 20" />
+        </>
+      ) : (
+        <>
+          <path d="M-10 60 L330 96" />
+          <path d="M-10 150 L330 170" />
+          <path d="M150 -10 L130 210" />
+          <path d="M260 -10 Q220 100 280 210" />
+          <path d="M30 -10 L60 210" />
+        </>
+      )}
+      <circle
+        className={styles.mapPin}
+        cx={variant === 0 ? 166 : 140}
+        cy={variant === 0 ? 100 : 82}
+        r="7"
       />
-      <input type="hidden" name="form_slug" value="contacto-general" />
-      <input type="hidden" name="consent_version" value={CURRENT_LEAD_CONSENT_VERSION} />
-      <input type="hidden" name="origin_type" value="contacto" />
-      <input type="hidden" name="origin_slug" value="home" />
-      <input type="hidden" name="source_path" value="/" />
-      <input type="hidden" name="t" value={token?.t ?? ""} />
-      <input type="hidden" name="t_signature" value={token?.signature ?? ""} />
-      {fieldError("email") && <p className={styles.formError}>{fieldError("email")}</p>}
-      {state?.success === false && <p className={styles.formError}>{state.message}</p>}
-      <button type="submit">ENVIAR</button>
-    </form>
+      <circle cx={variant === 0 ? 166 : 140} cy={variant === 0 ? 100 : 82} r="18" />
+    </svg>
+  );
+}
+
+/** Titular de sección de la home: una palabra a todo el ancho, por letras. */
+function Masthead({
+  children,
+  id,
+  className
+}: {
+  children: string;
+  id: string;
+  className?: string;
+}) {
+  return (
+    <SplitText
+      as="h2"
+      by="chars"
+      id={id}
+      className={[styles.masthead, className].filter(Boolean).join(" ")}
+    >
+      {children}
+    </SplitText>
   );
 }
 
 export function HomeLanding() {
+  const reelEmbed = HOME_REEL.reelUrl ? reelEmbedUrl(HOME_REEL.reelUrl) : null;
+
   return (
     <main id="inicio" className={styles.page}>
       <h1 className={styles.srOnly}>Studio Nomade</h1>
-      <section className={styles.hero}>
-        <Image
-          src="/home/cinnalove-hero-1.webp"
-          alt="Proyecto editorial de Studio Nomade"
-          fill
-          priority
-          sizes="100vw"
-        />
+
+      <HomeHero projects={HOME_FEATURED} />
+
+      {/* ---- Creative Movement ---- */}
+      <section id="nosotros" className={styles.manifesto} aria-labelledby="home-movement">
+        <h2 id="home-movement" className={styles.movementTitle}>
+          <Reveal as="span" preset="fade" className={styles.eyebrow}>
+            {HOME_MANIFESTO.eyebrow}
+          </Reveal>{" "}
+          <SplitText by="chars" className={styles.masthead}>
+            {HOME_MANIFESTO.title.toUpperCase()}
+          </SplitText>
+        </h2>
+        <div className={styles.manifestoGrid}>
+          <Reveal preset="stroke" className={styles.orbitWrap}>
+            <Orbit />
+          </Reveal>
+          <div className={styles.manifestoCopy}>
+            <SplitText as="p" className={styles.lead}>
+              {HOME_MANIFESTO.lead}
+            </SplitText>
+            <Reveal as="p" className={styles.body} step={2}>
+              {HOME_MANIFESTO.body}
+            </Reveal>
+            <dl className={styles.stats}>
+              {HOME_MANIFESTO.stats.map((stat, index) => (
+                <Reveal className={styles.stat} key={stat.label} step={3 + index}>
+                  <dt>{stat.label}</dt>
+                  <dd>
+                    <Counter to={stat.value} prefix={stat.prefix} />
+                  </dd>
+                </Reveal>
+              ))}
+            </dl>
+          </div>
+        </div>
       </section>
 
-      <section id="nosotros" className={styles.movement}>
-        <SplitLines as="h2" lines={["MOVEMENT"]} />
-        <div className={styles.movementGrid}>
-          <Orbit variant={1} />
-          <Reveal as="div" className={styles.introCopy} step={1}>
-            <p>Somos un estudio enfocado en la comunicación asertiva y la creatividad.</p>
-            <p>
-              Buscamos trabajar en conjunto con personas que desean llevar sus ideas y expresiones a
-              resoluciones, respuestas e identidades auténticas.
-            </p>
+      {/* ---- Servicios ---- */}
+      <section id="servicios" className={styles.services} aria-labelledby="home-servicios">
+        <div className={styles.sectionHead}>
+          <Masthead id="home-servicios">SERVICIOS</Masthead>
+          <Reveal as="p" className={styles.sectionNote} step={2}>
+            {HOME_SERVICES_NOTE}
+          </Reveal>
+        </div>
+        <ul className={styles.serviceGrid}>
+          {HOME_SERVICES.map((service, index) => {
+            const isArea = service.href.startsWith("/");
+            return (
+              <Reveal
+                as="li"
+                className={styles.service}
+                key={service.name}
+                step={index}
+                data-accent={service.accent}
+              >
+                <a
+                  className={styles.serviceLink}
+                  href={service.href}
+                  aria-label={isArea ? `Ver área ${service.name}` : `Consultar por ${service.name}`}
+                  data-cursor-label={isArea ? "Ver" : "Hablemos"}
+                >
+                  <span className={styles.serviceMedia}>
+                    <Image
+                      src={service.image.src}
+                      alt=""
+                      fill
+                      sizes="(min-width: 64em) 25vw, (min-width: 48em) 50vw, 100vw"
+                    />
+                  </span>
+                  <span className={styles.serviceShade} aria-hidden="true" />
+                  <span className={styles.serviceTop}>
+                    <span className={styles.serviceIndex}>{pad(index + 1)}</span>
+                    <span className={styles.serviceCode}>{service.code}</span>
+                  </span>
+                  <span className={styles.serviceBottom}>
+                    <span className={styles.serviceDescription}>{service.description}</span>
+                    <span className={styles.serviceMore} aria-hidden="true">
+                      {isArea ? "Ver área" : "Hablemos"} →
+                    </span>
+                    <span className={styles.serviceRule} aria-hidden="true" />
+                    <span className={styles.serviceName}>{service.name}</span>
+                  </span>
+                </a>
+              </Reveal>
+            );
+          })}
+        </ul>
+      </section>
+
+      {/* ---- Agendemos una reunión ---- */}
+      <section className={styles.meeting} aria-labelledby="home-reunion">
+        <Parallax className={styles.meetingMedia} y={0.12} scaleFrom={1.15} clip aria-hidden="true">
+          <Image src={HOME_MEETING.image.src} alt="" fill sizes="100vw" />
+        </Parallax>
+        <div className={styles.meetingShade} aria-hidden="true" />
+        <div className={styles.meetingContent}>
+          <Reveal as="span" preset="headline" className={styles.rule} aria-hidden="true" />
+          <Reveal as="p" className={styles.meetingKicker} preset="fade">
+            {HOME_MEETING.kicker}
+          </Reveal>
+          <SplitText
+            as="h2"
+            by="lines"
+            lines={[...HOME_MEETING.lines]}
+            className={styles.meetingTitle}
+            id="home-reunion"
+          />
+          <Reveal step={3}>
+            {/* El imán mueve el envoltorio: Button no expone atributos `data-*`. */}
+            <span className={styles.magnet} data-cursor-magnetic="">
+              <Button href={HOME_MEETING.href} variant="invert" size="md">
+                {HOME_MEETING.cta}
+              </Button>
+            </span>
           </Reveal>
         </div>
       </section>
 
-      <section id="servicios" className={styles.services}>
-        <SplitLines as="h2" lines={["SERVICIOS"]} />
-        <div className={styles.serviceGrid}>
-          {services.map((service, index) => (
-            <Reveal
-              as="article"
-              className={`${styles.service} ${service.kind}`}
-              key={service.name}
-              step={index}
-              data-accent={service.accent}
-            >
-              {service.href ? (
-                <Link href={service.href} aria-label={`Ver área ${service.name}`}>
-                  <Orbit variant={service.symbol} />
-                  <span>{service.name} •</span>
-                </Link>
-              ) : (
-                <>
-                  <Orbit variant={service.symbol} />
-                  <span>{service.name} •</span>
-                </>
-              )}
-            </Reveal>
-          ))}
+      {/* ---- Reel ---- */}
+      <section className={styles.reel} aria-labelledby="home-reel">
+        <div className={styles.sectionHead}>
+          <Masthead id="home-reel">{HOME_REEL.title.toUpperCase()}</Masthead>
+          <Reveal as="p" className={styles.sectionNote} step={2}>
+            Showreel Studio Nomade
+          </Reveal>
         </div>
-      </section>
-
-      <section className={styles.meeting}>
-        <Image src="/home/cinnalove-banner-1.webp" alt="" fill sizes="90vw" />
-        <div className={styles.mediaShade} />
-        <div className={styles.meetingContent}>
-          <span className={styles.shortRule} />
-          <p>¿Tienes un proyecto en mente?</p>
-          <SplitLines as="h2" lines={["Agendemos", "una reunión"]} />
-          <a href="#contacto">Agenda una reunión</a>
-        </div>
-      </section>
-
-      <section className={styles.reel}>
-        <SplitLines as="h2" lines={["REEL"]} />
-        <div className={styles.reelMedia}>
-          <Image
-            src="/home/arch-1.webp"
-            alt="Proyecto audiovisual de Studio Nomade"
-            fill
-            sizes="85vw"
-          />
-          <button type="button" aria-label="Reproducir reel">
-            ▶
-          </button>
-        </div>
-      </section>
-
-      <section className={styles.instagram}>
-        <SplitLines as="h2" lines={["INSTAGRAM"]} />
-        <div className={styles.socialGrid}>
-          {socialImages.map((src, index) => (
-            <div className={styles.socialTile} key={src} data-featured={index === 2 || undefined}>
+        <div className={styles.reelFrame}>
+          <Reveal preset="mask" direction="up" className={styles.reelMask}>
+            <Parallax className={styles.reelParallax} y={0.1}>
               <Image
-                src={src}
-                alt="Publicación de Studio Nomade"
+                src={HOME_REEL.poster.src}
+                alt={HOME_REEL.poster.alt}
                 fill
-                sizes="(max-width: 48em) 50vw, 30vw"
+                sizes="(min-width: 64em) 86vw, 100vw"
               />
-            </div>
+            </Parallax>
+          </Reveal>
+          {reelEmbed ? <ReelPlayer embedUrl={reelEmbed} title="Reel de Studio Nomade" /> : null}
+        </div>
+      </section>
+
+      {/* ---- Instagram ---- */}
+      <section className={styles.instagram} aria-labelledby="home-instagram">
+        <div className={styles.sectionHead}>
+          <Masthead id="home-instagram" className={styles.mastheadLong}>
+            {HOME_INSTAGRAM.title.toUpperCase()}
+          </Masthead>
+          <Reveal as="p" className={styles.sectionNote} step={2}>
+            <a
+              href={HOME_INSTAGRAM.href}
+              className={styles.textLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Síguenos en {HOME_INSTAGRAM.handle}
+            </a>
+          </Reveal>
+        </div>
+        <ul className={styles.socialGrid}>
+          {HOME_INSTAGRAM.images.map((image, index) => (
+            <li
+              className={styles.socialTile}
+              key={image.src}
+              data-featured={index === 2 || undefined}
+            >
+              <Reveal preset="mask" direction="up" step={index} className={styles.socialMask}>
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes={
+                    index === 2 ? "(min-width: 48em) 40vw, 100vw" : "(min-width: 48em) 20vw, 50vw"
+                  }
+                />
+              </Reveal>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      <section id="blog" className={styles.blog}>
-        <span className={styles.shortRule} />
-        <h2>Últimas publicaciones</h2>
-        <article className={styles.articleCard}>
-          <Image
-            src="/home/branding-project-1.webp"
-            alt="Mesa de trabajo de diseño"
-            fill
-            sizes="80vw"
+      {/* ---- Últimas publicaciones ---- */}
+      <section id="blog" className={styles.blog} aria-labelledby="home-blog">
+        <div className={styles.blogHead}>
+          <Reveal as="span" preset="headline" className={styles.rule} aria-hidden="true" />
+          <SplitText
+            as="h2"
+            by="lines"
+            lines={["Últimas publicaciones"]}
+            className={styles.blogTitle}
+            id="home-blog"
           />
-          <div className={styles.mediaShade} />
-          <time dateTime="2025-11-26">26 Nov 2025</time>
-          <div>
-            <h3>Guía: Paso a paso para crear un sitio web efectivo</h3>
-            <p>
-              Empresas Emergentes&nbsp; / &nbsp;Ecommerce&nbsp; / &nbsp;Web Design&nbsp; /
-              &nbsp;Desarrollo Web
-            </p>
-          </div>
-        </article>
-      </section>
-
-      <section id="contacto" className={styles.contact}>
-        <Image src="/home/branding-collateral-1.webp" alt="" fill sizes="100vw" />
-        <div className={styles.mediaShade} />
-        <div className={styles.contactInner}>
-          <h2>CONTACTO</h2>
-          <ContactForm />
         </div>
+        {HOME_POSTS.map((post) => (
+          <article className={styles.post} key={post.title}>
+            <Reveal preset="mask" direction="left" className={styles.postMedia}>
+              <Image
+                src={post.image.src}
+                alt={post.image.alt}
+                fill
+                sizes="(min-width: 64em) 55vw, 100vw"
+              />
+            </Reveal>
+            <Reveal className={styles.postBody} step={2}>
+              <time dateTime={post.date}>{post.dateLabel}</time>
+              <h3>{post.title}</h3>
+              <ul className={styles.tags} aria-label="Temas">
+                {post.tags.map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+            </Reveal>
+          </article>
+        ))}
       </section>
 
-      <section className={styles.locations}>
-        <article>
-          <p>Avenida Providencia 1208. Of. 207</p>
-          <h2>Oficina Principal</h2>
-          <div className={styles.map}>
-            Providencia
-            <br />
-            Santiago
-          </div>
-        </article>
-        <article>
-          <p>Santa Beatriz 100. Of. 1101</p>
-          <h2>Estudio Fotográfico</h2>
-          <div className={styles.map}>
-            Santa Beatriz
-            <br />
-            Providencia
-          </div>
-        </article>
+      {/* ---- Contacto ---- */}
+      <section id="contacto" className={styles.contact} aria-labelledby="home-contacto">
+        <div className={styles.contactHead}>
+          <Masthead id="home-contacto">CONTACTO</Masthead>
+          <Reveal as="p" className={styles.contactLead} step={2}>
+            Podemos ayudarte. ¡Conversemos!
+          </Reveal>
+        </div>
+        <Reveal className={styles.contactCard} step={3}>
+          <HomeContactForm />
+        </Reveal>
+      </section>
+
+      {/* ---- Oficinas ---- */}
+      <section className={styles.offices} aria-labelledby="home-oficinas">
+        <h2 id="home-oficinas" className={styles.srOnly}>
+          Oficinas
+        </h2>
+        {HOME_OFFICES.map((office, index) => (
+          <Reveal as="article" className={styles.office} key={office.name} step={index}>
+            <Reveal preset="stroke" className={styles.map}>
+              <MapSketch variant={index} />
+            </Reveal>
+            <h3>{office.name}</h3>
+            <address>
+              {office.address}, {office.detail}
+              <br />
+              {office.commune}
+            </address>
+            <a
+              className={styles.textLink}
+              href={office.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Cómo llegar<span className={styles.srOnly}> a {office.name} (Google Maps)</span>
+            </a>
+          </Reveal>
+        ))}
       </section>
     </main>
   );
