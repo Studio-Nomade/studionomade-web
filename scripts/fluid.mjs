@@ -39,7 +39,20 @@ const sizes = {
   "--site-section-y": [54, 127],
   "--button-pad-y": [16, 18],
   "--button-pad-x": [30, 42],
-  "--footer-logo-w": [140, 258]
+  "--footer-logo-w": [140, 258],
+  // Páginas de caso (Figma "WEB NOMADE 2026", medidas a 1440).
+  "--fs-case-title": [44, 96],
+  "--fs-case-title-long": [32, 64],
+  "--fs-case-credits": [32, 48],
+  "--fs-case-headline": [26, 40],
+  "--fs-case-statement": [24, 36],
+  "--fs-case-lead": [22, 32],
+  "--fs-case-body": [18, 24],
+  "--fs-case-label": [16, 20],
+  "--fs-case-small": [15, 16],
+  "--case-y-xl": [64, 162],
+  "--case-y-lg": [56, 120],
+  "--case-y-md": [40, 80]
 };
 
 function compact(value) {

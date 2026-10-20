@@ -1,0 +1,119 @@
+/* CaseZones — bleed-left (Reebok 27:87) y map (Equifax 27:159 + 27:160). */
+
+.zones {
+  padding-bottom: clamp(var(--sp-9), 5.5vw, 4.9375rem);
+}
+
+.zones[data-variant="bleed-left"] {
+  padding-top: clamp(var(--sp-7), 6.2vw, 5.5625rem);
+}
+
+.zones[data-variant="bleed-left"] .media {
+  width: calc(100% - var(--sp-5));
+  max-width: 76.375rem;
+  aspect-ratio: 1222 / 699;
+}
+
+/* El plano sube 61px sobre el bloque anterior. */
+.zones[data-variant="map"] {
+  position: relative;
+  z-index: var(--z-content);
+  padding-bottom: clamp(var(--sp-9), 11.46vw, 10.3125rem);
+}
+
+.zones[data-variant="map"] .media {
+  width: calc(100% - var(--sp-7));
+  max-width: 64.25rem;
+  aspect-ratio: 1028 / 647;
+  margin: calc(-1 * clamp(var(--sp-5), 4.24vw, 3.8125rem)) auto 0;
+}
+
+.content {
+  padding-inline: var(--site-margin);
+}
+
+.zones[data-variant="bleed-left"] .content {
+  max-width: calc(62.5rem + 2 * var(--site-margin));
+  margin-top: clamp(var(--sp-7), 5.07vw, 4.5625rem);
+}
+
+.zones[data-variant="map"] .content {
+  max-width: calc(61.9375rem + 2 * var(--site-margin));
+  margin: var(--sp-6) auto 0;
+}
+
+.intro {
+  font-size: var(--fs-case-lead);
+  line-height: var(--lh-case);
+  text-align: center;
+}
+
+/* Dos columnas en orden de lectura vertical: 1–5 | 6–9 (o 6–10), como en Figma. */
+.list {
+  display: grid;
+  grid-template-rows: repeat(var(--sn-step-count), auto);
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  align-items: start;
+  column-gap: clamp(var(--sp-7), 5.6vw, 5.5rem);
+  counter-reset: zone;
+  font-size: var(--fs-case-body);
+  line-height: var(--lh-case);
+  list-style: none;
+}
+
+.zones[data-variant="map"] .list {
+  margin: clamp(var(--sp-9), 8.68vw, 7.8125rem) auto 0;
+  max-width: 59.75rem;
+  column-gap: clamp(var(--sp-7), 4.86vw, 4.375rem);
+  font-size: var(--fs-case-lead);
+}
+
+.item {
+  position: relative;
+  padding-left: calc(var(--sp-6) + var(--sp-1));
+  counter-increment: zone;
+}
+
+.zones[data-variant="map"] .item {
+  padding-left: var(--sp-8);
+}
+
+/* Números de zona en acento: rojo sobre negro cumple AA (4.9:1). */
+.item::before {
+  content: counter(zone) ".";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: var(--fw-semibold);
+}
+
+/* Sobre el gris tinta el acento no contrasta como texto: va de fondo de una
+   pastilla con su color de contraste (AA). */
+.zones[data-variant="map"] .item::before {
+  content: counter(zone);
+  top: 0.2em;
+  display: grid;
+  place-items: center;
+  min-width: 1.6em;
+  height: 1.3em;
+  padding-inline: 0.3em;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 0.75em;
+  line-height: var(--lh-masthead);
+}
+
+@media (max-width: 48em) {
+  .list,
+  .zones[data-variant="map"] .list {
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    font-size: var(--fs-case-body);
+  }
+
+  .zones[data-variant="map"] .media {
+    margin-top: calc(-1 * var(--sp-5));
+  }
+}

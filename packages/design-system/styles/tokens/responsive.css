@@ -28,6 +28,15 @@
   --fs-lead-xl: clamp(22px, calc(18.285714px + 0.952381vw), 32px);
   --fs-body-xl: clamp(18px, calc(15.771429px + 0.571429vw), 24px);
   --fs-figure: clamp(72px, calc(51.2px + 5.333333vw), 128px);
+  --fs-case-title: clamp(44px, calc(24.685714px + 4.952381vw), 96px);
+  --fs-case-title-long: clamp(32px, calc(20.114286px + 3.047619vw), 64px);
+  --fs-case-credits: clamp(32px, calc(26.057143px + 1.52381vw), 48px);
+  --fs-case-headline: clamp(26px, calc(20.8px + 1.333333vw), 40px);
+  --fs-case-statement: clamp(24px, calc(19.542857px + 1.142857vw), 36px);
+  --fs-case-lead: clamp(22px, calc(18.285714px + 0.952381vw), 32px);
+  --fs-case-body: clamp(18px, calc(15.771429px + 0.571429vw), 24px);
+  --fs-case-label: clamp(16px, calc(14.514286px + 0.380952vw), 20px);
+  --fs-case-small: clamp(15px, calc(14.628571px + 0.095238vw), 16px);
 }
 
 @media (min-width: 480px) {
