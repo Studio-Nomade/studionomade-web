@@ -1,0 +1,35 @@
+/* CaseBento — contenedor 1313 (x 63 → 1376): 702 × 708 + 2 × (594 × 346), gap 16. */
+
+.bento {
+  padding: clamp(var(--sp-9), 9.5vw, 8.5625rem) var(--site-margin);
+  background: var(--surface-page);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 702fr) minmax(0, 594fr);
+  grid-template-rows: auto auto;
+  gap: var(--sp-4);
+  max-width: 82.0625rem;
+  margin-inline: auto;
+}
+
+.main {
+  grid-row: span 2;
+  aspect-ratio: 702 / 708;
+}
+
+.side {
+  aspect-ratio: 594 / 346;
+}
+
+@media (max-width: 48em) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-3);
+  }
+
+  .main {
+    grid-row: auto;
+  }
+}

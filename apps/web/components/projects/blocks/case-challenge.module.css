@@ -1,0 +1,48 @@
+/* CaseChallenge — contenedor 1218 (x 111 → 1329), padding 162. */
+
+.challenge {
+  padding: var(--case-y-xl) var(--site-margin);
+}
+
+.inner {
+  max-width: 76.125rem;
+  margin-inline: auto;
+}
+
+.label {
+  font-size: var(--fs-case-label);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-case);
+}
+
+.headline {
+  margin-top: clamp(var(--sp-4), 1.6vw, 1.4375rem);
+  font-size: var(--fs-case-headline);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-case);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(var(--sp-7), 9.58vw, 8.625rem);
+  margin-top: clamp(var(--sp-7), 3.75vw, 3.375rem);
+}
+
+.column .label {
+  margin-bottom: var(--sp-4);
+}
+
+.body {
+  max-width: 33.625rem;
+  font-size: var(--fs-case-body);
+  line-height: var(--lh-case);
+}
+
+@media (max-width: 48em) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-7);
+    margin-top: var(--sp-7);
+  }
+}
