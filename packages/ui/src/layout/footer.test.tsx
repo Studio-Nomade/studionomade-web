@@ -25,6 +25,10 @@ it("enmarca la firma entre dos reglas y fecha el legal con el año en curso", ()
   ).toBeInTheDocument();
   expect(container.querySelector("footer")).not.toHaveAttribute("data-reveal-fixed");
 });
+it("enlaza las páginas legales junto al texto legal", () => {
+  render(<Footer legalLinks={[{ label: "Privacidad", href: "/privacidad" }]} />);
+  expect(screen.getByRole("link", { name: "Privacidad" })).toHaveAttribute("href", "/privacidad");
+});
 it("prefiere el slot de logo y activa el revelado fijo a pedido", () => {
   const { container } = render(<Footer logo={<b>logo</b>} logoSrc="/x.png" reveal />);
   expect(screen.getByText("logo")).toBeInTheDocument();

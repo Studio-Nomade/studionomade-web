@@ -197,6 +197,22 @@
   font-size: var(--fs-body-sm);
 }
 
+.aside a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: var(--sp-1);
+}
+
+.aside a:hover {
+  color: var(--text-on-invert);
+}
+
+.aside a:focus-visible {
+  outline: var(--focus-ring);
+  outline-color: var(--sn-white);
+  outline-offset: var(--sp-1);
+}
+
 /* ---- Sin JavaScript: no hay overlay; los enlaces van en línea ---- */
 
 @media (scripting: none) {
