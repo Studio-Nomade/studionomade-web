@@ -83,7 +83,13 @@ export default async function CampaignPage({
   };
   const timestamp = Date.now();
   const secret = process.env.LEAD_FORM_SECRET;
-  if (!secret) throw new Error("LEAD_FORM_SECRET is required to render campaign forms");
+  // Sin secreto la landing igual se muestra (previews o entornos sin configurar):
+  // el formulario sale sin firma y el servidor rechaza el envío con su mensaje de
+  // error. Se registra para que la falta de configuración no pase inadvertida.
+  if (!secret)
+    console.error(
+      "[campanas] LEAD_FORM_SECRET no está configurado: el formulario no aceptará envíos"
+    );
   const { Composition, content, accent, formSlug, consentVersion } = campaign;
   const organization = {
     "@context": "https://schema.org",
@@ -102,7 +108,7 @@ export default async function CampaignPage({
         utm={utm}
         slug={slug}
         timestamp={String(timestamp)}
-        signature={signFormTimestamp(timestamp, secret)}
+        signature={secret ? signFormTimestamp(timestamp, secret) : ""}
         formSlug={formSlug}
         consentVersion={consentVersion}
       />
