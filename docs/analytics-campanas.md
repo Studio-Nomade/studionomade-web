@@ -53,7 +53,18 @@ Todo pasa por `track()` (`apps/web/lib/analytics/track.ts`) y `@studionomade/ana
 | `form_submit` (`status: success`) | Envío exitoso con `leadId` (el honeypot no cuenta).                              | `Lead` con `{ eventID: <id del lead> }`   |
 | `form_submit` (`status: error`)   | Envío rechazado.                                                                 | — (solo dataLayer)                        |
 
-CTAs marcados hoy: `agendar-conversacion` y `diferenciar-proyecto`. Los componentes de `@studionomade/ui` no aceptan props extra, por eso `data-cta` va en el contenedor.
+CTAs marcados hoy en `/campanas/inmobiliarias` (todos llevan a `#form`):
+
+| `data-cta`             | Dónde                                                                            |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| `agendar-conversacion` | CTA principal del hero («Cotizar mi proyecto»).                                  |
+| `cabecera-cotizar`     | Botón «Cotizar» de la cabecera (solo escritorio).                                |
+| `servicios-cotizar`    | CTA bajo la lista de servicios.                                                  |
+| `barra-movil-cotizar`  | Barra fija inferior en móvil (se oculta con el hero o el formulario a la vista). |
+
+`diferenciar-proyecto` dejó de usarse con el rediseño de la landing (2026-10): en reportes históricos aparece hasta esa fecha. Los componentes de `@studionomade/ui` no aceptan props extra, por eso `data-cta` va en un contenedor que envuelve **solo** al botón.
+
+**WhatsApp** (`https://wa.me/56934045111?text=…`, mensaje prellenado; helper `campaigns/inmobiliarias/whatsapp.ts`) aparece en el hero, la cabecera, servicios, FAQ, formulario y la barra móvil. Esos enlaces van siempre **fuera** de cualquier `data-cta`: así el clasificador los mide como `contact_click` (`channel: whatsapp`) → `Contact` en Meta. Dentro de un `data-cta` contarían como `cta_click`. El e2e `tests/e2e/campaign.spec.ts` lo verifica.
 
 El píxel se inicializa con `autoConfig` desactivado (no rastrea botones ni metadatos por su cuenta) y `disablePushState` (los PageView los emite el sitio; así no se duplican). No se usa el `<noscript>` del snippet oficial: sin JavaScript no se puede respetar Do Not Track.
 
@@ -88,7 +99,7 @@ El píxel se carga como archivo externo con `next/script` (`afterInteractive`) y
 1. Instalar la extensión **Meta Pixel Helper** en Chrome.
 2. Abrir `https://<preview>/campanas/inmobiliarias?fbclid=prueba&utm_source=meta` con Do Not Track desactivado.
 3. Pixel Helper debe mostrar el ID configurado con `PageView`.
-4. Click en «Agendar conversación»: aparece `cta_click` (evento personalizado).
+4. Click en «Cotizar mi proyecto»: aparece `cta_click` (evento personalizado). Click en «Escríbenos por WhatsApp»: aparece `Contact` con `channel: whatsapp`.
 5. Enviar el formulario: aparece `Lead` con `eventID` = `id` del lead en Supabase.
 6. En DevTools → Consola: `window.dataLayer` debe listar `page_view`, `cta_click` y `form_submit`.
 7. En Supabase: el lead tiene `fbclid = 'prueba'`, `fbc` (`fb.1.…`), `fbp` (si el píxel cargó), `landing_url` y `project_stage`.
