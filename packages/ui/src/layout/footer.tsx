@@ -14,31 +14,59 @@ export interface FooterSocial {
 export interface FooterProps {
   tagline?: string;
   cities?: string;
+  /** Logo como imagen simple. Para `next/image` u otro medio, usa `logo`. */
   logoSrc?: string;
+  /** Slot de logo (tiene prioridad sobre `logoSrc`). */
+  logo?: ReactNode;
   columns?: FooterColumn[];
   social?: FooterSocial[];
+  /** Texto legal. Por defecto, "© {año} Studio Nomade - Todos los derechos reservados". */
   legal?: string;
+  /**
+   * Revelado fijo: en escritorio el footer queda fijo detrás del contenido y se
+   * descubre al final del scroll. El contenido que lo precede debe tener fondo
+   * opaco y `position: relative` con `z-index: 1` (lo hace `PublicShell`).
+   */
+  reveal?: boolean;
 }
 const icons = { linkedin: LinkedInIcon, vimeo: VimeoIcon, instagram: InstagramIcon };
+const socialNames = {
+  linkedin: "LinkedIn",
+  vimeo: "Vimeo",
+  instagram: "Instagram",
+  email: "Correo"
+};
+/**
+ * Footer público según Figma: dos reglas horizontales que enmarcan la firma
+ * ("Nos movemos en manada · Santiago | Madrid"), logo grande (258px a 1440),
+ * grilla de columnas (Studio, Contacto, Redes…) y línea legal con el año.
+ */
 export function Footer({
   tagline = "Nos movemos en manada",
   cities = "Santiago | Madrid",
   logoSrc,
+  logo,
   columns = [],
   social = [],
-  legal = "© 2024 Studio Nomade - Todos los derechos reservados"
+  legal = `© ${new Date().getFullYear()} Studio Nomade - Todos los derechos reservados`,
+  reveal = false
 }: FooterProps) {
+  const brand =
+    logo ?? (logoSrc ? <img className={styles.logo} src={logoSrc} alt="Studio Nomade" /> : null);
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-reveal-fixed={reveal || undefined}>
       <div className={styles.inner}>
-        <div className={styles.tagline}>
-          {tagline}
-          <br />
-          {cities}
-        </div>
         <div className={styles.rule} />
-        <div className={styles.grid}>
-          <div>{logoSrc && <img className={styles.logo} src={logoSrc} alt="Studio Nomade" />}</div>
+        <p className={styles.tagline}>
+          <span>{tagline}</span>
+          <span className={styles.dot} aria-hidden="true">
+            ·
+          </span>
+          <span>{cities}</span>
+        </p>
+        <div className={styles.rule} />
+        <div className={styles.grid} data-columns={columns.length}>
+          <div className={styles.brand}>{brand}</div>
           {columns.map((column) => (
             <div key={column.title}>
               <h2 className={styles.title}>{column.title}</h2>
@@ -54,16 +82,22 @@ export function Footer({
         </div>
         <div className={styles.bottom}>
           <span>{legal}</span>
-          <div className={styles.social}>
-            {social.map((item) => {
-              const Icon = item.kind === "email" ? null : icons[item.kind];
-              return (
-                <a key={`${item.kind}-${item.href}`} href={item.href} aria-label={item.kind}>
-                  {Icon ? <Icon /> : "@"}
-                </a>
-              );
-            })}
-          </div>
+          {social.length ? (
+            <div className={styles.social}>
+              {social.map((item) => {
+                const Icon = item.kind === "email" ? null : icons[item.kind];
+                return (
+                  <a
+                    key={`${item.kind}-${item.href}`}
+                    href={item.href}
+                    aria-label={socialNames[item.kind]}
+                  >
+                    {Icon ? <Icon /> : "@"}
+                  </a>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
       </div>
     </footer>
