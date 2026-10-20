@@ -32,6 +32,8 @@ export const MOTION = {
   },
   /** Desplazamiento inicial del preset `jump`, en px. */
   jumpY: 30,
+  /** Desplazamiento inicial de cada línea/palabra/letra dentro de su máscara (yPercent). */
+  splitShift: 105,
   /** Escala inicial de la imagen en el preset `mask`. */
   maskScale: 1.2,
   /** Factor de parallax por defecto. */
