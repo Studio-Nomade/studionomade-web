@@ -9,7 +9,6 @@ import {
   useState,
   type CSSProperties,
   type KeyboardEvent,
-  type MouseEvent,
   type PointerEvent,
   type ReactNode
 } from "react";
@@ -81,6 +80,22 @@ function Arrow({ flip }: { flip?: boolean }) {
   );
 }
 
+/**
+ * Anula el clic que el navegador emite al soltar un arrastre. Se escucha en
+ * `window` en fase de captura para adelantarse a todo: al `onClick` de React,
+ * a `next/link` y a la cortina de `PageTransition` (que captura en `document`),
+ * así arrastrar el hero de la Home no abre el caso de la diapositiva.
+ */
+function suppressNextClick() {
+  const stop = (event: Event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+  window.addEventListener("click", stop, { capture: true, once: true });
+  // El clic llega en la misma tarea que el pointerup; si no llega, se retira.
+  setTimeout(() => window.removeEventListener("click", stop, { capture: true }), 0);
+}
+
 /** Progreso horizontal 0–1 del carril. Sin desborde, 0. */
 export function scrollProgress(
   track: Pick<HTMLElement, "scrollLeft" | "scrollWidth" | "clientWidth">
@@ -150,7 +165,6 @@ export function Carousel({
   const [reduced, setReduced] = useState(false);
   const [dragging, setDragging] = useState(false);
   const drag = useRef<{ id: number; x: number; left: number; moved: boolean } | null>(null);
-  const suppressClick = useRef(false);
 
   useEffect(() => {
     setEnhanced(true);
@@ -240,16 +254,10 @@ export function Carousel({
     if (!state || state.id !== event.pointerId) return;
     drag.current = null;
     if (!state.moved) return;
-    suppressClick.current = true;
+    suppressNextClick();
     trackRef.current?.releasePointerCapture?.(event.pointerId);
     setDragging(false);
     if (trackRef.current) goTo(nearestSlide(trackRef.current));
-  };
-  const onClickCapture = (event: MouseEvent<HTMLDivElement>) => {
-    if (!suppressClick.current) return;
-    suppressClick.current = false;
-    event.preventDefault();
-    event.stopPropagation();
   };
 
   const progressOnly = controls === "progress";
@@ -313,7 +321,6 @@ export function Carousel({
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
-      onClickCapture={onClickCapture}
       onDragStart={(event) => event.preventDefault()}
     >
       {slides.map((slide, slideIndex) => (
