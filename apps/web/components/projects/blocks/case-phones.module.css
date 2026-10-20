@@ -1,0 +1,39 @@
+/* CasePhones — banda #EEE de 767: texto 352 en x 71, cards 297 × 555 desde x 484. */
+
+.phones {
+  padding-block: clamp(var(--sp-9), 7.36vw, 6.625rem);
+  background: var(--surface-band);
+  color: var(--text-title);
+}
+
+.text {
+  max-width: 22rem;
+  font-size: var(--fs-case-lead);
+  line-height: var(--lh-case);
+}
+
+.card {
+  width: min(70vw, 16.25rem);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 64em) {
+  .card {
+    width: clamp(15rem, 20.6vw, 18.5625rem);
+  }
+
+  .text {
+    width: 22rem;
+    margin-right: clamp(var(--sp-9), 4.4vw, var(--sp-10));
+  }
+}
+
+/* Anclada, el pin ya ocupa 100svh y centra los teléfonos. */
+.phones[data-pinned] {
+  padding-block: 0;
+}

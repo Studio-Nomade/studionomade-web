@@ -1,0 +1,45 @@
+/* CaseNarrative — contenedor 1218, columnas 538 / resto, gap 76, padding 132 / 120. */
+
+.narrative {
+  padding: clamp(var(--sp-9), 9.17vw, 8.25rem) var(--site-margin) var(--case-y-lg);
+  background: var(--surface-page);
+  color: var(--text-title);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 538fr) minmax(0, 604fr);
+  column-gap: clamp(var(--sp-7), 5.28vw, 4.75rem);
+  max-width: 76.125rem;
+  margin-inline: auto;
+}
+
+.title {
+  font-size: var(--fs-case-headline);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-case);
+}
+
+.lead {
+  font-size: var(--fs-case-lead);
+  line-height: var(--lh-case);
+}
+
+.body {
+  display: grid;
+  gap: clamp(var(--sp-5), 2vw, 1.8125rem);
+  margin-top: var(--sp-7);
+  font-size: var(--fs-case-body);
+  line-height: var(--lh-case);
+}
+
+@media (max-width: 48em) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--sp-5);
+  }
+
+  .body {
+    margin-top: var(--sp-5);
+  }
+}
