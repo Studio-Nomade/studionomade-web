@@ -91,7 +91,7 @@ describe("Carousel", () => {
     expect(scrollProgress({ scrollLeft: 0, scrollWidth: 500, clientWidth: 500 })).toBe(0);
   });
 
-  it("se arrastra con el ratón y el arrastre no cuenta como clic", () => {
+  it("se arrastra con el ratón y el arrastre no cuenta como clic", async () => {
     const onClick = vi.fn();
     const { container } = render(
       <Carousel label="Mockups" variant="peek" controls="progress">
@@ -115,8 +115,18 @@ describe("Carousel", () => {
     expect(track.scrollLeft).toBe(160);
     pointer("pointerup", 240);
     expect(screen.getByRole("region")).not.toHaveAttribute("data-dragging");
+    // La cortina de PageTransition escucha en `document` (captura): tampoco lo ve.
+    const curtain = vi.fn();
+    document.addEventListener("click", curtain, true);
     fireEvent.click(screen.getByRole("button", { name: "Uno" }));
+    document.removeEventListener("click", curtain, true);
     expect(onClick).not.toHaveBeenCalled();
+    expect(curtain).not.toHaveBeenCalled();
+
+    // Un clic posterior, sin arrastre, vuelve a funcionar.
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    fireEvent.click(screen.getByRole("button", { name: "Uno" }));
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 
   it("con layout sides muestra etiquetas clicables y barra segmentada", () => {
