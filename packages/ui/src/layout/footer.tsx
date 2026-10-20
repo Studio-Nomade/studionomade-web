@@ -20,6 +20,8 @@ export interface FooterProps {
   logo?: ReactNode;
   columns?: FooterColumn[];
   social?: FooterSocial[];
+  /** Enlaces legales junto al texto legal (Privacidad, Términos). */
+  legalLinks?: Array<{ label: string; href: string }>;
   /** Texto legal. Por defecto, "© {año} Studio Nomade - Todos los derechos reservados". */
   legal?: string;
   /**
@@ -48,6 +50,7 @@ export function Footer({
   logo,
   columns = [],
   social = [],
+  legalLinks = [],
   legal = `© ${new Date().getFullYear()} Studio Nomade - Todos los derechos reservados`,
   reveal = false
 }: FooterProps) {
@@ -81,7 +84,14 @@ export function Footer({
           ))}
         </div>
         <div className={styles.bottom}>
-          <span>{legal}</span>
+          <p className={styles.legal}>
+            <span>{legal}</span>
+            {legalLinks.map((link) => (
+              <a key={link.href} href={link.href}>
+                {link.label}
+              </a>
+            ))}
+          </p>
           {social.length ? (
             <div className={styles.social}>
               {social.map((item) => {

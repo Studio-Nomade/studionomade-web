@@ -23,14 +23,15 @@ Madrid") es copy de marca fijo: no la reescribas.
 />
 ```
 
-| Prop      | Tipo                                          | Por defecto                  |
-| --------- | --------------------------------------------- | ---------------------------- |
-| `logo`    | `ReactNode` (prioridad)                       | —                            |
-| `logoSrc` | URL de imagen simple                          | —                            |
-| `columns` | `{ title, items: { label, href? }[] }[]`      | `[]`                         |
-| `social`  | `{ kind, href }[]` (iconos en la línea legal) | `[]`                         |
-| `legal`   | texto                                         | `© {año} Studio Nomade - …` |
-| `reveal`  | revelado fijo en escritorio                   | `false`                      |
+| Prop         | Tipo                                          | Por defecto                  |
+| ------------ | --------------------------------------------- | ---------------------------- |
+| `logo`       | `ReactNode` (prioridad)                       | —                            |
+| `logoSrc`    | URL de imagen simple                          | —                            |
+| `columns`    | `{ title, items: { label, href? }[] }[]`      | `[]`                         |
+| `social`     | `{ kind, href }[]` (iconos en la línea legal) | `[]`                         |
+| `legal`      | texto                                         | `© {año} Studio Nomade - …` |
+| `legalLinks` | `{ label, href }[]` junto al legal            | `[]`                         |
+| `reveal`     | revelado fijo en escritorio                   | `false`                      |
 
 `reveal`: en escritorio (≥64em, alto ≥48em, puntero fino) el footer queda
 pegado al fondo por debajo del contenido y se descubre al final. Es CSS puro

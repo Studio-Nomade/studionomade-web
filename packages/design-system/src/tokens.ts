@@ -173,6 +173,7 @@ export const TOKENS = {
   "--cursor-size": "12px",
   "--cursor-size-hover": "56px",
   "--cursor-size-label": "88px",
+  "--z-content": "1",
   "--z-curtain": "400",
   "--z-cursor": "500",
   "--z-preloader": "600",
