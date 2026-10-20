@@ -18,6 +18,7 @@
 - [Threat model consolidado](seguridad/threat-model.md)
 - [Checklist de hardening](seguridad/checklist-hardening.md)
 - [Métricas y proveedor pendiente](observabilidad/metricas.md)
+- [Medición de campañas y píxel de Meta](analytics-campanas.md)
 - [Alertas](observabilidad/alertas.md)
 - [Runbook de migración](migracion/runbook.md)
 - [Manual editorial](operacion/manual-editorial.md)
