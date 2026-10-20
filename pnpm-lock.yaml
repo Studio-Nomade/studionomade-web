@@ -139,6 +139,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@studionomade/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
       '@studionomade/config':
         specifier: workspace:*
         version: link:../../packages/config
