@@ -1,41 +1,26 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { PublicFooter } from "./public-footer";
+import { PublicHeader } from "./public-header";
 import styles from "./public.module.css";
 
-export function PublicHeader() {
-  return (
-    <header className={styles.header}>
-      <Link href="/">STUDIO NOMADE</Link>
-      <nav aria-label="Navegación principal">
-        <Link href="/proyectos">Proyectos</Link>
-        <Link href="/studio">Studio</Link>
-        <Link href="/lab">Lab</Link>
-        <Link href="/contacto">Contacto</Link>
-      </nav>
-    </header>
-  );
-}
+export { PublicFooter } from "./public-footer";
+export { PublicHeader } from "./public-header";
 
-export function PublicFooter() {
-  return (
-    <footer className={styles.footer}>
-      <strong>STUDIO NOMADE</strong>
-      <span>Santiago · Madrid</span>
-      <nav aria-label="Legal">
-        <Link href="/privacidad">Privacidad</Link>
-        <Link href="/terminos">Términos</Link>
-      </nav>
-    </footer>
-  );
-}
-
+/**
+ * Esqueleto de las páginas públicas: cabecera, contenido y footer.
+ *
+ * `main` va por encima del footer (`z-index: 1`, fondo opaco) para que el
+ * revelado fijo del footer funcione en escritorio.
+ */
 export function PublicPage({ children }: { children: ReactNode }) {
   return (
-    <main className={styles.page}>
+    <>
       <PublicHeader />
-      {children}
+      <main id="contenido" className={styles.page}>
+        {children}
+      </main>
       <PublicFooter />
-    </main>
+    </>
   );
 }
 

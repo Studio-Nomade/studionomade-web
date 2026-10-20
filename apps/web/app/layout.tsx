@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { fontVariables } from "@studionomade/design-system/fonts";
 import { RevealRoot } from "@studionomade/ui";
 import "@studionomade/design-system/styles.css";
+import { MotionShell } from "../components/public/motion-shell";
 
 const allowIndexing = process.env.VERCEL_ENV === "production";
 
@@ -31,7 +32,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       </head>
       <body>
         {children}
+        {/* Motor de Reveal/SplitText/Parallax/Counter (GSAP, carga diferida). */}
         <RevealRoot />
+        {/* Scroll suave, cursor y cortina entre páginas. El Preloader existe en
+            @studionomade/ui pero queda apagado: retrasaría el LCP del sitio. */}
+        <MotionShell />
       </body>
     </html>
   );
