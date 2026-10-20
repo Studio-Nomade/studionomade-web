@@ -9,7 +9,8 @@
 
 .track {
   display: flex;
-  gap: var(--site-gutter);
+  gap: var(--sn-carousel-gap, var(--site-gutter));
+  min-width: 0;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
@@ -27,7 +28,54 @@
 }
 
 .carousel[data-variant="peek"] .slide {
-  flex-basis: 82%;
+  flex-basis: var(--sn-carousel-slide, 82%);
+}
+
+/* Con JS el carril también se arrastra con el ratón. */
+.carousel[data-enhanced] .track {
+  cursor: grab;
+}
+
+.carousel[data-dragging] .track {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+/* ---- Bloque acompañante (`lead`): columna a la izquierda del riel ---- */
+
+.carousel[data-lead] {
+  display: grid;
+  grid-template-columns: var(--sn-carousel-lead, 30%) minmax(0, 1fr);
+  align-items: center;
+}
+
+.lead {
+  grid-row: 1;
+  grid-column: 1;
+  min-width: 0;
+}
+
+.carousel[data-lead] .track {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.carousel[data-lead] .controls {
+  grid-column: 1 / -1;
+  /* Si el riel sangra hasta el borde, la barra se centra en la columna de contenido. */
+  margin-inline-end: var(--sn-carousel-bleed, 0);
+}
+
+@media (max-width: 47.99em) {
+  .carousel[data-lead] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .carousel[data-lead] .track {
+    grid-row: 2;
+    grid-column: 1;
+  }
 }
 
 /* Sin JavaScript se navega deslizando: los controles solo aparecen al hidratar. */
@@ -118,6 +166,25 @@
   transform: scaleX(var(--sn-carousel-progress));
   transform-origin: left center;
   transition: transform var(--motion-dur) var(--motion-ease-expo-in-out);
+}
+
+/* Solo barra: el indicador mide 1/n de la pista y recorre el scroll real. */
+.carousel[data-controls="progress"][data-enhanced] .controls {
+  justify-content: center;
+  margin-top: var(--sn-carousel-bar-gap, var(--sp-9));
+}
+
+.progress[data-mode="scroll"] {
+  flex: 0 1 var(--sn-carousel-bar, 100%);
+  height: var(--sn-carousel-bar-h, 1px);
+}
+
+.progress[data-mode="scroll"] > span {
+  right: auto;
+  width: calc(var(--sn-carousel-thumb) * 100%);
+  background: var(--sn-carousel-thumb-color, currentColor);
+  transform: translateX(calc(var(--sn-carousel-scroll) * 100%));
+  transition: transform var(--dur-fast) linear;
 }
 
 .track:focus-visible {
