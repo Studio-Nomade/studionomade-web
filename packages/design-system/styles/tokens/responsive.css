@@ -16,6 +16,12 @@
   --fs-xxxl: clamp(96px, calc(52.914286px + 11.047619vw), 212px);
   --fs-xxl: clamp(54px, calc(27.257143px + 6.857143vw), 126px);
   --fs-xl: clamp(46px, calc(25.2px + 5.333333vw), 102px);
+  --fs-heading-1: clamp(40px, calc(26.628571px + 3.428571vw), 76px);
+  --fs-heading-2: clamp(32px, calc(24.571429px + 1.904762vw), 52px);
+  --fs-heading-3: clamp(27px, calc(25.142857px + 0.47619vw), 32px);
+  --fs-heading-4: clamp(18px, calc(16.514286px + 0.380952vw), 22px);
+  --fs-heading-5: clamp(16px, calc(15.257143px + 0.190476vw), 18px);
+  --fs-heading-6: clamp(14px, calc(13.257143px + 0.190476vw), 16px);
 }
 
 @media (min-width: 480px) {

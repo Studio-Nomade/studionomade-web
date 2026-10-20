@@ -1,0 +1,141 @@
+.carousel {
+  position: relative;
+  color: var(--text-title);
+}
+
+.carousel[data-invert] {
+  color: var(--text-on-invert);
+}
+
+.track {
+  display: flex;
+  gap: var(--site-gutter);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.carousel[data-variant="peek"] .slide {
+  flex-basis: 82%;
+}
+
+/* Sin JavaScript se navega deslizando: los controles solo aparecen al hidratar. */
+.controls {
+  display: none;
+}
+
+.carousel[data-enhanced] .controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-top: var(--sp-5);
+}
+
+.arrow,
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-2);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+.arrow svg {
+  width: var(--sp-6);
+  height: var(--sp-6);
+}
+
+.arrow svg[data-flip] {
+  transform: scaleX(-1);
+}
+
+.arrow:disabled {
+  opacity: var(--press-fade);
+  cursor: default;
+}
+
+.arrow:focus-visible,
+.toggle:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.carousel[data-invert] .arrow:focus-visible,
+.carousel[data-invert] .toggle:focus-visible {
+  outline-color: var(--sn-white);
+}
+
+.toggle {
+  font-family: var(--font-core);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+
+.count {
+  font-size: var(--fs-caption);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fw-semibold);
+}
+
+.count span {
+  opacity: var(--hover-fade);
+}
+
+.progress {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  overflow: hidden;
+}
+
+.progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: var(--press-fade);
+}
+
+.progress > span {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  transform: scaleX(var(--sn-carousel-progress));
+  transform-origin: left center;
+  transition: transform var(--motion-dur) var(--motion-ease-expo-in-out);
+}
+
+.track:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    scroll-behavior: auto;
+  }
+}

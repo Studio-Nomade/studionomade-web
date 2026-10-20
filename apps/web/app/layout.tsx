@@ -4,6 +4,7 @@ import { fontVariables } from "@studionomade/design-system/fonts";
 import { RevealRoot } from "@studionomade/ui";
 import "@studionomade/design-system/styles.css";
 import { SiteAnalytics } from "../components/analytics/site-analytics";
+import { MotionShell } from "../components/public/motion-shell";
 import { parseConsentMode } from "../lib/analytics/consent";
 import { normalizeMetaPixelId } from "../lib/analytics/meta-pixel";
 
@@ -38,7 +39,11 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       </head>
       <body>
         {children}
+        {/* Motor de Reveal/SplitText/Parallax/Counter (GSAP, carga diferida). */}
         <RevealRoot />
+        {/* Scroll suave, cursor y cortina entre páginas. El Preloader existe en
+            @studionomade/ui pero queda apagado: retrasaría el LCP del sitio. */}
+        <MotionShell />
         <SiteAnalytics metaPixelId={metaPixelId} consentMode={analyticsConsentMode} />
       </body>
     </html>

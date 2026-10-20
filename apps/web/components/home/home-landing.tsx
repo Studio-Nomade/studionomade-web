@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
-import { MenuToggle, Reveal, SplitLines } from "@studionomade/ui";
+import { Reveal, SplitLines } from "@studionomade/ui";
 import { submitContactLead } from "../../app/actions";
 import { CURRENT_LEAD_CONSENT_VERSION, LEAD_CONSENTS } from "../../content/legal/consentimientos";
 import styles from "./home-landing.module.css";
@@ -39,17 +39,6 @@ const socialImages = [
   "/home/branding-project-2.webp",
   "/home/branding-project-3.webp"
 ];
-
-function Header({ onMenu }: { onMenu: () => void }) {
-  return (
-    <header className={styles.header}>
-      <a href="#inicio" className={styles.wordmark}>
-        STUDIO NOMADE
-      </a>
-      <MenuToggle label="Menu" invert onClick={onMenu} aria-label="Abrir menú" />
-    </header>
-  );
-}
 
 function Orbit({ variant }: { variant: number }) {
   return (
@@ -168,11 +157,9 @@ function ContactForm() {
 }
 
 export function HomeLanding() {
-  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <main id="inicio" className={styles.page}>
       <h1 className={styles.srOnly}>Studio Nomade</h1>
-      <Header onMenu={() => setMenuOpen(true)} />
       <section className={styles.hero}>
         <Image
           src="/home/cinnalove-hero-1.webp"
@@ -317,71 +304,6 @@ export function HomeLanding() {
           </div>
         </article>
       </section>
-
-      <footer className={styles.footer}>
-        <p className={styles.tagline}>
-          Nos movemos en manada
-          <br />
-          Santiago | Madrid
-        </p>
-        <div className={styles.footerGrid}>
-          <Image src="/home/logo-mark-white.png" alt="Studio Nomade" width={140} height={140} />
-          <div>
-            <strong>Studio</strong>
-            <p>
-              Santa Beatriz 100
-              <br />
-              Oficina 1101
-              <br />
-              Providencia
-            </p>
-          </div>
-          <div>
-            <strong>Contacto</strong>
-            <p>
-              contact@studionomade.cl
-              <br />
-              +569 34045111
-              <br />
-              +569 34045134
-            </p>
-          </div>
-        </div>
-        <div className={styles.footerBottom}>
-          <span>© 2026 Studio Nomade - Todos los derechos reservados</span>
-          <span>in &nbsp; v &nbsp; ◎ &nbsp; @</span>
-        </div>
-      </footer>
-
-      {menuOpen && (
-        <div
-          className={styles.menuOverlay}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Navegación principal"
-        >
-          <button type="button" className={styles.closeMenu} onClick={() => setMenuOpen(false)}>
-            Salir&nbsp; ×
-          </button>
-          <nav>
-            <a href="#inicio" onClick={() => setMenuOpen(false)}>
-              Inicio
-            </a>
-            <a href="#nosotros" onClick={() => setMenuOpen(false)}>
-              <small>01 | ¿Quiénes somos?</small>Nosotros
-            </a>
-            <a href="#servicios" onClick={() => setMenuOpen(false)}>
-              <small>02 | ¿Qué hacemos?</small>Servicios
-            </a>
-            <a href="#contacto" onClick={() => setMenuOpen(false)}>
-              <small>03 | ¿Dónde estamos?</small>Contacto
-            </a>
-            <a href="#blog" onClick={() => setMenuOpen(false)}>
-              <small>04 | Últimas Publicaciones</small>Blog
-            </a>
-          </nav>
-        </div>
-      )}
     </main>
   );
 }

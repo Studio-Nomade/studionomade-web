@@ -31,7 +31,27 @@ const liveMaximums = {
   "--fs-xl": 102
 } as const;
 
+/** Titulares del rediseño (Inter), 390 → 1440 px. */
+const headingRange = {
+  "--fs-heading-1": [40, 76],
+  "--fs-heading-2": [32, 52],
+  "--fs-heading-3": [27, 32],
+  "--fs-heading-4": [18, 22],
+  "--fs-heading-5": [16, 18],
+  "--fs-heading-6": [14, 16]
+} as const;
+
 describe("escala fluida", () => {
+  it("ancla los titulares del rediseño entre su mínimo y su máximo", () => {
+    for (const [token, [minimum, maximum]] of Object.entries(headingRange)) {
+      const value = css.match(new RegExp(`${token}:\\s*clamp\\(([^;]+)\\);`))?.[1];
+      expect(value, token).toBeDefined();
+      const parts = value!.split(",").map((part) => part.trim());
+      expect(parts[0]).toBe(`${minimum}px`);
+      expect(parts.at(-1)).toBe(`${maximum}px`);
+    }
+  });
+
   it("mantiene el máximo legado como tercer argumento de cada clamp", () => {
     for (const [token, maximum] of Object.entries(legacyMaximums)) {
       const value = css.match(new RegExp(`${token}:\\s*clamp\\(([^;]+)\\);`))?.[1];

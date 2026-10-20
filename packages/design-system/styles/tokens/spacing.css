@@ -23,6 +23,11 @@
   --stack-lg: var(--sp-9);
   --stack-xl: var(--sp-12);
 
+  /* Rediseño: aire de sección 54 → 127 px y botón 16×30 → 18×42 px (390 → 1440). */
+  --site-section-y: clamp(54px, calc(26.885714px + 6.952381vw), 127px);
+  --button-pad-y: clamp(16px, calc(15.257143px + 0.190476vw), 18px);
+  --button-pad-x: clamp(30px, calc(25.542857px + 1.142857vw), 42px);
+
   /* Web Admin runs on a denser ladder built from the same 4px base */
   --admin-gap: var(--sp-4);
   --admin-pad: var(--sp-5);

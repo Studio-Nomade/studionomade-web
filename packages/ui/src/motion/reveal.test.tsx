@@ -4,46 +4,64 @@ import { describe, expect, it } from "vitest";
 import { Reveal } from "./reveal";
 
 describe("Reveal", () => {
-  it("marca el elemento para el observador", () => {
+  it("marca el elemento para el runtime con el preset jump por defecto", () => {
     render(<Reveal>contenido</Reveal>);
     const element = screen.getByText("contenido");
     expect(element).toHaveAttribute("data-reveal");
-    expect(element).toHaveAttribute("data-variant", "rise");
+    expect(element).toHaveAttribute("data-motion", "jump");
   });
 
-  it("acepta las tres variantes", () => {
-    for (const variant of ["rise", "fade", "mask"] as const) {
-      const { unmount } = render(<Reveal variant={variant}>{variant}</Reveal>);
-      expect(screen.getByText(variant)).toHaveAttribute("data-variant", variant);
+  it("acepta todos los presets", () => {
+    for (const preset of ["jump", "fade", "headline", "stroke"] as const) {
+      const { unmount } = render(<Reveal preset={preset}>{preset}</Reveal>);
+      expect(screen.getByText(preset)).toHaveAttribute("data-motion", preset);
       unmount();
     }
   });
 
-  it("inyecta el escalonado como custom property", () => {
-    render(<Reveal step={3}>escalonado</Reveal>);
-    expect(screen.getByText("escalonado").style.getPropertyValue("--sn-reveal-step")).toBe("3");
+  it("mask envuelve el medio y añade dos capas decorativas", () => {
+    const { container } = render(
+      <Reveal preset="mask" direction="left">
+        <img alt="caso" src="/x.webp" />
+      </Reveal>
+    );
+    const root = container.firstElementChild!;
+    expect(root).toHaveAttribute("data-direction", "left");
+    expect(root.querySelector("[data-mask-media] img")).toBeInTheDocument();
+    const layers = root.querySelectorAll("[data-mask-layer]");
+    expect(layers).toHaveLength(2);
+    for (const layer of layers) expect(layer).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByRole("img", { name: "caso" })).toBeInTheDocument();
   });
 
-  it("no inyecta estilo cuando no hay escalonado", () => {
-    render(<Reveal>simple</Reveal>);
-    expect(screen.getByText("simple").getAttribute("style")).toBeNull();
+  it("mapea las variantes heredadas", () => {
+    render(<Reveal variant="rise">rise</Reveal>);
+    expect(screen.getByText("rise")).toHaveAttribute("data-motion", "jump");
   });
 
-  it("respeta la etiqueta pedida", () => {
-    render(<Reveal as="section">seccion</Reveal>);
-    expect(screen.getByText("seccion").tagName).toBe("SECTION");
+  it("traduce step y delay a un retardo en segundos", () => {
+    render(
+      <Reveal step={3} delay={0.1}>
+        escalonado
+      </Reveal>
+    );
+    expect(screen.getByText("escalonado")).toHaveAttribute("data-motion-delay", "0.37");
   });
 
-  it("conserva la clase de la composición", () => {
-    render(<Reveal className="service-card">con clase</Reveal>);
-    expect(screen.getByText("con clase")).toHaveClass("service-card");
-  });
-
-  it("nace visible: el ocultado depende del estado en <html> y del observador, no del componente", () => {
+  it("sin JS se ve: no trae estilos en línea ni estado revelado", () => {
     render(<Reveal>visible</Reveal>);
-    // Sin data-revealed en el elemento no hay estado armado, y el <html> tampoco
-    // trae el marcador de fallo del watchdog (data-reveal-failed).
-    expect(screen.getByText("visible")).not.toHaveAttribute("data-revealed");
-    expect(document.documentElement).not.toHaveAttribute("data-reveal-failed");
+    const element = screen.getByText("visible");
+    expect(element.getAttribute("style")).toBeNull();
+    expect(element).not.toHaveAttribute("data-revealed");
+  });
+
+  it("respeta la etiqueta y la clase de la composición", () => {
+    render(
+      <Reveal as="section" className="service-card">
+        seccion
+      </Reveal>
+    );
+    expect(screen.getByText("seccion").tagName).toBe("SECTION");
+    expect(screen.getByText("seccion")).toHaveClass("service-card");
   });
 });
