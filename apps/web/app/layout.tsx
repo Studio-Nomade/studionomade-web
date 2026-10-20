@@ -3,8 +3,15 @@ import type { ReactNode } from "react";
 import { fontVariables } from "@studionomade/design-system/fonts";
 import { RevealRoot } from "@studionomade/ui";
 import "@studionomade/design-system/styles.css";
+import { SiteAnalytics } from "../components/analytics/site-analytics";
+import { parseConsentMode } from "../lib/analytics/consent";
+import { normalizeMetaPixelId } from "../lib/analytics/meta-pixel";
 
 const allowIndexing = process.env.VERCEL_ENV === "production";
+
+/** Sin `NEXT_PUBLIC_META_PIXEL_ID` válido no se carga nada de Meta. */
+const metaPixelId = normalizeMetaPixelId(process.env.NEXT_PUBLIC_META_PIXEL_ID);
+const analyticsConsentMode = parseConsentMode(process.env.NEXT_PUBLIC_ANALYTICS_CONSENT_MODE);
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://studionomade.cl"),
@@ -32,6 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         {children}
         <RevealRoot />
+        <SiteAnalytics metaPixelId={metaPixelId} consentMode={analyticsConsentMode} />
       </body>
     </html>
   );

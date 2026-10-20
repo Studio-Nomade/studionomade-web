@@ -1,5 +1,7 @@
 export type AnalyticsEvent =
+  | "page_view"
   | "cta_click"
+  | "contact_click"
   | "form_submit"
   | "video_play"
   | "external_link"
@@ -29,4 +31,21 @@ export async function trackSafely(
   } catch {
     /* La telemetría nunca interrumpe el producto. */
   }
+}
+
+/**
+ * Reparte cada evento a varios proveedores (p. ej. Meta Pixel + dataLayer para
+ * GTM/GA). Un proveedor que falla no impide que los demás reciban el evento.
+ */
+export function combineAdapters(
+  ...adapters: Array<AnalyticsAdapter | undefined | null | false>
+): AnalyticsAdapter {
+  const active = adapters.filter((adapter): adapter is AnalyticsAdapter => Boolean(adapter));
+  return {
+    async track(event, properties) {
+      await Promise.allSettled(
+        active.map(async (adapter) => adapter.track(event, { ...properties }))
+      );
+    }
+  };
 }

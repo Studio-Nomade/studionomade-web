@@ -8,6 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@studionomade/analytics": "workspace:*",
     "@studionomade/config": "workspace:*",
     "@studionomade/content-schema": "workspace:*",
     "@studionomade/database": "workspace:*",

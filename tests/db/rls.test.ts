@@ -141,7 +141,13 @@ describe("captura atómica con service_role", () => {
             utm_campaign: "inmobiliarias",
             utm_term: "branding",
             utm_content: "video-a",
+            gclid: "Cj0KCQjw-gclid",
+            fbclid: "IwAR0-fbclid",
+            fbp: "fb.1.1729400000000.1234567890",
+            fbc: "fb.1.1729400000000.IwAR0-fbclid",
+            project_stage: "en_desarrollo",
             landing_path: "/inmobiliarias",
+            landing_url: "https://studionomade.cl/campanas/inmobiliarias?gclid=Cj0KCQjw-gclid",
             origin_type: "campana",
             origin_slug: "inmobiliarias"
           }
@@ -153,7 +159,7 @@ describe("captura atómica con service_role", () => {
     const leadId = (await response.json()) as string;
 
     const leadResponse = await request(
-      `leads?id=eq.${leadId}&select=id,submission_id,consent_given,consent_at,consent_version,utm_source,utm_medium,utm_campaign,utm_term,utm_content`,
+      `leads?id=eq.${leadId}&select=id,submission_id,consent_given,consent_at,consent_version,utm_source,utm_medium,utm_campaign,utm_term,utm_content,gclid,fbclid,fbp,fbc,project_stage,landing_url`,
       {},
       true
     );
@@ -168,6 +174,12 @@ describe("captura atómica con service_role", () => {
       utm_campaign: string;
       utm_term: string;
       utm_content: string;
+      gclid: string;
+      fbclid: string;
+      fbp: string;
+      fbc: string;
+      project_stage: string;
+      landing_url: string;
     }>;
     expect(lead).toMatchObject({
       id: leadId,
@@ -177,7 +189,13 @@ describe("captura atómica con service_role", () => {
       utm_medium: "paid-social",
       utm_campaign: "inmobiliarias",
       utm_term: "branding",
-      utm_content: "video-a"
+      utm_content: "video-a",
+      gclid: "Cj0KCQjw-gclid",
+      fbclid: "IwAR0-fbclid",
+      fbp: "fb.1.1729400000000.1234567890",
+      fbc: "fb.1.1729400000000.IwAR0-fbclid",
+      project_stage: "en_desarrollo",
+      landing_url: "https://studionomade.cl/campanas/inmobiliarias?gclid=Cj0KCQjw-gclid"
     });
     expect(lead.consent_at).toBeTruthy();
 
@@ -196,6 +214,27 @@ describe("captura atómica con service_role", () => {
 });
 
 describe("constraints y relaciones", () => {
+  it("rechaza etapas de proyecto fuera del check", async () => {
+    const response = await request(
+      "rpc/capture_lead",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          p: {
+            form_slug: "campana-inmobiliarias",
+            payload: {},
+            name: "Etapa inválida",
+            email: `db-${crypto.randomUUID()}@example.com`,
+            project_stage: "Etapa: inventada",
+            origin_type: "campana"
+          }
+        })
+      },
+      true
+    );
+    expect(response.status).toBeGreaterThanOrEqual(400);
+  });
+
   it("rechaza estados fuera del enum", async () => {
     const response = await request(
       "pages",

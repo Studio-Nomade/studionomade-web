@@ -17,12 +17,15 @@ export async function notifyLead(
     `Nombre: ${lead.name}`,
     `Empresa: ${lead.company ?? "-"}`,
     `Email: ${lead.email}`,
+    `Teléfono: ${lead.phone ?? "-"}`,
+    `Etapa del proyecto: ${lead.project_stage ?? "-"}`,
     `Origen: ${lead.origin_slug ?? lead.origin_type}`,
     `UTM source: ${lead.utm_source ?? "-"}`,
     `UTM medium: ${lead.utm_medium ?? "-"}`,
     `UTM campaign: ${lead.utm_campaign ?? "-"}`,
     `UTM term: ${lead.utm_term ?? "-"}`,
-    `UTM content: ${lead.utm_content ?? "-"}`
+    `UTM content: ${lead.utm_content ?? "-"}`,
+    `Click IDs: ${[lead.gclid && "gclid", lead.fbclid && "fbclid"].filter(Boolean).join(", ") || "-"}`
   ].join("\n");
 
   if (environment.SLACK_LEADS_WEBHOOK_URL) {

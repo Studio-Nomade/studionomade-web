@@ -2,8 +2,17 @@ import { describe, expect, it } from "vitest";
 import {
   buildStaticContentSecurityPolicy,
   buildStrictContentSecurityPolicy,
+  META_PIXEL_CSP,
   SECURITY_HEADERS
 } from "./security";
+
+function directive(policy: string, name: string): string[] {
+  const entry = policy
+    .split(";")
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${name} `));
+  return entry ? entry.split(/\s+/).slice(1) : [];
+}
 
 describe("security headers", () => {
   it("la política estricta usa nonce y strict-dynamic", () => {
@@ -26,10 +35,54 @@ describe("security headers", () => {
     expect(policy).not.toContain("strict-dynamic");
   });
 
+  it("sin píxel no abre ningún origen de Meta", () => {
+    const policy = buildStaticContentSecurityPolicy("https://example.supabase.co");
+    expect(policy).not.toContain("facebook");
+  });
+
+  it("con píxel abre solo los orígenes de Meta necesarios", () => {
+    const policy = buildStaticContentSecurityPolicy("https://example.supabase.co", {
+      metaPixel: true
+    });
+    expect(directive(policy, "script-src")).toEqual([
+      "'self'",
+      "'unsafe-inline'",
+      "https://connect.facebook.net"
+    ]);
+    expect(directive(policy, "connect-src")).toEqual([
+      "'self'",
+      "https://example.supabase.co",
+      "https://www.facebook.com",
+      "https://connect.facebook.net"
+    ]);
+    // El beacon de imagen queda cubierto por `https:` en img-src.
+    expect(directive(policy, "img-src")).toContain("https:");
+    for (const origin of META_PIXEL_CSP.imgSrc) expect(origin.startsWith("https://")).toBe(true);
+    // Nada de comodines ni de otras directivas abiertas a Meta.
+    expect(directive(policy, "frame-src")).not.toContain("https://www.facebook.com");
+    expect(policy).not.toMatch(/\*\.facebook/);
+  });
+
+  it("con píxel sigue sin nonce ni strict-dynamic", () => {
+    const policy = buildStaticContentSecurityPolicy(undefined, { metaPixel: true });
+    expect(policy).not.toContain("nonce-");
+    expect(policy).not.toContain("strict-dynamic");
+    expect(directive(policy, "connect-src")).toEqual([
+      "'self'",
+      "https://www.facebook.com",
+      "https://connect.facebook.net"
+    ]);
+  });
+
+  it("la política estricta del admin no abre Meta", () => {
+    expect(buildStrictContentSecurityPolicy("abc")).not.toContain("facebook");
+  });
+
   it("ambas conservan las defensas que no dependen de script-src", () => {
     for (const policy of [
       buildStrictContentSecurityPolicy("abc"),
-      buildStaticContentSecurityPolicy()
+      buildStaticContentSecurityPolicy(),
+      buildStaticContentSecurityPolicy(undefined, { metaPixel: true })
     ]) {
       expect(policy).toContain("object-src 'none'");
       expect(policy).toContain("base-uri 'self'");
