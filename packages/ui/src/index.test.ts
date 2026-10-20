@@ -18,22 +18,25 @@ const components = [
   "Footer",
   "Mark",
   "MenuToggle",
+  "Reveal",
+  "RevealRoot",
   "Rule",
   "Section",
   "Select",
   "StepFlow",
+  "SplitLines",
   "SubmitRow",
   "TextArea"
 ].sort();
 
 describe("puerta pública de @studionomade/ui", () => {
-  it("exporta exactamente los componentes disponibles antes de D3", () => {
+  it("exporta exactamente el censo declarado", () => {
     expect(Object.keys(ui).sort()).toEqual(components);
   });
 
   it("mantiene una guía prompt junto a cada componente", () => {
     const source = path.resolve(import.meta.dirname);
-    for (const directory of ["core", "layout", "campaign", "forms"]) {
+    for (const directory of ["core", "layout", "campaign", "forms", "motion"]) {
       for (const file of fs
         .readdirSync(path.join(source, directory))
         .filter((name) => name.endsWith(".tsx") && !name.endsWith(".test.tsx"))) {

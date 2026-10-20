@@ -13,7 +13,12 @@ const sizes = {
   "--fs-h4": [18, 20],
   "--fs-h5": [16, 17],
   "--fs-lead": [17, 20],
-  "--fs-eyebrow": [11, 12]
+  "--fs-eyebrow": [11, 12],
+  // Escalera grande del sitio vivo. Aditiva: convive con --fs-display-* y
+  // --fs-campaign-*, que cubren los roles medios.
+  "--fs-xxxl": [96, 212],
+  "--fs-xxl": [54, 126],
+  "--fs-xl": [46, 102]
 };
 
 function compact(value) {

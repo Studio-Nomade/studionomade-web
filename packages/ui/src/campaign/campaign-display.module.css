@@ -2,7 +2,6 @@
   color: var(--text-strong);
   font-family: var(--font-campaign);
   font-weight: var(--fw-heavy);
-  font-stretch: 75%;
   line-height: var(--lh-campaign);
 }
 .display[data-level="1"] {

@@ -1,13 +1,17 @@
 :root {
-  --font-core: var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
-  --font-display:
-    var(--sn-font-san-diego), var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
-  --font-editorial: var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
-  --font-campaign: var(--sn-font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-core: var(--sn-font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--sn-font-cy-grotesk), "Helvetica Neue", Arial, sans-serif;
+  --font-editorial: var(--sn-font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-campaign: var(--sn-font-cy-grotesk), "Helvetica Neue", Arial, sans-serif;
+  --font-label: var(--sn-font-gotham), "Helvetica Neue", Arial, sans-serif;
+  --font-black: var(--sn-font-neue-haas), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--sn-font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-brand-gothic: var(--sn-font-cook-gothif), var(--font-display);
   --font-brand-script: var(--sn-font-missing-lovely), cursive;
   --fw-display-min: 500;
+  /* Caras de corte único: el peso nominal es informativo, no sintetiza. */
+  --fw-display: 800; /* @kind font */
+  --fw-label: 400; /* @kind font */
 
   /* weights */
   --fw-thin: 200; /* @kind font */
@@ -55,6 +59,13 @@
   /* statistic numerals */
   --fs-stat: 68px;
   --fw-stat: 300; /* @kind font */
+
+  /* Escalera grande del sitio vivo. Aditiva: no sustituye a --fs-display-*
+     ni a --fs-campaign-*, que siguen cubriendo los roles medios. */
+  --fs-xxxl: 212px;
+  --fs-xxl: 126px;
+  --fs-xl: 102px;
+  --tr-xxl: -0.01em;
 
   /* campaign display — heavy, condensed, tight */
   --fs-campaign-1: 88px;

@@ -1,0 +1,23 @@
+.lines {
+  display: block;
+}
+
+/* La máscara: recorta lo que asoma por debajo. */
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.inner {
+  display: block;
+  transition: transform var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(var(--sn-reveal-step, 0) * var(--dur-stagger));
+}
+
+/* Mismas dos condiciones que en reveal.module.css: sin JavaScript o con
+   movimiento reducido, las líneas nunca se desplazan y el titular se lee entero. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-reveal-failed])) .lines:not([data-revealed]) .inner {
+    transform: translate3d(0, var(--reveal-shift-lines), 0);
+  }
+}

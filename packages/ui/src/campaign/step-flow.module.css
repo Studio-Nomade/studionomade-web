@@ -12,7 +12,6 @@
   font-family: var(--font-campaign);
   font-size: var(--fs-campaign-3);
   font-weight: var(--fw-heavy);
-  font-stretch: 75%;
   line-height: var(--lh-tight);
 }
 .label {

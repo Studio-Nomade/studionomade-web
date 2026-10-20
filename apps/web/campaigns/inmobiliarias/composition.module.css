@@ -37,7 +37,6 @@
 .badge {
   font-family: var(--font-display);
   font-weight: var(--fw-heavy);
-  font-stretch: 75%;
   line-height: var(--lh-campaign);
   color: var(--text-strong);
 }
@@ -142,7 +141,6 @@
   padding: var(--sp-3) var(--sp-5);
   background: var(--accent);
   color: var(--accent-contrast);
-  font-stretch: 85%;
   font-size: var(--fs-h3);
   letter-spacing: 0.04em;
 }

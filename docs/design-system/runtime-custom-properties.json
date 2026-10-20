@@ -1,11 +1,14 @@
 {
   "custom-properties": {
-    "--sn-font-archivo": "sans-serif",
-    "--sn-font-san-diego": "sans-serif",
-    "--sn-font-plex-mono": "monospace",
     "--sn-font-cook-gothif": "sans-serif",
+    "--sn-font-cy-grotesk": "sans-serif",
+    "--sn-font-gotham": "sans-serif",
+    "--sn-font-inter": "sans-serif",
     "--sn-font-missing-lovely": "cursive",
+    "--sn-font-neue-haas": "sans-serif",
+    "--sn-font-plex-mono": "monospace",
     "--sn-hero-height": "70vh",
+    "--sn-reveal-step": "0",
     "--sn-step-count": "1"
   }
 }
