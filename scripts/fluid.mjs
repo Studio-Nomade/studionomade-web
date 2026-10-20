@@ -26,6 +26,13 @@ const sizes = {
   "--fs-heading-4": [18, 22],
   "--fs-heading-5": [16, 18],
   "--fs-heading-6": [14, 16],
+  // Páginas de servicio por área (Figma "SERVICIOS", 1440 px).
+  "--fs-title-hero": [40, 96],
+  "--fs-title-cta": [36, 64],
+  "--fs-title-section": [28, 40],
+  "--fs-lead-xl": [22, 32],
+  "--fs-body-xl": [18, 24],
+  "--fs-figure": [72, 128],
   // Retícula y ritmo del rediseño (spacing.css / layout.css).
   "--site-margin": [20, 112],
   "--site-gutter": [20, 62],
