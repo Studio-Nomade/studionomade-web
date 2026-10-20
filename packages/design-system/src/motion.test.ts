@@ -22,6 +22,7 @@ describe("contrato de movimiento", () => {
     expect(value("--motion-jump-y")).toBe(`${MOTION.jumpY}px`);
     expect(value("--motion-mask-scale")?.split(" ")[0]).toBe(String(MOTION.maskScale));
     expect(TOKENS["--motion-jump-y"]).toBe(`${MOTION.jumpY}px`);
+    expect(value("--reveal-shift-lines")).toBe(`${MOTION.splitShift}%`);
   });
 
   it("anula el movimiento CSS con prefers-reduced-motion", () => {
