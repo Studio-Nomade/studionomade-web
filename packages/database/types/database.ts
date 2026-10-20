@@ -386,8 +386,13 @@ export type Database = {
           created_at: string;
           discard_reason: string | null;
           email: string | null;
+          fbc: string | null;
+          fbclid: string | null;
+          fbp: string | null;
+          gclid: string | null;
           id: string;
           landing_path: string | null;
+          landing_url: string | null;
           message: string | null;
           name: string | null;
           notes: string | null;
@@ -395,6 +400,7 @@ export type Database = {
           origin_type: Database["public"]["Enums"]["lead_origin_type"];
           page_id: string | null;
           phone: string | null;
+          project_stage: string | null;
           referrer: string | null;
           status: Database["public"]["Enums"]["lead_status"];
           submission_id: string | null;
@@ -415,8 +421,13 @@ export type Database = {
           created_at?: string;
           discard_reason?: string | null;
           email?: string | null;
+          fbc?: string | null;
+          fbclid?: string | null;
+          fbp?: string | null;
+          gclid?: string | null;
           id?: string;
           landing_path?: string | null;
+          landing_url?: string | null;
           message?: string | null;
           name?: string | null;
           notes?: string | null;
@@ -424,6 +435,7 @@ export type Database = {
           origin_type?: Database["public"]["Enums"]["lead_origin_type"];
           page_id?: string | null;
           phone?: string | null;
+          project_stage?: string | null;
           referrer?: string | null;
           status?: Database["public"]["Enums"]["lead_status"];
           submission_id?: string | null;
@@ -444,8 +456,13 @@ export type Database = {
           created_at?: string;
           discard_reason?: string | null;
           email?: string | null;
+          fbc?: string | null;
+          fbclid?: string | null;
+          fbp?: string | null;
+          gclid?: string | null;
           id?: string;
           landing_path?: string | null;
+          landing_url?: string | null;
           message?: string | null;
           name?: string | null;
           notes?: string | null;
@@ -453,6 +470,7 @@ export type Database = {
           origin_type?: Database["public"]["Enums"]["lead_origin_type"];
           page_id?: string | null;
           phone?: string | null;
+          project_stage?: string | null;
           referrer?: string | null;
           status?: Database["public"]["Enums"]["lead_status"];
           submission_id?: string | null;
