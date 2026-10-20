@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button, CampaignHero, Circled, Footer, Mark, Section, StepFlow } from "@studionomade/ui";
+import { footerSocialLinks } from "../../content/social";
 import type { CampaignCompositionProps } from "../types";
 import { inmobiliariasAssets as assets } from "./assets";
 import { CampaignForm } from "./form";
@@ -36,7 +37,7 @@ export function InmobiliariasComposition(props: CampaignCompositionProps) {
             Construimos marcas <strong>inmobiliarias</strong> que se diferencian y mantienen una
             dirección coherente en cada punto de contacto.
           </p>
-          <div className={styles.centeredCta}>
+          <div className={styles.centeredCta} data-cta="agendar-conversacion">
             <Button href="#form" accent size="lg">
               Agendar conversación
             </Button>
@@ -102,7 +103,7 @@ export function InmobiliariasComposition(props: CampaignCompositionProps) {
             <span key={claim.text}>{claim.text}</span>
           ))}
         </div>
-        <div className={styles.finalCta}>
+        <div className={styles.finalCta} data-cta="diferenciar-proyecto">
           <Button href="#form" accent size="lg">
             Quiero diferenciar mi proyecto
           </Button>
@@ -150,12 +151,7 @@ export function InmobiliariasComposition(props: CampaignCompositionProps) {
             ]
           }
         ]}
-        social={[
-          { kind: "linkedin", href: "#" },
-          { kind: "vimeo", href: "#" },
-          { kind: "instagram", href: "#" },
-          { kind: "email", href: "#" }
-        ]}
+        social={footerSocialLinks()}
       />
     </main>
   );
