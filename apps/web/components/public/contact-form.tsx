@@ -19,8 +19,9 @@ export function ContactForm({
   useEffect(() => {
     fetch("/api/contacto/token", { cache: "no-store" })
       .then((response) => response.json())
-      .then((value: { timestamp?: string; signature?: string }) =>
-        setToken({ timestamp: value.timestamp ?? "", signature: value.signature ?? "" })
+      // /api/contacto/token responde { t, signature }.
+      .then((value: { t?: string; signature?: string }) =>
+        setToken({ timestamp: value.t ?? "", signature: value.signature ?? "" })
       )
       .catch(() => setToken({ timestamp: "", signature: "" }));
   }, []);
