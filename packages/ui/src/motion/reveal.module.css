@@ -1,0 +1,35 @@
+/* El contenido solo se arma cuando se cumplen DOS condiciones, y ambas viven en
+   la misma media query para que no haya peleas de especificidad:
+
+   - `scripting: enabled` — hay JavaScript para revelarlo. Responde exactamente a
+     la pregunta que importa, sin que servidor y cliente deban coincidir en ningún
+     atributo, así que no hay desajuste de hidratación.
+   - `prefers-reduced-motion: no-preference` — el usuario acepta movimiento. Al
+     armar solo en ese caso no hace falta ninguna regla de anulación, que es lo
+     que antes perdía por especificidad y dejaba contenido invisible.
+
+   Si la hidratación falla, el watchdog del layout marca `data-reveal-failed` en
+   el <html> y todo vuelve a ser visible. Ese atributo aparece DESPUÉS de hidratar,
+   así que tampoco genera desajuste. */
+
+.reveal {
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(var(--sn-reveal-step, 0) * var(--dur-stagger));
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-reveal-failed])) .reveal[data-variant="rise"]:not([data-revealed]) {
+    transform: translate3d(0, var(--reveal-shift), 0);
+    opacity: 0;
+  }
+
+  :global(html:not([data-reveal-failed])) .reveal[data-variant="fade"]:not([data-revealed]) {
+    opacity: 0;
+  }
+
+  :global(html:not([data-reveal-failed])) .reveal[data-variant="mask"]:not([data-revealed]) {
+    clip-path: inset(0 100% 0 0);
+  }
+}

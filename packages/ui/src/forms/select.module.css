@@ -12,12 +12,11 @@
 }
 .field select {
   width: 100%;
-  margin-top: var(--sp-3);
-  padding: var(--sp-3) 0;
-  border: 0;
-  border-bottom: 1px solid var(--sn-rule);
-  border-radius: 0;
-  background: transparent;
+  margin-top: var(--sp-2);
+  padding: var(--sp-4);
+  border: var(--border-hairline);
+  border-radius: var(--radius-none);
+  background: var(--surface-page);
   color: inherit;
   font-family: var(--font-core);
   font-size: var(--fs-body);
@@ -27,7 +26,7 @@
   outline-offset: var(--sp-1);
 }
 .field[data-error] select {
-  border-bottom-color: var(--state-critical);
+  border-color: var(--state-critical);
 }
 .field[data-invert] {
   color: var(--sn-white);
@@ -37,7 +36,8 @@
   color: var(--text-on-invert-muted);
 }
 .field[data-invert] select {
-  border-bottom-color: var(--text-on-invert-muted);
+  border-color: var(--text-on-invert-muted);
+  background: transparent;
 }
 .hint,
 .error {

@@ -16,6 +16,22 @@
   --accent-line: #00c85f;
   --accent-2: #f5a623;
 }
+/* Business area — Branding (measured from the live site) */
+[data-accent="branding"] {
+  --accent: #25d07f;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #e4f8ee;
+  --accent-line: #25d07f;
+  --accent-2: #7b67ed;
+}
+/* Business area — Architecture (measured from the live site) */
+[data-accent="architecture"] {
+  --accent: #ef1942;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #fde7eb;
+  --accent-line: #ef1942;
+  --accent-2: #7b67ed;
+}
 /* Case — CinnaLove (palette taken verbatim from the case study board) */
 [data-accent="cinnalove"] {
   --accent: #813408;
@@ -39,6 +55,22 @@
   --accent-soft: #d8e6f2;
   --accent-line: #f05a28;
   --accent-2: #9cc4e4;
+}
+/* provisional — pendiente de muestreo del plano de Equifax en H5 */
+[data-accent="equifax"] {
+  --accent: #ef1942;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #fde7eb;
+  --accent-line: #ef1942;
+  --accent-2: #7b67ed;
+}
+/* provisional — pendiente de muestreo del key visual de Reebok en H5 */
+[data-accent="reebok"] {
+  --accent: #7b67ed;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #e4e0fb;
+  --accent-line: #7b67ed;
+  --accent-2: #ef1942;
 }
 /* Web Admin — functional state colours, used only for status */
 :root {

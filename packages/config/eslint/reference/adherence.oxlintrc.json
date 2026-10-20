@@ -39,8 +39,8 @@
         "message": "Raw px value — use a design-system spacing token via var()."
       },
       {
-        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Archivo|IBM Plex Mono))/i]",
-        "message": "Font not provided by the design system. Available: Archivo, IBM Plex Mono."
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Cy Grotesk|Gotham|Inter|Neue Haas|IBM Plex Mono))/i]",
+        "message": "Font not provided by the design system. Available: Cy Grotesk, Gotham, Inter, Neue Haas, IBM Plex Mono."
       },
       {
         "selector": "JSXOpeningElement[name.name='AdminCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|meta|footer|children|key|ref|className|style|children)$/]",
