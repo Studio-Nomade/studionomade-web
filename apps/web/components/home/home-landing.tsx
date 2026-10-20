@@ -143,7 +143,7 @@ function ContactForm() {
       </label>
       <label className={styles.consent}>
         <input type="checkbox" name="consentimiento" required />
-        <span>{LEAD_CONSENTS[CURRENT_LEAD_CONSENT_VERSION]}</span>
+        <span>{LEAD_CONSENTS[CURRENT_LEAD_CONSENT_VERSION].text}</span>
       </label>
       <input
         type="text"

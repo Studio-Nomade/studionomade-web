@@ -22,11 +22,13 @@ export const inmobiliariasContent = campaignContentSchema.parse({
     badge: "CONTACTO",
     submitLabel: "Quiero conversar sobre mi proyecto",
     successMessage: "Gracias. Te contactaremos para coordinar una primera conversación.",
-    consentLabel: "Acepto ser contactado por Studio Nomade.",
+    // El texto de consentimiento no vive aquí: sale del registro versionado
+    // (content/legal/consentimientos.ts) según `consentVersion` del registry.
+    // Los `value` deben pertenecer a PROJECT_STAGES (@studionomade/validation).
     stages: [
-      { value: "Idea", label: "Idea" },
-      { value: "En desarrollo", label: "En desarrollo" },
-      { value: "En venta", label: "En venta" }
+      { value: "idea", label: "Idea" },
+      { value: "en_desarrollo", label: "En desarrollo" },
+      { value: "en_venta", label: "En venta" }
     ]
   }
 });
