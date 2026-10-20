@@ -17,8 +17,8 @@ export async function generateMetadata({
 
   const area = areas[slug];
   return {
-    title: `${area.title} | Studio Nomade`,
-    description: area.what,
+    title: `${area.name} | Studio Nomade`,
+    description: area.description,
     alternates: { canonical: `/areas/${area.slug}` }
   };
 }

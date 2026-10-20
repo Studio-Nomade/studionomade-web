@@ -1,15 +1,37 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
+
 import { expect, test } from "@playwright/test";
 
-const viewports = [360, 768, 1024, 1440];
+/**
+ * Regresión visual de Branding y Architecture (Figma "SERVICIOS").
+ *
+ * Las baselines se generan en Ubuntu (fuentes y antialiasing de CI) con el
+ * workflow `ci.yml` → `workflow_dispatch` con `update_visual_snapshots: true`,
+ * que publica el artefacto `visual-baselines-linux`. Copiar sus PNG a
+ * `tests/e2e/visual/areas.spec.ts-snapshots/` y commitearlos: desde ese momento
+ * el test corre solo. Sin baselines se salta, para no fallar en máquinas locales.
+ *
+ * Proyecto `visual`: movimiento reducido (nada pre-oculto) y DPR 1.
+ */
+const baselines = path.join(import.meta.dirname, "areas.spec.ts-snapshots");
+const viewports = [390, 768, 1024, 1440];
 
 test.describe("páginas de área", () => {
-  test.skip(true, "D7 crea Branding, Architecture y sus baselines Ubuntu.");
+  test.skip(
+    !existsSync(baselines) && !process.argv.includes("--update-snapshots"),
+    "Sin baselines Ubuntu: generarlas con el workflow visual-baselines."
+  );
   for (const area of ["branding", "architecture"]) {
     for (const width of viewports) {
       test(`${area} ${width}`, async ({ page }) => {
         await page.setViewportSize({ width, height: 900 });
         await page.goto(`/areas/${area}`);
-        await expect(page).toHaveScreenshot(`${area}-${width}.png`, { fullPage: true });
+        await page.evaluate(() => document.fonts.ready);
+        await expect(page).toHaveScreenshot(`${area}-${width}.png`, {
+          fullPage: true,
+          animations: "disabled"
+        });
       });
     }
   }

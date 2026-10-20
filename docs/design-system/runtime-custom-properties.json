@@ -1,6 +1,16 @@
 {
   "custom-properties": {
+    "--sn-carousel-bar": "100%",
+    "--sn-carousel-bar-gap": "0",
+    "--sn-carousel-bar-h": "1px",
+    "--sn-carousel-bleed": "0",
+    "--sn-carousel-gap": "0",
+    "--sn-carousel-lead": "30%",
     "--sn-carousel-progress": "0",
+    "--sn-carousel-scroll": "0",
+    "--sn-carousel-slide": "82%",
+    "--sn-carousel-thumb": "1",
+    "--sn-carousel-thumb-color": "currentColor",
     "--sn-font-cook-gothif": "sans-serif",
     "--sn-font-cy-grotesk": "sans-serif",
     "--sn-font-gotham": "sans-serif",

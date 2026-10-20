@@ -36,18 +36,23 @@ descarga las fuentes reales.
 
 Escala fluida anclada entre 390 y 1440 px (`node scripts/fluid.mjs` regenera las fórmulas).
 
-| Grupo       | Tokens                                                                                                       |
-| ----------- | ------------------------------------------------------------------------------------------------------------ |
-| Pesos Inter | `--fw-hairline` (100), `--fw-masthead` (→100), `--fw-block-title` (→200 `--fw-thin`), `--fw-button` (600)    |
-| Masthead    | `--fs-xxxl` 96–212, `--fs-xxl` 54–126, `--fs-xl` 46–102 · `--tr-masthead` (-2px) · `--lh-masthead`           |
-| Titulares   | `--fs-heading-1` 40–76 · `-2` 32–52 · `-3` 27–32 · `-4` 18–22 · `-5` 16–18 · `-6` 14–16 · `--lh-block-title` |
-| Cuerpo      | `--lh-body-site` (16/28.8 → 1.8) · `--fs-body-block` (15.7px)                                                |
-| Botón       | `--fs-button` (13px) · `--button-pad-y` 16–18 · `--button-pad-x` 30–42                                       |
-| Color       | `--sn-iron` (#555555) → `--text-title`, titulares sobre claro                                                |
-| Retícula    | `--site-margin` 20–112 · `--site-content-max` (1236px) · `--site-gutter` 20–62 · `--site-section-y` 54–127   |
-| Footer      | `--footer-logo-w` 140–258                                                                                    |
-| Cursor      | `--cursor-size` (12px) · `--cursor-size-hover` (56px) · `--cursor-size-label` (88px)                         |
-| Capas z     | `--z-content` (1) · `--z-curtain` (400) · `--z-cursor` (500) · `--z-preloader` (600)                         |
+| Grupo       | Tokens                                                                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pesos Inter | `--fw-hairline` (100), `--fw-masthead` (→100), `--fw-block-title` (→200 `--fw-thin`), `--fw-button` (600)                                          |
+| Masthead    | `--fs-xxxl` 96–212, `--fs-xxl` 54–126, `--fs-xl` 46–102 · `--tr-masthead` (-2px) · `--lh-masthead`                                                 |
+| Titulares   | `--fs-heading-1` 40–76 · `-2` 32–52 · `-3` 27–32 · `-4` 18–22 · `-5` 16–18 · `-6` 14–16 · `--lh-block-title`                                       |
+| Áreas       | `--fs-title-hero` 40–96 · `--fs-title-cta` 36–64 · `--fs-title-section` 28–40 · `--fs-lead-xl` 22–32 · `--fs-body-xl` 18–24 · `--fs-figure` 72–128 |
+| Cuerpo      | `--lh-body-site` (16/28.8 → 1.8) · `--fs-body-block` (15.7px)                                                                                      |
+| Botón       | `--fs-button` (13px) · `--button-pad-y` 16–18 · `--button-pad-x` 30–42                                                                             |
+| Color       | `--sn-iron` (#555555) → `--text-title`, titulares sobre claro                                                                                      |
+| Retícula    | `--site-margin` 20–112 · `--site-content-max` (1236px) · `--site-gutter` 20–62 · `--site-section-y` 54–127                                         |
+| Footer      | `--footer-logo-w` 140–258                                                                                                                          |
+| Cursor      | `--cursor-size` (12px) · `--cursor-size-hover` (56px) · `--cursor-size-label` (88px)                                                               |
+| Capas z     | `--z-content` (1) · `--z-curtain` (400) · `--z-cursor` (500) · `--z-preloader` (600)                                                               |
+
+La fila **Áreas** sale del Figma "SERVICIOS" (páginas Branding y Architecture, 1440 px): título del
+hero Inter 200, CTA/formulario, H2 de sección Inter 600, lead/cita, cuerpo grande y cifras Inter 500.
+Los máximos son los de Figma y los mínimos siguen el comportamiento móvil del sitio legado.
 
 `--fs-h1`…`--fs-h5`, `--fs-display-*` y `--fs-campaign-*` siguen vigentes para campañas y páginas
 interiores; los titulares del rediseño usan `--fs-heading-*`.

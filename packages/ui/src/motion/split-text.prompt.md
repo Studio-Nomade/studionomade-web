@@ -13,7 +13,7 @@ anima `MotionRoot`.
 
 | Prop       | Tipo                            | Por defecto |
 | ---------- | ------------------------------- | ----------- |
-| `children` | `string`                        | `""`        |
+| `children` | `string` o texto enriquecido    | `""`        |
 | `lines`    | `string[]` (prioridad)          | —           |
 | `by`       | `"lines" \| "words" \| "chars"` | `"lines"`   |
 | `as`       | etiqueta                        | `"span"`    |
@@ -23,7 +23,9 @@ anima `MotionRoot`.
 - Palabras, letras y `lines` explícitas se parten **en el servidor**: sin
   mutación del DOM tras hidratar y con el texto completo sin JS.
 - `by="lines"` sin `lines` mide en el navegador con `SplitText` de GSAP
-  (`autoSplit`), y solo oculta el texto hasta partirlo.
+  (`autoSplit`), y solo oculta el texto hasta partirlo. Es el único modo que
+  acepta texto enriquecido (`<strong>`, `<br>`): con marcado, cualquier `by`
+  cae en líneas medidas.
 - Escalonado: líneas 0.08s (tope 0.3s total) · palabras 0.2s y letras 0.3s
   repartidos entre todas las unidades.
 - `by="chars"` expone una copia legible para lectores de pantalla y oculta la
