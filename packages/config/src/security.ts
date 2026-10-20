@@ -10,17 +10,35 @@ export const SECURITY_HEADERS = [
 ] as const;
 
 /**
+ * Orígenes mínimos del píxel de Meta (`fbevents.js` + beacons a `/tr`). Solo se
+ * abren si el sitio tiene `NEXT_PUBLIC_META_PIXEL_ID`. `img-src` ya admite
+ * cualquier `https:` (imágenes de CMS y Vimeo), así que el beacon de imagen a
+ * www.facebook.com no necesita una entrada propia.
+ */
+export const META_PIXEL_CSP = {
+  scriptSrc: ["https://connect.facebook.net"],
+  connectSrc: ["https://www.facebook.com", "https://connect.facebook.net"],
+  imgSrc: ["https://www.facebook.com"]
+} as const;
+
+export interface ContentSecurityPolicyOptions {
+  /** Abre los orígenes de `META_PIXEL_CSP`. */
+  metaPixel?: boolean;
+}
+
+/**
  * Directivas comunes a las dos políticas. Lo único que cambia entre ellas es
  * `script-src`, que es justo donde está la decisión difícil (ver más abajo).
  */
-function sharedDirectives(connectOrigin?: string): string[] {
-  const connectSources = ["'self'", connectOrigin].filter(Boolean).join(" ");
+function sharedDirectives(connectOrigin?: string, extraConnect: readonly string[] = []): string[] {
+  const connectSources = ["'self'", connectOrigin, ...extraConnect].filter(Boolean).join(" ");
   return [
     "default-src 'self'",
     // Los atributos `style` en línea son obligatorios: el sistema de revelado
     // pasa `--sn-reveal-step` por `style`, y es la única vía que deja la regla
     // de adherencia `no-hardcoded-style`.
     "style-src 'self' 'unsafe-inline'",
+    // `https:` ya cubre el beacon de imagen del píxel (META_PIXEL_CSP.imgSrc).
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
     `connect-src ${connectSources}`,
@@ -75,7 +93,23 @@ export function buildStrictContentSecurityPolicy(nonce: string, connectOrigin?: 
  * Para endurecerlo hay que pasar el sitio público a renderizado dinámico y usar
  * `buildStrictContentSecurityPolicy`. Es una decisión de producto —cuesta el
  * prerender—, no un detalle de implementación.
+ *
+ * Con `metaPixel` se suma únicamente `https://connect.facebook.net` a
+ * `script-src` y los dos orígenes de beacons a `connect-src`. El píxel se carga
+ * con `next/script` desde un archivo externo (sin snippet en línea), así que no
+ * necesita nonce ni hash.
  */
-export function buildStaticContentSecurityPolicy(connectOrigin?: string): string {
-  return ["script-src 'self' 'unsafe-inline'", ...sharedDirectives(connectOrigin)].join("; ");
+export function buildStaticContentSecurityPolicy(
+  connectOrigin?: string,
+  options: ContentSecurityPolicyOptions = {}
+): string {
+  const scriptSources = [
+    "'self'",
+    "'unsafe-inline'",
+    ...(options.metaPixel ? META_PIXEL_CSP.scriptSrc : [])
+  ];
+  return [
+    `script-src ${scriptSources.join(" ")}`,
+    ...sharedDirectives(connectOrigin, options.metaPixel ? META_PIXEL_CSP.connectSrc : [])
+  ].join("; ");
 }
