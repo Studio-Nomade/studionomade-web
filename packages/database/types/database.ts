@@ -594,25 +594,34 @@ export type Database = {
           content: Json;
           created_at: string;
           id: string;
+          is_hidden: boolean;
           page_id: string;
           section_type: string;
           sort_order: number;
+          updated_at: string;
+          variant: string | null;
         };
         Insert: {
           content?: Json;
           created_at?: string;
           id?: string;
+          is_hidden?: boolean;
           page_id: string;
           section_type: string;
           sort_order?: number;
+          updated_at?: string;
+          variant?: string | null;
         };
         Update: {
           content?: Json;
           created_at?: string;
           id?: string;
+          is_hidden?: boolean;
           page_id?: string;
           section_type?: string;
           sort_order?: number;
+          updated_at?: string;
+          variant?: string | null;
         };
         Relationships: [
           {
@@ -1087,11 +1096,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      role_permissions: {
+        Row: {
+          permission_id: string;
+          role_id: string;
+        };
+        Insert: {
+          permission_id: string;
+          role_id: string;
+        };
+        Update: {
+          permission_id?: string;
+          role_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "role_permissions_permission_id_fkey";
+            columns: ["permission_id"];
+            isOneToOne: false;
+            referencedRelation: "permissions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "role_permissions_role_id_fkey";
+            columns: ["role_id"];
+            isOneToOne: false;
+            referencedRelation: "roles";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       roles: {
         Row: {
           created_at: string;
           description: string | null;
           id: string;
+          is_active: boolean;
           name: string;
           slug: string;
         };
@@ -1099,6 +1139,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          is_active?: boolean;
           name: string;
           slug: string;
         };
@@ -1106,6 +1147,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          is_active?: boolean;
           name?: string;
           slug?: string;
         };
@@ -1363,13 +1405,29 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      can_edit_area: { Args: { target: string }; Returns: boolean };
+      can_publish_area: { Args: { target: string }; Returns: boolean };
+      current_role_slugs: { Args: never; Returns: string[] };
+      has_permission: { Args: { target: string }; Returns: boolean };
+      has_role: { Args: { target: string }; Returns: boolean };
+      reorder_page_sections: {
+        Args: { p_ordered_ids: string[]; p_page_id: string };
+        Returns: number;
+      };
       capture_lead: { Args: { p: Json }; Returns: string };
     };
     Enums: {
       area_relation_kind: "principal" | "complementaria";
       content_status: "borrador" | "revision" | "publicado" | "archivado";
-      lead_origin_type: "campana" | "area" | "contacto" | "importacion" | "referido";
-      lead_status: "nuevo" | "contactado" | "calificado" | "descartado" | "convertido";
+      lead_origin_type: "campana" | "area" | "contacto" | "prototipo" | "importacion" | "referido";
+      lead_status:
+        | "nuevo"
+        | "revisado"
+        | "contactado"
+        | "calificado"
+        | "derivado"
+        | "descartado"
+        | "spam";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -1500,8 +1558,16 @@ export const Constants = {
     Enums: {
       area_relation_kind: ["principal", "complementaria"],
       content_status: ["borrador", "revision", "publicado", "archivado"],
-      lead_origin_type: ["campana", "area", "contacto", "importacion", "referido"],
-      lead_status: ["nuevo", "contactado", "calificado", "descartado", "convertido"]
+      lead_origin_type: ["campana", "area", "contacto", "prototipo", "importacion", "referido"],
+      lead_status: [
+        "nuevo",
+        "revisado",
+        "contactado",
+        "calificado",
+        "derivado",
+        "descartado",
+        "spam"
+      ]
     }
   }
 } as const;

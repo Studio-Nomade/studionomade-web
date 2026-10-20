@@ -7,6 +7,7 @@ import "@studionomade/design-system/styles.css";
 const allowIndexing = process.env.VERCEL_ENV === "production";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://studionomade.cl"),
   title: "Studio Nomade",
   description: "Placeholder de fundación del ecosistema web Studio Nomade.",
   robots: allowIndexing ? { index: true, follow: true } : { index: false, follow: false }
