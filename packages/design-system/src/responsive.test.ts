@@ -38,7 +38,14 @@ const headingRange = {
   "--fs-heading-3": [27, 32],
   "--fs-heading-4": [18, 22],
   "--fs-heading-5": [16, 18],
-  "--fs-heading-6": [14, 16]
+  "--fs-heading-6": [14, 16],
+  // Páginas de servicio por área.
+  "--fs-title-hero": [40, 96],
+  "--fs-title-cta": [36, 64],
+  "--fs-title-section": [28, 40],
+  "--fs-lead-xl": [22, 32],
+  "--fs-body-xl": [18, 24],
+  "--fs-figure": [72, 128]
 } as const;
 
 describe("escala fluida", () => {

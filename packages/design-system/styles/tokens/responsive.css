@@ -22,6 +22,12 @@
   --fs-heading-4: clamp(18px, calc(16.514286px + 0.380952vw), 22px);
   --fs-heading-5: clamp(16px, calc(15.257143px + 0.190476vw), 18px);
   --fs-heading-6: clamp(14px, calc(13.257143px + 0.190476vw), 16px);
+  --fs-title-hero: clamp(40px, calc(19.2px + 5.333333vw), 96px);
+  --fs-title-cta: clamp(36px, calc(25.6px + 2.666667vw), 64px);
+  --fs-title-section: clamp(28px, calc(23.542857px + 1.142857vw), 40px);
+  --fs-lead-xl: clamp(22px, calc(18.285714px + 0.952381vw), 32px);
+  --fs-body-xl: clamp(18px, calc(15.771429px + 0.571429vw), 24px);
+  --fs-figure: clamp(72px, calc(51.2px + 5.333333vw), 128px);
 }
 
 @media (min-width: 480px) {

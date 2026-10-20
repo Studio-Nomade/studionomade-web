@@ -5,8 +5,12 @@ import { motionDelay } from "./reveal";
 import styles from "./split-text.module.css";
 
 export interface SplitTextProps {
-  /** Texto a partir. Con `by="lines"` y sin `lines`, el corte se mide en el navegador. */
-  children?: string;
+  /**
+   * Texto a partir. Con `by="lines"` y sin `lines`, el corte se mide en el
+   * navegador; en ese modo admite texto enriquecido (`<strong>`, `<br>`), que se
+   * parte por líneas conservando el marcado. Palabras y letras exigen un string.
+   */
+  children?: ReactNode;
   /** Líneas fijadas por diseño. Tiene prioridad sobre `children` y no necesita medir. */
   lines?: string[];
   /** Unidad que se anima. */
@@ -61,7 +65,8 @@ export function SplitText({
     "data-motion-delay": motionDelay(delay, step)
   };
 
-  if (by === "lines" && !lines) {
+  // Texto enriquecido: solo puede partirse por líneas medidas.
+  if ((by === "lines" && !lines) || (!lines && typeof children !== "string")) {
     return (
       <Tag {...common} data-motion="lines-auto">
         {children}
@@ -84,7 +89,8 @@ export function SplitText({
     );
   }
 
-  const words = children.split(/\s+/).filter(Boolean);
+  const text = typeof children === "string" ? children : "";
+  const words = text.split(/\s+/).filter(Boolean);
 
   if (by === "words") {
     return (
@@ -104,7 +110,7 @@ export function SplitText({
   // que la versión partida se oculta y se expone una copia legible.
   return (
     <Tag {...common} data-motion="chars">
-      <span className={styles.srOnly}>{children}</span>
+      <span className={styles.srOnly}>{text}</span>
       <span aria-hidden="true">
         {words.map((word, index) => (
           <Fragment key={`${index}-${word}`}>

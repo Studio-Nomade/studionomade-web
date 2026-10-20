@@ -38,4 +38,15 @@ describe("SplitText", () => {
     const { container } = render(<SplitText by="words">visible siempre</SplitText>);
     expect(container.querySelector("[style]")).toBeNull();
   });
+
+  it("parte texto enriquecido por líneas medidas, conservando el marcado", () => {
+    const { container } = render(
+      <SplitText as="p" by="words">
+        Diseñamos <strong>experiencias</strong> memorables.
+      </SplitText>
+    );
+    expect(container.firstElementChild).toHaveAttribute("data-motion", "lines-auto");
+    expect(container.querySelector("strong")).toHaveTextContent("experiencias");
+    expect(container.textContent).toBe("Diseñamos experiencias memorables.");
+  });
 });
