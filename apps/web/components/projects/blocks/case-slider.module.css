@@ -1,0 +1,27 @@
+/* CaseSlider — imagen 1118 × 779 centrada (márgenes 161), barra 28px debajo. */
+
+.slider {
+  padding: clamp(var(--sp-9), 7vw, 6.3125rem) var(--site-margin) clamp(var(--sp-9), 7.5vw, 6.75rem);
+  background: var(--surface-page);
+  color: var(--sn-black);
+}
+
+.carousel {
+  max-width: calc(69.875rem + 2 * (var(--sp-7) + var(--site-gutter)));
+  margin-inline: auto;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 1118 / 779;
+  background: var(--surface-media);
+}
+
+.frame img {
+  object-fit: cover;
+}
+
+/* Una sola diapositiva: no hay a dónde ir. */
+.slider[data-single] button[data-direction] {
+  visibility: hidden;
+}

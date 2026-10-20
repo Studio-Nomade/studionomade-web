@@ -28,6 +28,11 @@
   --button-pad-y: clamp(16px, calc(15.257143px + 0.190476vw), 18px);
   --button-pad-x: clamp(30px, calc(25.542857px + 1.142857vw), 42px);
 
+  /* Páginas de caso: aire vertical de bloque (Figma 162 / 120 / 80 a 1440). */
+  --case-y-xl: clamp(64px, calc(27.6px + 9.333333vw), 162px);
+  --case-y-lg: clamp(56px, calc(32.228571px + 6.095238vw), 120px);
+  --case-y-md: clamp(40px, calc(25.142857px + 3.809524vw), 80px);
+
   /* Web Admin runs on a denser ladder built from the same 4px base */
   --admin-gap: var(--sp-4);
   --admin-pad: var(--sp-5);

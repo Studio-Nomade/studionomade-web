@@ -25,12 +25,26 @@ export interface CarouselProps {
   /** `full`: una diapositiva a todo el ancho (hero) · `peek`: asoma la siguiente (galería). */
   variant?: "full" | "peek";
   /**
-   * `full`: flechas, contador y barra por pasos · `progress`: solo una barra
-   * fina cuyo indicador sigue al scroll real (riel de mockups, sin flechas).
+   * Dónde van las flechas. `bar` (por defecto): flechas, contador y barra bajo
+   * el carril · `sides`: flechas a los lados de la diapositiva y, debajo, una
+   * barra segmentada (un tramo por diapositiva).
+   */
+  layout?: "bar" | "sides";
+  /**
+   * `full` (por defecto): flechas y su indicador según `layout` · `progress`:
+   * sin flechas ni contador, solo una barra fina cuyo indicador sigue al
+   * scroll real (riel de mockups). Con `progress`, `layout` no aplica.
    */
   controls?: "full" | "progress";
   /** Texto o bloque que acompaña al riel: columna izquierda en escritorio, encima en móvil. */
   lead?: ReactNode;
+  /**
+   * Etiquetas de cada diapositiva ("Mockup 01"). Nombran cada diapositiva y,
+   * con JS, se muestran como botones bajo el indicador (`aria-current` en la actual).
+   */
+  labels?: string[];
+  /** Pinta el indicador activo (tramo, barra o pulgar) con `--accent`. */
+  accent?: boolean;
   /** Al llegar al final, la flecha siguiente vuelve al inicio. */
   loop?: boolean;
   /** Avance automático en ms. `0` lo desactiva; nunca corre con movimiento reducido. */
@@ -41,7 +55,7 @@ export interface CarouselProps {
   nextLabel?: string;
   pauseLabel?: string;
   playLabel?: string;
-  /** Nombre de cada diapositiva para lectores de pantalla. */
+  /** Nombre de cada diapositiva para lectores de pantalla (si no hay `labels`). */
   slideLabel?: (index: number, total: number) => string;
   className?: string;
 }
@@ -50,6 +64,14 @@ const pad = (value: number) => String(value).padStart(2, "0");
 const defaultSlideLabel = (index: number, total: number) => `${index + 1} de ${total}`;
 /** Desplazamiento mínimo (px) para que un arrastre con ratón no sea un clic. */
 const DRAG_THRESHOLD = 4;
+
+function Chevron({ flip }: { flip?: boolean }) {
+  return (
+    <svg viewBox="0 0 12 22" aria-hidden="true" focusable="false" data-flip={flip || undefined}>
+      <path d="M1 1l10 10L1 21" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
 
 function Arrow({ flip }: { flip?: boolean }) {
   return (
@@ -90,7 +112,7 @@ function nearestSlide(track: HTMLElement): number {
 }
 
 /**
- * Carrusel con flechas, contador y barra de progreso, para heros y galerías.
+ * Carrusel para heros, galerías, rieles de mockups y sliders de casos.
  *
  * La base es un carril con `scroll-snap` nativo: sin JavaScript se desliza con
  * el dedo, el trackpad o la barra, y cada diapositiva es alcanzable. Al hidratar
@@ -101,8 +123,11 @@ export function Carousel({
   children,
   label,
   variant = "full",
+  layout = "bar",
   controls = "full",
   lead,
+  labels,
+  accent = false,
   loop = false,
   autoplay = 0,
   invert = false,
@@ -227,9 +252,139 @@ export function Carousel({
     event.stopPropagation();
   };
 
+  const progressOnly = controls === "progress";
+  const sides = layout === "sides" && !progressOnly;
   const atStart = !loop && index === 0;
   const atEnd = !loop && index === total - 1;
-  const progressOnly = controls === "progress";
+
+  const arrow = (direction: "prev" | "next") => (
+    <button
+      type="button"
+      className={styles.arrow}
+      aria-controls={trackId}
+      aria-label={direction === "prev" ? prevLabel : nextLabel}
+      disabled={direction === "prev" ? atStart : atEnd}
+      onClick={() => goTo(index + (direction === "prev" ? -1 : 1))}
+      data-direction={direction}
+      data-cursor-magnetic=""
+    >
+      {sides ? <Chevron flip={direction === "prev"} /> : <Arrow flip={direction === "prev"} />}
+    </button>
+  );
+
+  const toggle =
+    autoplay > 0 && !reduced ? (
+      <button
+        type="button"
+        className={styles.toggle}
+        aria-pressed={paused}
+        onClick={() => setPaused((value) => !value)}
+      >
+        {paused ? playLabel : pauseLabel}
+      </button>
+    ) : null;
+
+  const tabs = labels?.length ? (
+    <div className={styles.labels}>
+      {labels.slice(0, total).map((text, labelIndex) => (
+        <button
+          type="button"
+          key={`${labelIndex}-${text}`}
+          className={styles.label}
+          aria-controls={trackId}
+          aria-current={labelIndex === index || undefined}
+          onClick={() => goTo(labelIndex)}
+        >
+          {text}
+        </button>
+      ))}
+    </div>
+  ) : null;
+
+  const track = (
+    <div
+      className={styles.track}
+      id={trackId}
+      ref={trackRef}
+      tabIndex={0}
+      // Los gestos horizontales del trackpad quedan nativos aunque haya Lenis.
+      data-lenis-prevent-horizontal=""
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={endDrag}
+      onPointerCancel={endDrag}
+      onClickCapture={onClickCapture}
+      onDragStart={(event) => event.preventDefault()}
+    >
+      {slides.map((slide, slideIndex) => (
+        <div
+          className={styles.slide}
+          key={slideIndex}
+          role="group"
+          aria-roledescription="diapositiva"
+          aria-label={labels?.[slideIndex] ?? slideLabel(slideIndex, total)}
+          data-active={slideIndex === index || undefined}
+        >
+          {slide}
+        </div>
+      ))}
+    </div>
+  );
+
+  let indicator: ReactNode;
+  if (progressOnly) {
+    indicator = (
+      <div className={styles.controls}>
+        <span
+          className={styles.progress}
+          data-mode="scroll"
+          aria-hidden="true"
+          style={
+            {
+              "--sn-carousel-thumb": total ? 1 / total : 1,
+              "--sn-carousel-scroll": progress * Math.max(0, total - 1)
+            } as CSSProperties
+          }
+        >
+          <span />
+        </span>
+        {toggle}
+      </div>
+    );
+  } else if (sides) {
+    indicator = (
+      <div className={styles.meta}>
+        <span className={styles.segments} aria-hidden="true">
+          <span
+            style={
+              {
+                "--sn-carousel-progress": index,
+                "--sn-step-count": Math.max(1, total)
+              } as CSSProperties
+            }
+          />
+        </span>
+        {tabs}
+        {toggle}
+      </div>
+    );
+  } else {
+    indicator = (
+      <div className={styles.controls}>
+        {arrow("prev")}
+        <span className={styles.count} aria-hidden="true">
+          {pad(index + 1)} <span>/ {pad(total)}</span>
+        </span>
+        <span className={styles.progress} aria-hidden="true">
+          <span
+            style={{ "--sn-carousel-progress": total ? (index + 1) / total : 0 } as CSSProperties}
+          />
+        </span>
+        {toggle}
+        {arrow("next")}
+      </div>
+    );
+  }
 
   return (
     <section
@@ -237,9 +392,11 @@ export function Carousel({
       aria-roledescription="carrusel"
       aria-label={label}
       data-variant={variant}
+      data-layout={sides ? "sides" : "bar"}
       data-controls={controls}
       data-lead={lead ? "" : undefined}
       data-invert={invert || undefined}
+      data-accent-progress={accent || undefined}
       data-enhanced={enhanced || undefined}
       data-dragging={dragging || undefined}
       onKeyDown={onKeyDown}
@@ -250,97 +407,21 @@ export function Carousel({
     >
       {lead ? <div className={styles.lead}>{lead}</div> : null}
 
-      <div
-        className={styles.track}
-        id={trackId}
-        ref={trackRef}
-        tabIndex={0}
-        // Los gestos horizontales del trackpad quedan nativos aunque haya Lenis.
-        data-lenis-prevent-horizontal=""
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        onClickCapture={onClickCapture}
-        onDragStart={(event) => event.preventDefault()}
-      >
-        {slides.map((slide, slideIndex) => (
-          <div
-            className={styles.slide}
-            key={slideIndex}
-            role="group"
-            aria-roledescription="diapositiva"
-            aria-label={slideLabel(slideIndex, total)}
-            data-active={slideIndex === index || undefined}
-          >
-            {slide}
-          </div>
-        ))}
-      </div>
-
-      {progressOnly ? (
-        <div className={styles.controls}>
-          <span
-            className={styles.progress}
-            data-mode="scroll"
-            aria-hidden="true"
-            style={
-              {
-                "--sn-carousel-thumb": total ? 1 / total : 1,
-                "--sn-carousel-scroll": progress * Math.max(0, total - 1)
-              } as CSSProperties
-            }
-          >
-            <span />
-          </span>
+      {sides ? (
+        <div className={styles.stage}>
+          {arrow("prev")}
+          {track}
+          {arrow("next")}
         </div>
       ) : (
-        <div className={styles.controls}>
-          <button
-            type="button"
-            className={styles.arrow}
-            aria-controls={trackId}
-            aria-label={prevLabel}
-            disabled={atStart}
-            onClick={() => goTo(index - 1)}
-            data-cursor-magnetic=""
-          >
-            <Arrow flip />
-          </button>
-          <span className={styles.count} aria-hidden="true">
-            {pad(index + 1)} <span>/ {pad(total)}</span>
-          </span>
-          <span className={styles.progress} aria-hidden="true">
-            <span
-              style={{ "--sn-carousel-progress": total ? (index + 1) / total : 0 } as CSSProperties}
-            />
-          </span>
-          {autoplay > 0 && !reduced ? (
-            <button
-              type="button"
-              className={styles.toggle}
-              aria-pressed={paused}
-              onClick={() => setPaused((value) => !value)}
-            >
-              {paused ? playLabel : pauseLabel}
-            </button>
-          ) : null}
-          <button
-            type="button"
-            className={styles.arrow}
-            aria-controls={trackId}
-            aria-label={nextLabel}
-            disabled={atEnd}
-            onClick={() => goTo(index + 1)}
-            data-cursor-magnetic=""
-          >
-            <Arrow />
-          </button>
-        </div>
+        track
       )}
 
+      {indicator}
+      {sides ? null : tabs}
+
       <p className={styles.srOnly} aria-live={playing ? "off" : "polite"} aria-atomic="true">
-        {enhanced ? slideLabel(index, total) : null}
+        {enhanced ? [labels?.[index], slideLabel(index, total)].filter(Boolean).join(", ") : null}
       </p>
     </section>
   );

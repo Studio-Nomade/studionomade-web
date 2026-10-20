@@ -46,3 +46,16 @@ it("pinnea solo cuando el ancho y la preferencia de movimiento lo permiten", () 
   expect(screen.getByRole("region", { name: "Galería" })).toHaveAttribute("data-pinned");
   expect(loadMotion).toHaveBeenCalled();
 });
+
+it("con intro deja el texto fuera del carril, sin convertirlo en panel", () => {
+  media(false);
+  const { container } = render(
+    <HorizontalScroll label="Galería" intro={<p>Texto fijo</p>}>
+      <p>uno</p>
+      <p>dos</p>
+    </HorizontalScroll>
+  );
+  expect(screen.getByText("Texto fijo").closest("[data-panel]")).toBeNull();
+  expect(container.querySelectorAll("[data-panel]")).toHaveLength(2);
+  expect(container.querySelector("[data-has-intro]")).toBeInTheDocument();
+});

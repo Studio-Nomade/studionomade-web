@@ -118,4 +118,66 @@ describe("Carousel", () => {
     fireEvent.click(screen.getByRole("button", { name: "Uno" }));
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  it("con layout sides muestra etiquetas clicables y barra segmentada", () => {
+    const { container } = render(
+      <Carousel label="Mockups" layout="sides" labels={["Mockup 01", "Mockup 02"]} accent>
+        {[<p key="a">A</p>, <p key="b">B</p>]}
+      </Carousel>
+    );
+    const region = screen.getByRole("region", { name: "Mockups" });
+    expect(region).toHaveAttribute("data-layout", "sides");
+    expect(region).toHaveAttribute("data-accent-progress");
+    expect(screen.getAllByRole("group")[0]).toHaveAttribute("aria-label", "Mockup 01");
+    const first = screen.getByRole("button", { name: "Mockup 01" });
+    expect(first).toHaveAttribute("aria-current", "true");
+
+    act(() => screen.getByRole("button", { name: "Mockup 02" }).click());
+    expect(screen.getAllByRole("group")[1]).toHaveAttribute("data-active");
+    expect(screen.getByRole("button", { name: "Mockup 02" })).toHaveAttribute(
+      "aria-current",
+      "true"
+    );
+    expect(screen.getByRole("button", { name: "Siguiente" })).toBeDisabled();
+    const segment = container.querySelector<HTMLElement>("[style*='--sn-carousel-progress']");
+    expect(segment?.style.getPropertyValue("--sn-carousel-progress")).toBe("1");
+    expect(screen.getByText("Mockup 02, 2 de 2", { selector: "p" })).toBeInTheDocument();
+  });
+
+  it("combina layout sides con lead, y las etiquetas sirven también en la barra", () => {
+    const { container, unmount } = render(
+      <Carousel label="Casos" layout="sides" lead={<p>Intro</p>} labels={["A", "B", "C"]}>
+        {SLIDES}
+      </Carousel>
+    );
+    const region = screen.getByRole("region", { name: "Casos" });
+    expect(region).toHaveAttribute("data-layout", "sides");
+    expect(region).toHaveAttribute("data-lead");
+    expect(screen.getByText("Intro")).toBeInTheDocument();
+    const track = container.querySelector("[tabindex='0']") as HTMLElement;
+    expect(track).toHaveAttribute("data-lenis-prevent-horizontal");
+    unmount();
+
+    render(
+      <Carousel label="Galería" labels={["A", "B", "C"]}>
+        {SLIDES}
+      </Carousel>
+    );
+    expect(screen.getByRole("region", { name: "Galería" })).toHaveAttribute("data-layout", "bar");
+    act(() => screen.getByRole("button", { name: "C" }).click());
+    expect(screen.getAllByRole("group")[2]).toHaveAttribute("data-active");
+    expect(screen.getByRole("button", { name: "Siguiente" })).toBeDisabled();
+  });
+
+  it("con controls=progress ignora layout sides y no muestra flechas", () => {
+    render(
+      <Carousel label="Riel" layout="sides" controls="progress">
+        {SLIDES}
+      </Carousel>
+    );
+    const region = screen.getByRole("region", { name: "Riel" });
+    expect(region).toHaveAttribute("data-layout", "bar");
+    expect(region).toHaveAttribute("data-controls", "progress");
+    expect(screen.queryByRole("button", { name: "Anterior" })).toBeNull();
+  });
 });

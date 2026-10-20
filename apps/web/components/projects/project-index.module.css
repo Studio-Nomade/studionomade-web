@@ -1,0 +1,130 @@
+/* Listado /proyectos: mismo lenguaje que los casos (Inter fino, gris #555, máscara). */
+
+.index {
+  padding: clamp(var(--sp-10), 9vw, var(--sp-13)) var(--site-margin) var(--case-y-xl);
+  background: var(--surface-page);
+  color: var(--text-title);
+  font-family: var(--font-core);
+  line-height: var(--lh-case);
+}
+
+.index h1 {
+  color: inherit;
+  font-family: var(--font-core);
+}
+
+.header {
+  max-width: 76.125rem;
+  margin: 0 auto var(--case-y-md);
+  text-align: center;
+}
+
+.title {
+  font-size: var(--fs-case-title);
+  font-weight: var(--fw-case-title);
+  letter-spacing: var(--tr-case-title);
+  line-height: var(--lh-case);
+}
+
+.lead {
+  max-width: 36rem;
+  margin: var(--sp-4) auto 0;
+  font-size: var(--fs-case-body);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--sp-8), 6vw, var(--sp-11)) clamp(var(--sp-4), 3.75vw, 3.375rem);
+  max-width: 76.75rem;
+  margin-inline: auto;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  color: inherit;
+  text-decoration: none;
+}
+
+.media {
+  aspect-ratio: 587 / 708;
+  background: var(--surface-media);
+}
+
+.media img {
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.card:hover .media img,
+.card:focus-visible .media img {
+  transform: scale(var(--media-zoom));
+}
+
+.card:hover {
+  color: inherit;
+}
+
+.card:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--sp-2);
+  color: var(--sn-black);
+  font-size: var(--fs-case-small);
+}
+
+.code {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-weight: var(--fw-bold);
+}
+
+.code::before {
+  content: "";
+  display: block;
+  width: var(--sp-5);
+  height: 2px;
+  background: var(--accent);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+.card:hover .code::before,
+.card:focus-visible .code::before {
+  width: var(--sp-8);
+}
+
+.name {
+  font-size: var(--fs-case-headline);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-case);
+}
+
+.summary {
+  max-width: 34rem;
+  font-size: var(--fs-case-small);
+  line-height: var(--lh-body);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 48em) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

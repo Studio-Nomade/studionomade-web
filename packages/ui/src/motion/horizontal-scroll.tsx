@@ -13,6 +13,11 @@ export interface HorizontalScrollProps {
   label: string;
   /** Ancho mínimo (px) a partir del cual se pinnea. Por debajo, scroll nativo. */
   minWidth?: number;
+  /**
+   * Texto que acompaña a la galería. Pinneada queda fijo a la izquierda
+   * mientras el carril se desplaza; sin pin va encima del carril.
+   */
+  intro?: ReactNode;
   className?: string;
 }
 
@@ -29,6 +34,7 @@ export function HorizontalScroll({
   children,
   label,
   minWidth = BREAKPOINTS.md,
+  intro,
   className
 }: HorizontalScrollProps) {
   const pinRef = useRef<HTMLDivElement>(null);
@@ -60,7 +66,8 @@ export function HorizontalScroll({
       .then(({ gsap }) => {
         if (disposed) return;
         const ctx = gsap.context(() => {
-          const distance = () => Math.max(0, track.scrollWidth - pin.clientWidth);
+          // El carril visible es el propio carril: con `intro` ocupa menos que el pin.
+          const distance = () => Math.max(0, track.scrollWidth - track.clientWidth);
           const tween = gsap.to(track, {
             x: () => -distance(),
             ease: "none",
@@ -106,7 +113,8 @@ export function HorizontalScroll({
     >
       {/* Se pinnea el envoltorio interno, no la sección: el pin-spacer de
           ScrollTrigger queda dentro de un nodo que React no reordena. */}
-      <div ref={pinRef} className={styles.pin}>
+      <div ref={pinRef} className={styles.pin} data-has-intro={intro ? "" : undefined}>
+        {intro ? <div className={styles.intro}>{intro}</div> : null}
         <div ref={trackRef} className={styles.track} tabIndex={pinned ? -1 : 0}>
           {Children.toArray(children).map((child, index) => (
             <div className={styles.panel} key={index} data-panel="">

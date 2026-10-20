@@ -4,6 +4,7 @@
 
 .pin {
   overflow: hidden;
+  background: inherit;
 }
 
 .track {
@@ -35,4 +36,27 @@
   overflow: visible;
   scroll-snap-type: none;
   will-change: transform;
+}
+
+/* Texto fijo junto a la galería. Sin pin va encima del carril. */
+.intro {
+  padding-inline: var(--site-margin);
+  margin-bottom: var(--sp-6);
+}
+
+.scroller[data-pinned] .pin[data-has-intro] .intro {
+  position: relative;
+  z-index: var(--z-content);
+  flex: 0 0 auto;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  background: inherit;
+}
+
+.scroller[data-pinned] .pin[data-has-intro] .track {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-inline-start: 0;
 }

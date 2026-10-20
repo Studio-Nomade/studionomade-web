@@ -54,6 +54,36 @@ La fila **Áreas** sale del Figma "SERVICIOS" (páginas Branding y Architecture,
 hero Inter 200, CTA/formulario, H2 de sección Inter 600, lead/cita, cuerpo grande y cifras Inter 500.
 Los máximos son los de Figma y los mínimos siguen el comportamiento móvil del sitio legado.
 
+### Páginas de caso
+
+Escala del Figma "WEB NOMADE 2026" (máximo a 1440, fluida desde 390; `scripts/fluid.mjs`):
+
+| Token                  | 390 → 1440              | Uso                                           |
+| ---------------------- | ----------------------- | --------------------------------------------- |
+| `--fs-case-title`      | 44 → 96                 | Título del caso (hero), en mayúsculas         |
+| `--fs-case-title-long` | 32 → 64                 | Títulos largos ("Reebok x Lollapalooza")      |
+| `--fs-case-credits`    | 32 → 48                 | "Créditos"                                    |
+| `--fs-case-headline`   | 26 → 40                 | Objetivos, desafío, narrativa (600)           |
+| `--fs-case-statement`  | 24 → 36                 | Statement de cierre, "Package Design"         |
+| `--fs-case-lead`       | 22 → 32                 | Año, citas, claim, lead, zonas de Equifax     |
+| `--fs-case-body`       | 18 → 24                 | Cuerpo, columnas del desafío, créditos        |
+| `--fs-case-label`      | 16 → 20                 | Etiquetas, captions, servicios, botón Behance |
+| `--fs-case-small`      | 15 → 16                 | Objetivos y código de área                    |
+| `--case-y-xl/-lg/-md`  | 64→162 · 56→120 · 40→80 | Aire vertical de bloque                       |
+
+`--lh-case` (1.21) reproduce el `line-height: normal` de Inter que mide Figma.
+
+**Peso del título.** Figma dibuja el título del caso en Inter 400 con tracking 0; el legado usaba
+Inter 100 con -2px. Se toma la caja, el tamaño y el interlineado de Figma con el peso delgado del
+sistema: `--fw-case-title: var(--fw-masthead)` y `--tr-case-title: var(--tr-masthead)`. Volver al 400
+de Figma es cambiar esas dos líneas.
+
+**Acentos de caso** (decisión del cliente, `data-accent` en el `<article>` del caso): CinnaLove
+`#813408`, NEXA `#dc5c34`, Kumelen `#d89840`, Reebok y Equifax el rojo de A&D `#ef1942`. El acento
+pinta la regla corta, el tramo activo del slider, los círculos de objetivos, el hover del botón
+Behance y los números de zonas; nunca texto de cuerpo sobre fondo claro. `tokens.test.ts` verifica
+los valores y que `--accent-contrast` cumpla AA (≥ 4.5:1) sobre cada acento.
+
 `--fs-h1`…`--fs-h5`, `--fs-display-*` y `--fs-campaign-*` siguen vigentes para campañas y páginas
 interiores; los titulares del rediseño usan `--fs-heading-*`.
 

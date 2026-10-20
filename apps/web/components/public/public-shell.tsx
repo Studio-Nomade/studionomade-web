@@ -12,10 +12,17 @@ export { PublicHeader } from "./public-header";
  * `main` va por encima del footer (`z-index: 1`, fondo opaco) para que el
  * revelado fijo del footer funcione en escritorio.
  */
-export function PublicPage({ children }: { children: ReactNode }) {
+export function PublicPage({
+  children,
+  headerTone = "dark"
+}: {
+  children: ReactNode;
+  /** `light` para páginas de fondo blanco (casos, listado). */
+  headerTone?: "light" | "dark";
+}) {
   return (
     <>
-      <PublicHeader />
+      <PublicHeader tone={headerTone} />
       <main id="contenido" className={styles.page}>
         {children}
       </main>
