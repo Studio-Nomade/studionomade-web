@@ -67,4 +67,29 @@ describe("Carousel", () => {
     const { container } = render(<Carousel label="Proyectos">{SLIDES}</Carousel>);
     expect(container.querySelector("[tabindex='0']")).toBeInTheDocument();
   });
+
+  it("con layout sides muestra etiquetas clicables y barra segmentada", () => {
+    const { container } = render(
+      <Carousel label="Mockups" layout="sides" labels={["Mockup 01", "Mockup 02"]} accent>
+        {[<p key="a">A</p>, <p key="b">B</p>]}
+      </Carousel>
+    );
+    const region = screen.getByRole("region", { name: "Mockups" });
+    expect(region).toHaveAttribute("data-layout", "sides");
+    expect(region).toHaveAttribute("data-accent-progress");
+    expect(screen.getAllByRole("group")[0]).toHaveAttribute("aria-label", "Mockup 01");
+    const first = screen.getByRole("button", { name: "Mockup 01" });
+    expect(first).toHaveAttribute("aria-current", "true");
+
+    act(() => screen.getByRole("button", { name: "Mockup 02" }).click());
+    expect(screen.getAllByRole("group")[1]).toHaveAttribute("data-active");
+    expect(screen.getByRole("button", { name: "Mockup 02" })).toHaveAttribute(
+      "aria-current",
+      "true"
+    );
+    expect(screen.getByRole("button", { name: "Siguiente" })).toBeDisabled();
+    const segment = container.querySelector<HTMLElement>("[style*='--sn-carousel-progress']");
+    expect(segment?.style.getPropertyValue("--sn-carousel-progress")).toBe("1");
+    expect(screen.getByText("Mockup 02, 2 de 2", { selector: "p" })).toBeInTheDocument();
+  });
 });

@@ -96,4 +96,21 @@
   /* Botón: Inter 600 13px. */
   --fs-button: 13px;
   --fw-button: 600; /* @kind font */
+
+  /* Páginas de caso (Figma "WEB NOMADE 2026"). Máximos a 1440 px; la fórmula
+     fluida vive en responsive.css. Todo Inter, line-height "normal" de Figma.
+     El titular usa el peso delgado del sistema (decisión documentada en
+     docs/design-system/tokens.md): Figma lo dibuja en 400. */
+  --fs-case-title: 96px;
+  --fs-case-title-long: 64px;
+  --fs-case-credits: 48px;
+  --fs-case-headline: 40px;
+  --fs-case-statement: 36px;
+  --fs-case-lead: 32px;
+  --fs-case-body: 24px;
+  --fs-case-label: 20px;
+  --fs-case-small: 16px;
+  --lh-case: 1.21; /* @kind font */
+  --fw-case-title: var(--fw-masthead);
+  --tr-case-title: var(--tr-masthead);
 }

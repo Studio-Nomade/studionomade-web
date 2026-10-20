@@ -18,9 +18,13 @@ Component.
 | ---------- | -------------------------------- | ----------- |
 | `label`    | nombre accesible (obligatorio)   | —           |
 | `minWidth` | px a partir de los que se pinnea | `768`       |
+| `intro`    | texto fijo junto a la galería    | —           |
 
 - Sin JS, con `prefers-reduced-motion` o bajo `minWidth`: carril nativo con
   `scroll-snap`, enfocable (Tab + flechas).
 - Pinneada: al enfocar un panel fuera de pantalla con el teclado, la página
   salta al punto del recorrido donde ese panel se ve.
 - El ancho de cada panel lo decide quien compone (los hijos).
+- Con `intro`, el texto queda fijo a la izquierda mientras el carril se
+  desplaza (pinneada) y va encima del carril en el modo nativo. El recorrido
+  es el ancho sobrante del carril visible, no del pin completo.
