@@ -40,23 +40,24 @@
   --accent-line: #925628;
   --accent-2: #676127;
 }
-/* Case — Kumelen */
+/* Case — Kumelen (mostaza muestreado de los mockups; decisión del cliente) */
 [data-accent="kumelen"] {
-  --accent: #e0a63f;
+  --accent: #d89840;
   --accent-contrast: #0a0a0a;
   --accent-soft: #f0e3cb;
-  --accent-line: #e0a63f;
+  --accent-line: #d89840;
   --accent-2: #3b3617;
 }
-/* Case — Nexa */
+/* Case — Nexa (paleta literal de la lámina de color del caso; decisión del cliente) */
 [data-accent="nexa"] {
-  --accent: #f05a28;
-  --accent-contrast: #ffffff;
-  --accent-soft: #d8e6f2;
-  --accent-line: #f05a28;
-  --accent-2: #9cc4e4;
+  --accent: #dc5c34;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #f6ebb9;
+  --accent-line: #dc5c34;
+  --accent-2: #8d3930;
 }
-/* provisional — pendiente de muestreo del plano de Equifax en H5 */
+/* Case — Equifax: rojo del área Architecture & Design (decisión del cliente).
+   El rojo de marca del render (#a00010) no contrasta sobre la banda de zonas. */
 [data-accent="equifax"] {
   --accent: #ef1942;
   --accent-contrast: #0a0a0a;
@@ -64,13 +65,14 @@
   --accent-line: #ef1942;
   --accent-2: #7b67ed;
 }
-/* provisional — pendiente de muestreo del key visual de Reebok en H5 */
+/* Case — Reebok x Lollapalooza: rojo del área Architecture & Design (decisión
+   del cliente). El navy de marca (#102038) desaparece sobre los fondos negros. */
 [data-accent="reebok"] {
-  --accent: #7b67ed;
+  --accent: #ef1942;
   --accent-contrast: #0a0a0a;
-  --accent-soft: #e4e0fb;
-  --accent-line: #7b67ed;
-  --accent-2: #ef1942;
+  --accent-soft: #fde7eb;
+  --accent-line: #ef1942;
+  --accent-2: #7b67ed;
 }
 /* Web Admin — functional state colours, used only for status */
 :root {

@@ -139,3 +139,117 @@
     scroll-behavior: auto;
   }
 }
+
+/* ---- layout="sides": flechas a los lados y barra segmentada con etiquetas ---- */
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.carousel[data-layout="sides"][data-enhanced] .stage {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: var(--site-gutter);
+}
+
+.stage > .arrow {
+  display: none;
+  width: var(--sp-7);
+  height: var(--sp-7);
+  min-width: var(--sp-7);
+}
+
+.carousel[data-layout="sides"][data-enhanced] .stage > .arrow {
+  display: inline-flex;
+}
+
+.stage > .arrow svg {
+  width: var(--sp-3);
+  height: var(--sp-5);
+}
+
+.stage > .arrow svg[data-flip] {
+  transform: scaleX(-1);
+}
+
+.meta {
+  display: none;
+}
+
+.carousel[data-layout="sides"][data-enhanced] .meta {
+  display: block;
+  margin-top: var(--sp-6);
+}
+
+.carousel[data-layout="sides"][data-enhanced] .stage ~ .meta {
+  margin-inline: calc(var(--sp-7) + var(--site-gutter));
+}
+
+.segments {
+  position: relative;
+  display: block;
+  height: 2px;
+  overflow: hidden;
+  background: var(--sn-rule);
+}
+
+.segments > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(100% / var(--sn-step-count));
+  background: currentColor;
+  transform: translateX(calc(var(--sn-carousel-progress) * 100%));
+  transition: transform var(--motion-dur) var(--motion-ease-expo-in-out);
+}
+
+.carousel[data-accent-progress] .segments > span,
+.carousel[data-accent-progress] .progress > span {
+  background: var(--accent);
+}
+
+.labels {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  margin-top: var(--sp-3);
+}
+
+.label {
+  justify-self: start;
+  padding: var(--sp-1) 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-core);
+  font-size: var(--fs-case-label);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-case);
+  cursor: pointer;
+  opacity: var(--hover-fade);
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+.label[aria-current],
+.label:hover {
+  opacity: 1;
+}
+
+.label:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+@media (max-width: 48em) {
+  .carousel[data-layout="sides"][data-enhanced] .stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .carousel[data-layout="sides"][data-enhanced] .stage > .arrow {
+    display: none;
+  }
+
+  .carousel[data-layout="sides"][data-enhanced] .stage ~ .meta {
+    margin-inline: 0;
+  }
+}
