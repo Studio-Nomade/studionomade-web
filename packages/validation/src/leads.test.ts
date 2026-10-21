@@ -3,9 +3,16 @@ import type { z } from "zod";
 
 import {
   campaignLeadSubmissionSchema,
+  LEAD_AREAS,
+  LEAD_BUDGET_RANGES,
+  LEAD_NEEDS,
+  LEAD_SOURCE_CHANNELS,
+  LEAD_TIMELINES,
+  leadFormInput,
   leadSubmissionSchema,
   normalizeChileanPhone,
   PROJECT_STAGES,
+  qualifiedLeadSubmissionSchema,
   utmSchema
 } from "./leads";
 
@@ -198,4 +205,111 @@ describe("normalizeChileanPhone", () => {
 describe("PROJECT_STAGES", () => {
   it("coincide con el check de la base de datos", () =>
     expect(PROJECT_STAGES).toEqual(["idea", "en_desarrollo", "en_venta"]));
+});
+
+const validQualifiedLead = {
+  ...validLead,
+  company: "Marca Ejemplo",
+  areas: ["branding", "web-design"],
+  needs: ["imagen_marca", "diseno_web"],
+  budget_range: "3m_8m",
+  timeline: "1_3_meses"
+};
+
+describe("qualifiedLeadSubmissionSchema", () => {
+  it("acepta un lead calificado completo", () => {
+    const result = qualifiedLeadSubmissionSchema.parse({
+      ...validQualifiedLead,
+      source_channel: "instagram"
+    });
+    expect(result).toMatchObject({
+      company: "Marca Ejemplo",
+      areas: ["branding", "web-design"],
+      needs: ["imagen_marca", "diseno_web"],
+      budget_range: "3m_8m",
+      timeline: "1_3_meses",
+      source_channel: "instagram"
+    });
+  });
+
+  it("exige empresa, áreas, necesidades, presupuesto y plazo con mensajes en español", () => {
+    const result = qualifiedLeadSubmissionSchema.safeParse({
+      ...validLead,
+      company: "",
+      budget_range: "",
+      timeline: ""
+    });
+    expect(firstError(result, "company")).toBe("Ingresa tu empresa o marca.");
+    expect(firstError(result, "areas")).toBe("Selecciona al menos un área de interés.");
+    expect(firstError(result, "needs")).toBe("Selecciona al menos una opción.");
+    expect(firstError(result, "budget_range")).toBe("Selecciona un rango de presupuesto.");
+    expect(firstError(result, "timeline")).toBe("Selecciona un plazo.");
+  });
+
+  it("rechaza valores fuera de las listas", () => {
+    const result = qualifiedLeadSubmissionSchema.safeParse({
+      ...validQualifiedLead,
+      areas: ["branding", "inventada"],
+      budget_range: "un-millon",
+      source_channel: "tiktok"
+    });
+    expect(firstError(result, "areas")).toBe("Selecciona al menos un área de interés.");
+    expect(firstError(result, "budget_range")).toBe("Selecciona un rango de presupuesto.");
+    expect(firstError(result, "source_channel")).toBe("Selecciona una opción válida.");
+  });
+
+  it("acepta un valor suelto como lista de uno y descarta duplicados", () => {
+    const result = qualifiedLeadSubmissionSchema.parse({
+      ...validQualifiedLead,
+      areas: "audiovisual",
+      needs: ["otro", "otro"]
+    });
+    expect(result.areas).toEqual(["audiovisual"]);
+    expect(result.needs).toEqual(["otro"]);
+  });
+
+  it("el schema general sigue aceptando leads sin calificación", () => {
+    const result = leadSubmissionSchema.parse({ ...validLead, areas: "", source_channel: "" });
+    expect(result.areas).toBeUndefined();
+    expect(result.source_channel).toBeUndefined();
+  });
+});
+
+describe("leadFormInput", () => {
+  it("conserva todas las marcas de los campos múltiples", () => {
+    const formData = new FormData();
+    formData.append("name", "Ada");
+    formData.append("areas", "branding");
+    formData.append("areas", "audiovisual");
+    formData.append("needs", "otro");
+    expect(leadFormInput(formData)).toEqual({
+      name: "Ada",
+      areas: ["branding", "audiovisual"],
+      needs: ["otro"]
+    });
+  });
+});
+
+describe("listas de calificación", () => {
+  it("coinciden con los checks de 20261021120000_lead_qualification.sql", () => {
+    expect(LEAD_AREAS).toEqual(["branding", "architecture", "audiovisual", "web-design"]);
+    expect(LEAD_NEEDS).toHaveLength(8);
+    expect(LEAD_BUDGET_RANGES).toEqual([
+      "menos_1m",
+      "1m_3m",
+      "3m_8m",
+      "8m_20m",
+      "mas_20m",
+      "sin_definir"
+    ]);
+    expect(LEAD_TIMELINES).toEqual(["lo_antes_posible", "1_3_meses", "3_6_meses", "sin_fecha"]);
+    expect(LEAD_SOURCE_CHANNELS).toEqual([
+      "recomendacion",
+      "instagram",
+      "linkedin",
+      "behance",
+      "google",
+      "otro"
+    ]);
+  });
 });
