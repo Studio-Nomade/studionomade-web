@@ -1,4 +1,5 @@
 export { createBrowserDatabaseClient } from "./clients/browser";
+export { createPublicDatabaseClient } from "./clients/public";
 export { createServiceDatabaseClient } from "./clients/service";
 export { createServerDatabaseClient } from "./clients/server";
 export type { Database, Json } from "./types/database";

@@ -15,6 +15,7 @@ export const SITE_NAV: SiteNavItem[] = [
   { label: "Proyectos", href: "/proyectos" },
   { label: "Áreas", submenu: "areas" },
   { label: "Nosotros", href: "/nosotros" },
+  { label: "Blog", href: "/blog" },
   { label: "Contacto", href: "/contacto" }
 ];
 
@@ -67,6 +68,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     items: [
       { label: "Proyectos", href: "/proyectos" },
       { label: "Nosotros", href: "/nosotros" },
+      { label: "Blog", href: "/blog" },
       { label: "Contacto", href: "/contacto" },
       { label: "Agendar videollamada", href: "/contacto#agenda" }
     ]

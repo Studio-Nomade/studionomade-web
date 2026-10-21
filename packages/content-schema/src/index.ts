@@ -149,3 +149,14 @@ export function pageCompletenessIssues(
 
 export { campaignContentSchema } from "./campaign";
 export type { CampaignContent } from "./campaign";
+
+export {
+  blogBlockSchema,
+  blogBodySchema,
+  blogBodyToMarkdown,
+  blogBodyToPlainText,
+  markdownToBlogBody,
+  readingMinutes,
+  type BlogBlock,
+  type BlogBody
+} from "./blog";

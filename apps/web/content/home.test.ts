@@ -9,8 +9,7 @@ import {
   HOME_HERO_SLIDES,
   HOME_INSTAGRAM,
   HOME_MANIFESTO,
-  HOME_MEETING,
-  HOME_POSTS
+  HOME_MEETING
 } from "./home";
 import { publicProjects } from "./projects";
 
@@ -39,7 +38,6 @@ describe("contenido de la home", () => {
       ...HOME_HERO_SLIDES.map((slide) => slide.image.src),
       ...HOME_AREAS.flatMap((area) => area.images.map((image) => image.src)),
       ...HOME_INSTAGRAM.images.map((image) => image.src),
-      ...HOME_POSTS.map((post) => post.image.src),
       HOME_MEETING.image.src
     ];
     for (const src of sources) {

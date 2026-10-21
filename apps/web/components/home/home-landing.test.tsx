@@ -8,6 +8,9 @@ import { HomeLanding } from "./home-landing";
 
 // InstagramFeed es un Server Component asíncrono (API de Instagram): en los
 // tests de render se reemplaza por su versión de respaldo síncrona.
+vi.mock("./home-posts", () => ({
+  HomePosts: () => <p>Ver todas las notas</p>
+}));
 vi.mock("./instagram-feed", () => ({
   InstagramFeed: () => <a href="https://www.instagram.com/studionomade_/">Ir al perfil</a>
 }));

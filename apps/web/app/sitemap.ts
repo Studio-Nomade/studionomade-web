@@ -3,14 +3,20 @@ import { CAMPAIGNS } from "../campaigns/registry";
 import { STUDIO_AREAS } from "../content/area-meta";
 import { LAB_PROTOTYPES } from "../content/lab";
 import { publicProjects } from "../content/projects";
+import { getBlogPosts } from "../lib/blog/source";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://studionomade.cl";
   return [
     { url: base },
     ...STUDIO_AREAS.map(({ href }) => ({ url: `${base}${href}` })),
     { url: `${base}/proyectos` },
     { url: `${base}/nosotros` },
+    { url: `${base}/blog` },
+    ...(await getBlogPosts()).map((post) => ({
+      url: `${base}/blog/${post.slug}`,
+      lastModified: post.publishedAt
+    })),
     { url: `${base}/contacto` },
     { url: `${base}/privacidad` },
     { url: `${base}/terminos` },
