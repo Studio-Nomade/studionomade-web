@@ -47,7 +47,10 @@ const nextConfig: NextConfig = {
       ...SECURITY_HEADERS,
       {
         key: "Content-Security-Policy",
-        value: buildStaticContentSecurityPolicy(supabaseOrigin, { metaPixel: metaPixelEnabled })
+        value: buildStaticContentSecurityPolicy(supabaseOrigin, {
+          metaPixel: metaPixelEnabled,
+          allowDevEval: isDevelopment
+        })
       }
     ];
     return [

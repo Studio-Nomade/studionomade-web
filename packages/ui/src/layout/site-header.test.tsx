@@ -53,4 +53,31 @@ describe("SiteHeader", () => {
     render(<SiteHeader links={LINKS} linkComponent={Custom} />);
     expect(screen.getByRole("link", { name: /Contacto/ })).toHaveAttribute("data-custom");
   });
+
+  it("despliega un submenú de áreas y marca el área actual", () => {
+    const links = [
+      { label: "Inicio", href: "/" },
+      {
+        label: "Áreas",
+        children: [
+          { label: "Branding & Design", href: "/areas/branding", code: "B&D" },
+          { label: "Web Design", href: "/areas/web-design", code: "WD" }
+        ]
+      }
+    ];
+    render(<SiteHeader links={links} currentPath="/areas/web-design" actions={<span>ES</span>} />);
+    expect(screen.getByText("ES")).toBeInTheDocument();
+    act(() => screen.getByRole("button", { name: "Menú" }).click());
+
+    const areas = screen.getByRole("button", { name: /Áreas/ });
+    expect(areas).toHaveAttribute("aria-expanded", "false");
+    act(() => areas.click());
+    expect(areas).toHaveAttribute("aria-expanded", "true");
+
+    const web = screen.getByRole("link", { name: /Web Design/ });
+    expect(web).toHaveAttribute("href", "/areas/web-design");
+    expect(web).toHaveAttribute("aria-current", "page");
+    expect(web).not.toHaveAttribute("tabindex");
+    expect(areas).toHaveAttribute("data-current");
+  });
 });

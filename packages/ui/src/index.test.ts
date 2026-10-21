@@ -7,6 +7,13 @@ import { describe, expect, it } from "vitest";
 import * as ui from "./index";
 
 const components = [
+  "BehanceIcon",
+  "InstagramIcon",
+  "LinkedInIcon",
+  "MailIcon",
+  "ThreadsIcon",
+  "VimeoIcon",
+  "WhatsAppIcon",
   "Button",
   "CampaignCTA",
   "CampaignDisplay",

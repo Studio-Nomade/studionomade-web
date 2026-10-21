@@ -3,6 +3,7 @@ import {
   buildStaticContentSecurityPolicy,
   buildStrictContentSecurityPolicy,
   META_PIXEL_CSP,
+  PUBLIC_EMBEDS_CSP,
   SECURITY_HEADERS
 } from "./security";
 
@@ -47,13 +48,15 @@ describe("security headers", () => {
     expect(directive(policy, "script-src")).toEqual([
       "'self'",
       "'unsafe-inline'",
-      "https://connect.facebook.net"
+      "https://connect.facebook.net",
+      ...PUBLIC_EMBEDS_CSP.scriptSrc
     ]);
     expect(directive(policy, "connect-src")).toEqual([
       "'self'",
       "https://example.supabase.co",
       "https://www.facebook.com",
-      "https://connect.facebook.net"
+      "https://connect.facebook.net",
+      ...PUBLIC_EMBEDS_CSP.connectSrc
     ]);
     // El beacon de imagen queda cubierto por `https:` en img-src.
     expect(directive(policy, "img-src")).toContain("https:");
@@ -70,8 +73,18 @@ describe("security headers", () => {
     expect(directive(policy, "connect-src")).toEqual([
       "'self'",
       "https://www.facebook.com",
-      "https://connect.facebook.net"
+      "https://connect.facebook.net",
+      ...PUBLIC_EMBEDS_CSP.connectSrc
     ]);
+  });
+
+  it("el sitio público abre solo los embeds acordados (mapas, agenda y traductor)", () => {
+    const policy = buildStaticContentSecurityPolicy();
+    for (const origin of PUBLIC_EMBEDS_CSP.frameSrc)
+      expect(directive(policy, "frame-src")).toContain(origin);
+    expect(directive(policy, "script-src")).not.toContain("https://calendly.com");
+    expect(buildStrictContentSecurityPolicy("abc")).not.toContain("translate.google");
+    expect(policy).not.toMatch(/\*\.google/);
   });
 
   it("la política estricta del admin no abre Meta", () => {
@@ -88,7 +101,10 @@ describe("security headers", () => {
       expect(policy).toContain("base-uri 'self'");
       expect(policy).toContain("form-action 'self'");
       expect(policy).toContain("frame-ancestors 'none'");
-      expect(policy).toContain("frame-src https://player.vimeo.com https://www.behance.net");
+      expect(directive(policy, "frame-src").slice(0, 2)).toEqual([
+        "https://player.vimeo.com",
+        "https://www.behance.net"
+      ]);
     }
   });
 

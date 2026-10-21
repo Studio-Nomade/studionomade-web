@@ -37,3 +37,11 @@ Madrid") es copy de marca fijo: no la reescribas.
 pegado al fondo por debajo del contenido y se descubre al final. Es CSS puro
 (`position: sticky; bottom: 0`): el contenido previo necesita fondo opaco y
 `position: relative; z-index: 1`.
+
+## 2026-10-21
+
+- `social` admite instagram, behance, vimeo, linkedin, threads, whatsapp y email;
+  se dibujan como botones circulares con borde. Los enlaces externos abren en
+  pestaña nueva.
+- `logoSize="compact"` reduce el logo (~55 % del ancho Figma).
+- `extra` es un bloque a todo el ancho antes de la línea legal (mapas, etc.).

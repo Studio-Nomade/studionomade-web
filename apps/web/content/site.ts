@@ -1,28 +1,59 @@
-import type { FooterColumn, SiteHeaderLink } from "@studionomade/ui";
-import { SOCIAL_LINKS } from "./social";
+import type { FooterColumn } from "@studionomade/ui";
+import { STUDIO_AREAS } from "./area-meta";
+
+/** Entrada de la navegación principal (el submenú Áreas se arma en PublicHeader). */
+export interface SiteNavItem {
+  label: string;
+  href?: string;
+  /** `areas`: despliega las cuatro áreas del Studio a la derecha. */
+  submenu?: "areas";
+}
 
 /** Navegación principal del sitio público (menú a pantalla completa). */
-export const SITE_NAV: SiteHeaderLink[] = [
+export const SITE_NAV: SiteNavItem[] = [
   { label: "Inicio", href: "/" },
   { label: "Proyectos", href: "/proyectos" },
-  { label: "Branding", href: "/areas/branding" },
-  { label: "Architecture", href: "/areas/architecture" },
+  { label: "Áreas", submenu: "areas" },
+  { label: "Nosotros", href: "/nosotros" },
   { label: "Contacto", href: "/contacto" }
 ];
+
+export const SITE_AREA_LINKS = STUDIO_AREAS.map((area) => ({
+  label: area.name,
+  href: area.href,
+  code: area.code,
+  symbol: area.symbol
+}));
+
+export const SITE_CITIES = ["Santiago", "Algarrobo", "Madrid", "Lisboa"] as const;
 
 export const SITE_CONTACT = {
   email: "contact@studionomade.cl",
   phones: ["+569 34045111", "+569 34045134"],
-  cities: "Santiago | Madrid"
+  cities: SITE_CITIES.join(" | ")
 } as const;
+
+/** Oficinas con dirección física: alimentan el footer y sus mapas. */
+export const SITE_OFFICES = [
+  {
+    city: "Santiago",
+    lines: ["Avenida Providencia 1208, Oficina 207", "Providencia, Santiago"],
+    mapQuery: "Avenida Providencia 1208, Providencia, Santiago, Chile"
+  },
+  {
+    city: "Algarrobo",
+    lines: ["Lomas de San Gerónimo, Parcela 06", "Algarrobo, Valparaíso"],
+    mapQuery: "Lomas de San Gerónimo, Algarrobo, Valparaíso, Chile"
+  }
+] as const;
 
 const tel = (phone: string) => `tel:${phone.replace(/\s+/g, "")}`;
 
-/** Columnas del footer según Figma: Studio, Contacto y Redes. */
+/** Columnas del footer: Studio (oficinas), Contacto y Explorar. Las redes van abajo. */
 export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: "Studio",
-    items: [{ label: "Santa Beatriz 100, Of. 1101" }, { label: "Providencia, Santiago" }]
+    items: SITE_OFFICES.flatMap((office) => office.lines.map((line) => ({ label: line })))
   },
   {
     title: "Contacto",
@@ -32,14 +63,12 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     ]
   },
   {
-    title: "Redes",
-    // Fuente única de URLs: content/social.ts (un valor vacío deja la red como texto).
-    items: (
-      [
-        ["Instagram", SOCIAL_LINKS.instagram],
-        ["LinkedIn", SOCIAL_LINKS.linkedin],
-        ["Vimeo", SOCIAL_LINKS.vimeo]
-      ] as const
-    ).map(([label, href]) => (href ? { label, href } : { label }))
+    title: "Explorar",
+    items: [
+      { label: "Proyectos", href: "/proyectos" },
+      { label: "Nosotros", href: "/nosotros" },
+      { label: "Contacto", href: "/contacto" },
+      { label: "Agendar videollamada", href: "/contacto#agenda" }
+    ]
   }
 ];

@@ -41,6 +41,23 @@
 .brand {
   width: var(--footer-logo-w);
 }
+.grid[data-logo="compact"] {
+  --footer-logo-w-compact: calc(var(--footer-logo-w) * 0.55);
+
+  grid-template-columns: var(--footer-logo-w-compact) repeat(3, minmax(0, 1fr));
+}
+.grid[data-logo="compact"][data-columns="1"] {
+  grid-template-columns: var(--footer-logo-w-compact) minmax(0, 1fr);
+}
+.grid[data-logo="compact"][data-columns="2"] {
+  grid-template-columns: var(--footer-logo-w-compact) repeat(2, minmax(0, 1fr));
+}
+.grid[data-logo="compact"] .brand {
+  width: var(--footer-logo-w-compact);
+}
+.extra {
+  padding-block-end: var(--sp-9);
+}
 .logo {
   display: block;
   width: 100%;
@@ -103,14 +120,28 @@
 }
 .social {
   display: flex;
-  gap: var(--sp-5);
+  flex-wrap: wrap;
+  gap: var(--sp-3);
   align-items: center;
 }
 .social a {
+  display: grid;
+  place-items: center;
+  width: var(--sp-8);
+  height: var(--sp-8);
+  border: 1px solid var(--text-on-invert-muted);
+  border-radius: var(--radius-circle);
   color: var(--sn-white);
-  font-size: var(--fs-h3);
-  line-height: var(--lh-tight);
   text-decoration: none;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+.social a:hover {
+  border-color: var(--sn-white);
+  background: var(--sn-white);
+  color: var(--surface-invert);
 }
 .social svg {
   display: block;

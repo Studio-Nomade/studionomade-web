@@ -1,14 +1,18 @@
 import type { ReactNode } from "react";
+import { BehanceIcon } from "../icons/behance";
 import { InstagramIcon } from "../icons/instagram";
 import { LinkedInIcon } from "../icons/linkedin";
+import { MailIcon } from "../icons/mail";
+import { ThreadsIcon } from "../icons/threads";
 import { VimeoIcon } from "../icons/vimeo";
+import { WhatsAppIcon } from "../icons/whatsapp";
 import styles from "./footer.module.css";
 export interface FooterColumn {
   title: string;
   items: Array<{ label: ReactNode; href?: string }>;
 }
 export interface FooterSocial {
-  kind: "linkedin" | "vimeo" | "instagram" | "email";
+  kind: "instagram" | "behance" | "vimeo" | "linkedin" | "threads" | "whatsapp" | "email";
   href: string;
 }
 export interface FooterProps {
@@ -18,6 +22,10 @@ export interface FooterProps {
   logoSrc?: string;
   /** Slot de logo (tiene prioridad sobre `logoSrc`). */
   logo?: ReactNode;
+  /** `compact` reduce el logo a ~55 % del ancho del Figma original. */
+  logoSize?: "default" | "compact";
+  /** Bloque a todo el ancho entre la grilla y la línea legal (p. ej. mapas). */
+  extra?: ReactNode;
   columns?: FooterColumn[];
   social?: FooterSocial[];
   /** Enlaces legales junto al texto legal (Privacidad, Términos). */
@@ -31,11 +39,22 @@ export interface FooterProps {
    */
   reveal?: boolean;
 }
-const icons = { linkedin: LinkedInIcon, vimeo: VimeoIcon, instagram: InstagramIcon };
+const icons = {
+  instagram: InstagramIcon,
+  behance: BehanceIcon,
+  vimeo: VimeoIcon,
+  linkedin: LinkedInIcon,
+  threads: ThreadsIcon,
+  whatsapp: WhatsAppIcon,
+  email: MailIcon
+};
 const socialNames = {
-  linkedin: "LinkedIn",
-  vimeo: "Vimeo",
   instagram: "Instagram",
+  behance: "Behance",
+  vimeo: "Vimeo",
+  linkedin: "LinkedIn",
+  threads: "Threads",
+  whatsapp: "WhatsApp",
   email: "Correo"
 };
 /**
@@ -48,6 +67,8 @@ export function Footer({
   cities = "Santiago | Madrid",
   logoSrc,
   logo,
+  logoSize = "default",
+  extra,
   columns = [],
   social = [],
   legalLinks = [],
@@ -68,7 +89,7 @@ export function Footer({
           <span>{cities}</span>
         </p>
         <div className={styles.rule} />
-        <div className={styles.grid} data-columns={columns.length}>
+        <div className={styles.grid} data-columns={columns.length} data-logo={logoSize}>
           <div className={styles.brand}>{brand}</div>
           {columns.map((column) => (
             <div key={column.title}>
@@ -83,6 +104,7 @@ export function Footer({
             </div>
           ))}
         </div>
+        {extra ? <div className={styles.extra}>{extra}</div> : null}
         <div className={styles.bottom}>
           <p className={styles.legal}>
             <span>{legal}</span>
@@ -95,14 +117,17 @@ export function Footer({
           {social.length ? (
             <div className={styles.social}>
               {social.map((item) => {
-                const Icon = item.kind === "email" ? null : icons[item.kind];
+                const Icon = icons[item.kind];
+                const external = /^https?:/.test(item.href);
                 return (
                   <a
                     key={`${item.kind}-${item.href}`}
                     href={item.href}
                     aria-label={socialNames[item.kind]}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
                   >
-                    {Icon ? <Icon /> : "@"}
+                    <Icon />
                   </a>
                 );
               })}
