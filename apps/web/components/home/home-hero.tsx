@@ -252,10 +252,50 @@ export function HomeHero({
         onPointerEnter={(event) => event.pointerType === "mouse" && setHovered(true)}
         onPointerLeave={() => setHovered(false)}
       >
-        <p className={styles.counter} aria-hidden="true">
-          <span className={styles.counterCurrent}>{pad(active + 1)}</span>
-          <span className={styles.counterTotal}> / {pad(total)}</span>
-        </p>
+        {/* Contador y flechas a la izquierda: la esquina inferior derecha queda
+            libre para el botón flotante de contacto del sitio. */}
+        <div className={styles.status}>
+          <p className={styles.counter} aria-hidden="true">
+            <span className={styles.counterCurrent}>{pad(active + 1)}</span>
+            <span className={styles.counterTotal}> / {pad(total)}</span>
+          </p>
+          <div className={styles.nav}>
+            {autoplay ? (
+              <button
+                type="button"
+                className={styles.navButton}
+                onClick={() => setStopped((value) => !value)}
+                aria-label={stopped ? "Reanudar presentación" : "Pausar presentación"}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  {stopped ? <path d="M8 5.5v13l10.5-6.5z" /> : <path d="M8 5v14M16 5v14" />}
+                </svg>
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className={styles.navButton}
+              onClick={() => goTo(active - 1, true)}
+              aria-label="Proyecto anterior"
+              aria-controls={slidesId}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 12H5M11 6l-6 6 6 6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className={styles.navButton}
+              onClick={() => goTo(active + 1, true)}
+              aria-label="Proyecto siguiente"
+              aria-controls={slidesId}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 12h15M13 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
 
         <Link
           className={styles.pill}
@@ -277,43 +317,6 @@ export function HomeHero({
             <span className={styles.pillName}>{current.title}</span>
           </span>
         </Link>
-
-        <div className={styles.nav}>
-          {autoplay ? (
-            <button
-              type="button"
-              className={styles.navButton}
-              onClick={() => setStopped((value) => !value)}
-              aria-label={stopped ? "Reanudar presentación" : "Pausar presentación"}
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                {stopped ? <path d="M8 5.5v13l10.5-6.5z" /> : <path d="M8 5v14M16 5v14" />}
-              </svg>
-            </button>
-          ) : null}
-          <button
-            type="button"
-            className={styles.navButton}
-            onClick={() => goTo(active - 1, true)}
-            aria-label="Proyecto anterior"
-            aria-controls={slidesId}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M20 12H5M11 6l-6 6 6 6" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className={styles.navButton}
-            onClick={() => goTo(active + 1, true)}
-            aria-label="Proyecto siguiente"
-            aria-controls={slidesId}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M4 12h15M13 6l6 6-6 6" />
-            </svg>
-          </button>
-        </div>
       </div>
 
       <p className={styles.srOnly} aria-live={announce ? "polite" : "off"} aria-atomic="true">
