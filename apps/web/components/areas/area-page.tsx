@@ -7,6 +7,7 @@ import {
   SplitText,
   type MotionDirection
 } from "@studionomade/ui";
+import type { CSSProperties } from "react";
 import { BEHANCE_URL, type AreaContent, type AreaImage } from "../../content/areas";
 import { AREA_TEAMS, initials, type TeamMember } from "../../content/team";
 import { PublicFooter, PublicHeader } from "../public/public-shell";
@@ -57,6 +58,13 @@ function MaskedImage({
       preset="mask"
       direction={direction}
       className={[styles.media, className].filter(Boolean).join(" ")}
+      data-fit={image.fit === "contain" ? "contain" : undefined}
+      style={
+        {
+          "--media-ratio": `${image.width} / ${image.height}`,
+          "--media-focus": image.focus ?? "50% 50%"
+        } as CSSProperties
+      }
     >
       <Parallax y={0.05} clip className={styles.parallax}>
         <Image src={image.src} alt={image.alt} fill sizes={sizes} priority={priority} />
@@ -105,7 +113,7 @@ function HeroSection({ area }: { area: AreaContent }) {
 
       {hero.kind === "carousel" ? (
         <Carousel
-          label="Mockups de marcas"
+          label={hero.label ?? "Mockups de marcas"}
           variant="peek"
           controls="progress"
           className={styles.rail}
@@ -189,20 +197,31 @@ function WhatSection({ area }: { area: AreaContent }) {
         <div className={styles.rowText}>
           <h3 className={styles.h3}>Alcance</h3>
           <AccentRule size="sm" />
-          <div
-            className={styles.stats}
-            data-layout={scope.stats.length > 1 ? "diagonal" : "single"}
-          >
-            {scope.stats.map((stat, index) => (
-              <Reveal key={stat.label} preset="fade" step={index * 2} className={styles.stat}>
-                <p className={styles.statValue}>
-                  {stat.prefix ? <span className={styles.statPrefix}>{stat.prefix}</span> : null}
-                  <Counter to={stat.value} />
-                </p>
-                <p className={styles.statLabel}>{stat.label}</p>
-              </Reveal>
-            ))}
-          </div>
+          {scope.stats.length ? (
+            <div
+              className={styles.stats}
+              data-layout={scope.stats.length > 1 ? "diagonal" : "single"}
+            >
+              {scope.stats.map((stat, index) => (
+                <Reveal key={stat.label} preset="fade" step={index * 2} className={styles.stat}>
+                  <p className={styles.statValue}>
+                    {stat.prefix ? <span className={styles.statPrefix}>{stat.prefix}</span> : null}
+                    <Counter to={stat.value} />
+                  </p>
+                  <p className={styles.statLabel}>{stat.label}</p>
+                </Reveal>
+              ))}
+            </div>
+          ) : null}
+          {scope.points?.length ? (
+            <ul className={styles.points}>
+              {scope.points.map((point, index) => (
+                <Reveal as="li" key={point} step={index} className={styles.point}>
+                  {point}
+                </Reveal>
+              ))}
+            </ul>
+          ) : null}
         </div>
         <MaskedImage
           image={scope.image}
@@ -215,13 +234,18 @@ function WhatSection({ area }: { area: AreaContent }) {
   );
 }
 
+/** Galería de a pares; las imágenes `wide` ocupan toda la fila. */
 function GallerySection({ area }: { area: AreaContent }) {
-  const [first, second, wide] = area.gallery;
   return (
     <section className={styles.gallery} aria-label="Galería de proyectos">
-      <MaskedImage image={first} sizes="(max-width: 48em) 100vw, 45vw" />
-      <MaskedImage image={second} sizes="(max-width: 48em) 100vw, 45vw" />
-      <MaskedImage image={wide} sizes="(max-width: 48em) 100vw, 90vw" className={styles.wide} />
+      {area.gallery.map((image) => (
+        <MaskedImage
+          key={image.src}
+          image={image}
+          sizes={image.wide ? "(max-width: 48em) 100vw, 90vw" : "(max-width: 48em) 100vw, 45vw"}
+          className={image.wide ? styles.wide : undefined}
+        />
+      ))}
     </section>
   );
 }
@@ -311,6 +335,9 @@ function Portrait({ member, step }: { member: TeamMember; step: number }) {
 }
 
 function TeamSection({ area }: { area: AreaContent }) {
+  const team = AREA_TEAMS[area.slug];
+  // TODO-contenido: las áreas sin equipo definido omiten la sección.
+  if (!team.length) return null;
   return (
     <section className={styles.team} aria-labelledby="equipo">
       <AccentRule size="md" />
@@ -318,7 +345,7 @@ function TeamSection({ area }: { area: AreaContent }) {
         Conoce al equipo
       </SplitText>
       <ul className={styles.teamGrid}>
-        {AREA_TEAMS[area.slug].map((member, index) => (
+        {team.map((member, index) => (
           <li key={member.id} className={styles.member}>
             <Portrait member={member} step={index % 2} />
             <Reveal step={(index % 2) + 1}>
@@ -383,7 +410,8 @@ function ContactSection({ area }: { area: AreaContent }) {
 }
 
 /**
- * Página de servicio por área según el Figma "SERVICIOS" (Branding / Architecture):
+ * Página de servicio por área según el Figma "SERVICIOS" (Branding / Architecture;
+ * Audiovisual y Web Design reutilizan la misma estructura):
  * hero, ¿Qué hacemos? con Valores y Alcance, galería, Metodología, ¿Qué
  * entregamos?, equipo, CTA y formulario de contacto en la misma página.
  *
