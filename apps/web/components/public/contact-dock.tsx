@@ -18,13 +18,20 @@ export function ContactDock() {
   const rootRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  // Al llegar al final de la página el footer ya muestra los contactos y las
-  // redes: el botón se retira para no taparlos.
+  // El botón se retira donde estorba: al final de la página (el footer ya
+  // muestra contactos y redes) y sobre secciones marcadas con `data-dock-hide`
+  // (el hero de la home, que tiene su propia píldora "Ver proyecto").
   useEffect(() => {
     const check = () => {
       const remaining =
         document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
-      setAtEnd(remaining < window.innerHeight * 0.18);
+      const overHidden = Array.from(document.querySelectorAll("[data-dock-hide]")).some(
+        (element) => {
+          const rect = element.getBoundingClientRect();
+          return rect.top < window.innerHeight && rect.bottom > window.innerHeight * 0.55;
+        }
+      );
+      setAtEnd(remaining < window.innerHeight * 0.18 || overHidden);
     };
     check();
     window.addEventListener("scroll", check, { passive: true });
