@@ -107,3 +107,24 @@ El píxel se carga como archivo externo con `next/script` (`afterInteractive`) y
 9. Con Do Not Track activado, recargar: Pixel Helper no debe detectar el píxel y no debe haber peticiones a `facebook.net`.
 
 No debe haber errores de CSP en la consola. Si los hay, revisar que `NEXT_PUBLIC_META_PIXEL_ID` estuviera definido **en el build**.
+
+## Instagram en la home (últimas 5 publicaciones)
+
+La sección Instagram de la home muestra las 5 publicaciones más recientes de
+**@studionomade_** con la API de Instagram (inicio de sesión de Instagram,
+`graph.instagram.com`) y cachea la respuesta una hora. Sin token muestra una
+selección fija de imágenes del sitio.
+
+Para conectarla (una vez, la persona dueña de la cuenta):
+
+1. La cuenta @studionomade_ debe ser profesional (empresa o creador).
+2. En developers.facebook.com, crear una app de tipo Empresa y agregar el producto
+   **Instagram → API con inicio de sesión de Instagram**. En "Generar tokens de
+   acceso", agregar la cuenta @studionomade_ y generar el token (permiso
+   `instagram_business_basic`).
+3. En Vercel (`studionomade-web` → Settings → Environment Variables) crear
+   `INSTAGRAM_ACCESS_TOKEN` con ese token para Production y Preview, y redeplegar.
+4. El token dura 60 días. Renovarlo antes de que venza con
+   `GET https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=<token>`
+   y actualizar la variable. (Pendiente: automatizar la renovación guardando el
+   token en Supabase.)

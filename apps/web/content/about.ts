@@ -90,7 +90,6 @@ export const ABOUT = {
     lead: "Trabajamos entre Chile y Europa. Esta es la hora en cada una de nuestras bases.",
     items: [
       { city: "Santiago", country: "Chile", timeZone: "America/Santiago" },
-      { city: "Algarrobo", country: "Chile", timeZone: "America/Santiago" },
       { city: "Madrid", country: "España", timeZone: "Europe/Madrid" },
       { city: "Lisboa", country: "Portugal", timeZone: "Europe/Lisbon" }
     ] satisfies StudioLocation[]

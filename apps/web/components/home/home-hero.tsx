@@ -174,6 +174,7 @@ export function HomeHero({
 
   return (
     <section
+      data-dock-hide=""
       ref={rootRef}
       className={styles.hero}
       aria-roledescription="carousel"

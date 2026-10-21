@@ -180,51 +180,9 @@ export const HOME_MEETING = {
   }
 } as const;
 
-/**
- * Reel del estudio. El legado lo abría desde Vimeo/YouTube en un lightbox, pero
- * la URL no está en los assets recuperados.
- *
- * TODO-contenido: pegar la URL pública de Vimeo del reel (el CSP solo permite
- * `player.vimeo.com`). Vacío, el botón de reproducir no se muestra.
- */
-export const HOME_REEL = {
-  title: "Reel",
-  reelUrl: "",
-  poster: {
-    src: "/home/legado/reel.webp",
-    alt: "Render del espacio Jaecoo 7 en un centro comercial, portada del reel"
-  }
-} as const;
-
-/**
- * URL de inserción del reel. Solo acepta Vimeo por HTTPS (único origen de video
- * permitido por el CSP); cualquier otra cosa devuelve `null`.
- */
-export function reelEmbedUrl(rawUrl: string): string | null {
-  let url: URL;
-  try {
-    url = new URL(rawUrl.trim());
-  } catch {
-    return null;
-  }
-  if (url.protocol !== "https:") return null;
-  const host = url.hostname.toLowerCase().replace(/^www\./, "");
-  if (host !== "vimeo.com" && host !== "player.vimeo.com") return null;
-  const segments = url.pathname.split("/").filter(Boolean);
-  const idIndex = segments.findIndex((segment) => /^\d+$/.test(segment));
-  if (idIndex < 0) return null;
-  const embed = new URL(`https://player.vimeo.com/video/${segments[idIndex]}`);
-  // Videos no listados: el hash va en la ruta (vimeo.com/123/abc) o en `h`.
-  const hash = url.searchParams.get("h") ?? segments[idIndex + 1];
-  if (hash && /^[\da-f]+$/i.test(hash)) embed.searchParams.set("h", hash);
-  embed.searchParams.set("autoplay", "1");
-  embed.searchParams.set("dnt", "1");
-  return embed.toString();
-}
-
 export const HOME_INSTAGRAM = {
   title: "Instagram",
-  handle: "@studionomade",
+  handle: "@studionomade_",
   href: SOCIAL_LINKS.instagram,
   images: [
     { src: "/home/mockup-kumelen.webp", alt: "Mockup móvil de Kumelen" },
@@ -268,31 +226,3 @@ export const HOME_CONTACT = {
   primary: { label: "Cuéntanos tu proyecto", href: "/contacto" },
   secondary: { label: "Agendar una videollamada", href: "/contacto#agenda" }
 } as const;
-
-export interface HomeOffice {
-  name: string;
-  address: string;
-  detail: string;
-  commune: string;
-  mapsUrl: string;
-}
-
-const mapsSearch = (query: string) =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-
-export const HOME_OFFICES: HomeOffice[] = [
-  {
-    name: "Oficina Principal",
-    address: "Av. Providencia 1208",
-    detail: "Of. 207",
-    commune: "Providencia, Santiago",
-    mapsUrl: mapsSearch("Avenida Providencia 1208, Providencia, Santiago, Chile")
-  },
-  {
-    name: "Estudio Fotográfico",
-    address: "Santa Beatriz 100",
-    detail: "Of. 1101",
-    commune: "Providencia, Santiago",
-    mapsUrl: mapsSearch("Santa Beatriz 100, Providencia, Santiago, Chile")
-  }
-];

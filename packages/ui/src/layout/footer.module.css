@@ -41,6 +41,13 @@
 .brand {
   width: var(--footer-logo-w);
 }
+/* El logo (imagen del slot) se contiene en su columna sin deformarse. */
+.brand :is(img, svg) {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
 .grid[data-logo="compact"] {
   --footer-logo-w-compact: calc(var(--footer-logo-w) * 0.55);
 
