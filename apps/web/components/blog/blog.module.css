@@ -15,6 +15,7 @@
 .indexTitle,
 .articleTitle {
   margin: 0;
+  font-family: var(--font-core);
   color: var(--text-title);
   font-size: min(var(--fs-xxl), 12vw);
   font-weight: var(--fw-masthead);
@@ -169,6 +170,7 @@
 
 .cardTitle {
   margin: 0;
+  font-family: var(--font-core);
   color: var(--text-title);
   font-size: var(--fs-heading-4);
   font-weight: var(--fw-medium);
@@ -246,6 +248,7 @@
 
 .prose h2,
 .prose h3 {
+  font-family: var(--font-core);
   margin-top: var(--sp-9);
   color: var(--text-title);
   font-weight: var(--fw-semibold);
@@ -369,6 +372,7 @@
 
 .relatedTitle {
   margin: 0;
+  font-family: var(--font-core);
   color: var(--text-title);
   font-size: var(--fs-heading-3);
   font-weight: var(--fw-block-title);
