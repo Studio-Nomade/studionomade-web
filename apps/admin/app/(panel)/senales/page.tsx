@@ -1,6 +1,6 @@
 import { requireAnyRole } from "@studionomade/auth";
-import { readAdminServerEnvironment } from "../../lib/env";
-import { createAdminServerClient } from "../../lib/supabase-server";
+import { readAdminServerEnvironment } from "../../../lib/env";
+import { createAdminServerClient } from "../../../lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 export default async function SignalsPage() {
