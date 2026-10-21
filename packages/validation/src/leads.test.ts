@@ -291,7 +291,7 @@ describe("leadFormInput", () => {
 });
 
 describe("listas de calificación", () => {
-  it("coinciden con los checks de 20261021120000_lead_qualification.sql", () => {
+  it("coinciden con los checks de 202610210001_lead_qualification.sql", () => {
     expect(LEAD_AREAS).toEqual(["branding", "architecture", "audiovisual", "web-design"]);
     expect(LEAD_NEEDS).toHaveLength(8);
     expect(LEAD_BUDGET_RANGES).toEqual([

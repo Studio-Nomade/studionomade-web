@@ -133,7 +133,7 @@ export async function submitLead(
         company: lead.company,
         message: lead.message,
         project_stage: lead.project_stage,
-        // Calificación (/contacto). Sin la migración 20261021120000 la RPC las
+        // Calificación (/contacto). Sin la migración 202610210001 la RPC las
         // ignora; igual quedan en `form_submissions.payload`.
         areas: lead.areas,
         needs: lead.needs,
