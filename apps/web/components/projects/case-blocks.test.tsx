@@ -27,7 +27,8 @@ const block = <T extends CaseBlock["type"]>(project: PublicProject, type: T) =>
 
 describe("bloques de caso", () => {
   it("hero: título, año, código de área y servicios; sin Behance si falta la URL", () => {
-    render(<CaseBlockView block={block(kumelen, "hero")} project={kumelen} />);
+    const withoutUrl = { ...kumelen, behanceUrl: undefined };
+    render(<CaseBlockView block={block(withoutUrl, "hero")} project={withoutUrl} />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Kumelen");
     expect(screen.getByText("2025")).toBeInTheDocument();
     expect(screen.getByText("B&D")).toBeInTheDocument();
