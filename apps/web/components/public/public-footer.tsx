@@ -1,11 +1,21 @@
 import Image from "next/image";
 import { Footer } from "@studionomade/ui";
-import { FOOTER_COLUMNS, SITE_CONTACT } from "../../content/site";
+import { CAMPAIGN_FOOTER_COLUMNS, FOOTER_COLUMNS, SITE_CONTACT } from "../../content/site";
 import { footerSocialLinks } from "../../content/social";
 import { OfficeMaps } from "./office-maps";
 
-/** Footer público con revelado fijo en escritorio, mapas de oficinas y redes abajo. */
-export function PublicFooter({ reveal = true }: { reveal?: boolean }) {
+/**
+ * Footer público, el mismo en todas las páginas: revelado fijo en escritorio,
+ * mapas de oficinas y redes abajo. `variant="campaign"` (landings de alta
+ * conversión) quita los enlaces a Proyectos, Nosotros, Blog y Contacto.
+ */
+export function PublicFooter({
+  reveal = true,
+  variant = "site"
+}: {
+  reveal?: boolean;
+  variant?: "site" | "campaign";
+}) {
   return (
     <Footer
       cities={SITE_CONTACT.cities}
@@ -19,7 +29,7 @@ export function PublicFooter({ reveal = true }: { reveal?: boolean }) {
         />
       }
       logoSize="compact"
-      columns={FOOTER_COLUMNS}
+      columns={variant === "campaign" ? CAMPAIGN_FOOTER_COLUMNS : FOOTER_COLUMNS}
       extra={<OfficeMaps />}
       social={footerSocialLinks()}
       legalLinks={[
