@@ -34,9 +34,12 @@ export function ContactDock() {
     check();
     window.addEventListener("scroll", check, { passive: true });
     window.addEventListener("resize", check);
+    // Respaldo: el scroll suave o un salto por ancla no siempre emiten "scroll".
+    const timer = window.setInterval(check, 600);
     return () => {
       window.removeEventListener("scroll", check);
       window.removeEventListener("resize", check);
+      window.clearInterval(timer);
     };
   }, []);
 
@@ -109,7 +112,7 @@ export function ContactDock() {
         onClick={() => setOpen((value) => !value)}
       >
         <span className={styles.toggleText}>
-          <span className={styles.toggleLabel} data-state="closed">
+          <span className={styles.toggleLabel} data-state="closed" aria-hidden={open}>
             Contacto directo
           </span>
           <span className={styles.toggleLabel} data-state="open" aria-hidden={!open}>
