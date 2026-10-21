@@ -32,6 +32,22 @@
   --accent-line: #ef1942;
   --accent-2: #7b67ed;
 }
+/* Área — Audiovisual & Animation: violeta del isologo del área. */
+[data-accent="audiovisual"] {
+  --accent: #7569f6;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #ecebfe;
+  --accent-line: #6e62f5;
+  --accent-2: #25d07f;
+}
+/* Área — Web Design: amarillo del isologo del área. */
+[data-accent="web-design"] {
+  --accent: #e9c736;
+  --accent-contrast: #0a0a0a;
+  --accent-soft: #fbf5d7;
+  --accent-line: #e9c736;
+  --accent-2: #7b67ed;
+}
 /* Case — CinnaLove (palette taken verbatim from the case study board) */
 [data-accent="cinnalove"] {
   --accent: #813408;

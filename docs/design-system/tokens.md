@@ -109,3 +109,11 @@ desplazamientos pasan a 0 y el runtime no carga GSAP. `pnpm check:tokens` verifi
 Los máximos de la escala legada conservan exactamente los valores del diseño original; cuerpo, cuerpo
 pequeño y caption permanecen fijos. Los breakpoints son `480`, `768`, `1024`, `1280` y `1440` px y están
 espejados en `BREAKPOINTS`.
+
+## 2026-10-21 — Acentos de área Audiovisual y Web Design
+
+Se agregan `[data-accent="audiovisual"]` (`--accent: #7569f6`, violeta del isologo
+A&A aclarado lo mínimo para AA con `#0a0a0a`; la línea conserva `#6e62f5`) y
+`[data-accent="web-design"]` (`--accent: #e9c736`, amarillo del isologo WD), para
+que las cuatro áreas tengan página, favicon y color propios. Aprobado por
+Sebastián (dirección) al pedir favicon e identidad por área.
