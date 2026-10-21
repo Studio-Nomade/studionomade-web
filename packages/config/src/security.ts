@@ -21,28 +21,75 @@ export const META_PIXEL_CSP = {
   imgSrc: ["https://www.facebook.com"]
 } as const;
 
+/**
+ * Servicios de terceros que el sitio público incrusta o carga a pedido:
+ * - Google Maps (embed sin API key) en el footer.
+ * - Agenda de videollamadas: Calendly hoy, Google Calendar (citas) después.
+ * - Traductor web de Google, que solo se carga si el visitante elige EN o PT.
+ */
+export const PUBLIC_EMBEDS_CSP = {
+  frameSrc: [
+    "https://www.google.com",
+    "https://calendly.com",
+    "https://calendar.google.com",
+    "https://translate.google.com",
+    "https://translate.googleapis.com"
+  ],
+  scriptSrc: [
+    "https://translate.google.com",
+    "https://translate.googleapis.com",
+    "https://translate-pa.googleapis.com",
+    "https://www.gstatic.com"
+  ],
+  styleSrc: ["https://www.gstatic.com", "https://translate.googleapis.com"],
+  connectSrc: ["https://translate.googleapis.com", "https://translate-pa.googleapis.com"]
+} as const;
+
 export interface ContentSecurityPolicyOptions {
   /** Abre los orígenes de `META_PIXEL_CSP`. */
   metaPixel?: boolean;
+  /** Solo `next dev`: React Refresh evalúa código y sin esto no hidrata. */
+  allowDevEval?: boolean;
 }
 
 /**
  * Directivas comunes a las dos políticas. Lo único que cambia entre ellas es
  * `script-src`, que es justo donde está la decisión difícil (ver más abajo).
  */
-function sharedDirectives(connectOrigin?: string, extraConnect: readonly string[] = []): string[] {
-  const connectSources = ["'self'", connectOrigin, ...extraConnect].filter(Boolean).join(" ");
+function sharedDirectives(
+  connectOrigin?: string,
+  extraConnect: readonly string[] = [],
+  publicEmbeds = false
+): string[] {
+  const connectSources = [
+    "'self'",
+    connectOrigin,
+    ...extraConnect,
+    ...(publicEmbeds ? PUBLIC_EMBEDS_CSP.connectSrc : [])
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const styleSources = [
+    "'self'",
+    "'unsafe-inline'",
+    ...(publicEmbeds ? PUBLIC_EMBEDS_CSP.styleSrc : [])
+  ];
+  const frameSources = [
+    "https://player.vimeo.com",
+    "https://www.behance.net",
+    ...(publicEmbeds ? PUBLIC_EMBEDS_CSP.frameSrc : [])
+  ];
   return [
     "default-src 'self'",
     // Los atributos `style` en línea son obligatorios: el sistema de revelado
     // pasa `--sn-reveal-step` por `style`, y es la única vía que deja la regla
     // de adherencia `no-hardcoded-style`.
-    "style-src 'self' 'unsafe-inline'",
+    `style-src ${styleSources.join(" ")}`,
     // `https:` ya cubre el beacon de imagen del píxel (META_PIXEL_CSP.imgSrc).
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
     `connect-src ${connectSources}`,
-    "frame-src https://player.vimeo.com https://www.behance.net",
+    `frame-src ${frameSources.join(" ")}`,
     "media-src 'self' blob: https:",
     "object-src 'none'",
     "base-uri 'self'",
@@ -106,10 +153,12 @@ export function buildStaticContentSecurityPolicy(
   const scriptSources = [
     "'self'",
     "'unsafe-inline'",
-    ...(options.metaPixel ? META_PIXEL_CSP.scriptSrc : [])
+    ...(options.allowDevEval ? ["'unsafe-eval'"] : []),
+    ...(options.metaPixel ? META_PIXEL_CSP.scriptSrc : []),
+    ...PUBLIC_EMBEDS_CSP.scriptSrc
   ];
   return [
     `script-src ${scriptSources.join(" ")}`,
-    ...sharedDirectives(connectOrigin, options.metaPixel ? META_PIXEL_CSP.connectSrc : [])
+    ...sharedDirectives(connectOrigin, options.metaPixel ? META_PIXEL_CSP.connectSrc : [], true)
   ].join("; ");
 }

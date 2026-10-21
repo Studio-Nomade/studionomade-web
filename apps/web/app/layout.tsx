@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { fontVariables } from "@studionomade/design-system/fonts";
 import { RevealRoot } from "@studionomade/ui";
 import "@studionomade/design-system/styles.css";
+import "./translate.css";
 import { SiteAnalytics } from "../components/analytics/site-analytics";
 import { MotionShell } from "../components/public/motion-shell";
 import { faviconFor } from "../content/area-meta";

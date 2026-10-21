@@ -38,3 +38,11 @@ máscara, escalonado. Client Component.
   Escape cierra, cerrar devuelve el foco a "Menú", el scroll queda bloqueado
   (también con Lenis) y se cierra al cambiar `currentPath`.
 - Con `prefers-reduced-motion` abre y cierra sin animación.
+
+## Submenú y acciones (2026-10-21)
+
+- Un enlace con `children` (sin `href`) se dibuja como botón con `aria-expanded`:
+  en escritorio el submenú se despliega a la derecha de la lista principal con
+  entrada escalonada; bajo 64em se abre debajo del ítem. Cada hijo acepta `code`
+  (sigla) y `media` (slot de imagen/ícono). Sin JavaScript los hijos se ven en línea.
+- `actions` es un slot junto al botón Menú (selector de idioma, etc.).
