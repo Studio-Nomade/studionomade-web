@@ -1,0 +1,330 @@
+/* Formulario dedicado de /contacto. Mismo lenguaje que el de las áreas
+   (etiquetas flotantes sobre una línea inferior) más grupos de opciones en
+   "chips" para calificar el lead. */
+
+.form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--sp-8) var(--sp-10);
+  color: var(--text-title);
+}
+
+.required {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+}
+
+.optional {
+  color: var(--text-muted);
+  font-size: 0.75em;
+}
+
+/* ---- Campos de texto con etiqueta flotante ---- */
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.field[data-wide],
+.group,
+.consent,
+.footer {
+  grid-column: 1 / -1;
+}
+
+.field input,
+.field textarea {
+  order: 1;
+  width: 100%;
+  margin: 0;
+  padding: var(--sp-6) 0 var(--sp-2);
+  border: 0;
+  border-bottom: var(--border-rule);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-strong);
+  font-family: var(--font-core);
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-heading);
+  transition: border-color var(--dur-fast) var(--ease-standard);
+}
+
+.field textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-bottom-color: var(--sn-ink);
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.field input[aria-invalid],
+.field textarea[aria-invalid] {
+  border-bottom-color: var(--state-critical);
+}
+
+.field label {
+  position: absolute;
+  top: var(--sp-6);
+  left: 0;
+  color: var(--text-title);
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-heading);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label {
+  transform: translateY(calc(-1 * var(--sp-6))) scale(0.7);
+}
+
+/* ---- Grupos de opciones ---- */
+
+.group {
+  min-width: 0;
+  margin: 0;
+  padding: var(--sp-6) 0 0;
+  border: 0;
+  border-top: var(--border-hairline);
+}
+
+.legend {
+  float: left;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: var(--text-strong);
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.hint {
+  clear: both;
+  margin: var(--sp-1) 0 0;
+  padding-top: var(--sp-1);
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+}
+
+.chips {
+  display: flex;
+  clear: both;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  padding-top: var(--sp-4);
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+/* El input queda encima del chip, transparente: conserva foco y clic nativos. */
+.chip input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--sp-2) var(--sp-5);
+  border: var(--border-rule);
+  border-radius: var(--radius-pill);
+  background: var(--surface-page);
+  color: var(--text-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-tight);
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+.chip:hover span {
+  border-color: var(--sn-ink);
+  color: var(--text-strong);
+}
+
+.chip input:checked + span {
+  border-color: var(--sn-ink);
+  background: var(--sn-ink);
+  color: var(--text-on-invert);
+}
+
+.chip input:focus-visible + span {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.group[data-invalid] .chip span {
+  border-color: var(--state-critical);
+}
+
+.group[data-invalid] .chip input:checked + span {
+  border-color: var(--sn-ink);
+}
+
+/* ---- Errores, consentimiento y envío ---- */
+
+.error {
+  order: 2;
+  margin: var(--sp-2) 0 0;
+  color: var(--state-critical);
+  font-size: var(--fs-body-sm);
+}
+
+.consent {
+  font-size: var(--fs-body-sm);
+}
+
+.consent a {
+  color: inherit;
+}
+
+.footer {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-5);
+}
+
+.formError {
+  margin: 0;
+  color: var(--state-critical);
+  font-size: var(--fs-body-sm);
+  text-align: center;
+}
+
+.formError p {
+  margin: 0;
+}
+
+.formError p + p {
+  margin-top: var(--sp-2);
+  color: var(--text-body);
+}
+
+.formError a {
+  color: var(--text-strong);
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-9);
+  min-height: 3.75rem;
+  padding: var(--sp-3) var(--sp-7) var(--sp-3) var(--sp-9);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--sn-ink);
+  color: var(--text-on-invert);
+  font-family: var(--font-core);
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+.submit:hover {
+  background: var(--sn-graphite);
+}
+
+.submit:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.submit:disabled {
+  cursor: progress;
+  opacity: var(--press-fade);
+}
+
+.submit svg {
+  width: 3.4375rem;
+  height: auto;
+  overflow: visible;
+}
+
+.submit path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.success {
+  padding-block: var(--sp-9);
+  color: var(--text-title);
+  text-align: center;
+}
+
+.success p {
+  margin: 0 auto;
+  max-width: var(--measure-tight);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+}
+
+.success .successTitle {
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-lead-xl);
+  font-weight: var(--fw-light);
+}
+
+@media (max-width: 47.99em) {
+  .form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .chips {
+    gap: var(--sp-2);
+  }
+
+  .chip span {
+    padding-inline: var(--sp-4);
+    font-size: var(--fs-body-sm);
+  }
+
+  .submit {
+    justify-self: stretch;
+    gap: var(--sp-5);
+    min-height: 3.5rem;
+    padding-inline: var(--sp-6);
+  }
+}

@@ -1,0 +1,71 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-1);
+  padding-top: var(--sp-5);
+  border-top: var(--border-strong);
+}
+
+.item p {
+  margin: 0;
+}
+
+.city {
+  color: var(--text-title);
+  font-size: var(--fs-heading-4);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+.country {
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+}
+
+.clock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+.time {
+  color: var(--text-title);
+  font-size: var(--fs-stat);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fw-thin);
+  line-height: var(--lh-tight);
+}
+
+.offset {
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--tr-eyebrow);
+}
+
+@media (max-width: 63.99em) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--sp-8);
+  }
+}
+
+@media (max-width: 29.99em) {
+  .list {
+    gap: var(--sp-6) var(--sp-4);
+  }
+
+  .clock {
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+}

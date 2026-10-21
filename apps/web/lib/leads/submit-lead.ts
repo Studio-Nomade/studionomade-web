@@ -2,6 +2,7 @@ import "server-only";
 
 import { createServiceDatabaseClient } from "@studionomade/database";
 import {
+  leadFormInput,
   leadSubmissionSchema,
   readServerEnvironment,
   type LeadSubmissionSchema
@@ -13,6 +14,20 @@ import { echoLeadValues } from "./echo-values";
 import { hashIpAddress } from "./hash-ip";
 import { notifyLeadAndRecordFailures } from "./notify";
 import { hasReachedLeadRateLimit } from "./rate-limit";
+
+/** Campos que la persona no ve ni puede corregir (técnicos o de atribución). */
+const HIDDEN_FIELDS = new Set([
+  "form_slug",
+  "source_path",
+  "landing_path",
+  "referrer",
+  "origin_type",
+  "origin_slug",
+  "consent_version",
+  "t",
+  "t_signature",
+  "empresa_web"
+]);
 
 export interface LeadRequestMetadata {
   ipAddress: string;
@@ -40,12 +55,18 @@ export async function submitLead(
   { schema = leadSubmissionSchema }: SubmitLeadOptions = {}
 ): Promise<SubmitLeadResult> {
   const values = echoLeadValues(formData);
-  const parsed = schema.safeParse(Object.fromEntries(formData.entries()));
+  const parsed = schema.safeParse(leadFormInput(formData));
   if (!parsed.success) {
+    const fieldErrors = parsed.error.flatten().fieldErrors as Record<string, string[]>;
+    // Si solo fallan campos ocultos (p. ej. la firma anti-spam no llegó), no hay
+    // nada que la persona pueda corregir en pantalla: se le pide recargar.
+    const onlyHidden = Object.keys(fieldErrors).every((field) => HIDDEN_FIELDS.has(field));
     return {
       success: false,
-      message: "Revisa los campos indicados.",
-      fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+      message: onlyHidden
+        ? "No fue posible validar el envío. Recarga la página e intenta nuevamente."
+        : "Revisa los campos indicados.",
+      fieldErrors: onlyHidden ? undefined : fieldErrors,
       values
     };
   }
@@ -96,7 +117,12 @@ export async function submitLead(
           phone: lead.phone,
           company: lead.company,
           message: lead.message,
-          project_stage: lead.project_stage
+          project_stage: lead.project_stage,
+          areas: lead.areas,
+          needs: lead.needs,
+          budget_range: lead.budget_range,
+          timeline: lead.timeline,
+          source_channel: lead.source_channel
         },
         source_path: lead.source_path,
         ip_hash: ipHash,
@@ -107,6 +133,13 @@ export async function submitLead(
         company: lead.company,
         message: lead.message,
         project_stage: lead.project_stage,
+        // Calificación (/contacto). Sin la migración 20261021120000 la RPC las
+        // ignora; igual quedan en `form_submissions.payload`.
+        areas: lead.areas,
+        needs: lead.needs,
+        budget_range: lead.budget_range,
+        timeline: lead.timeline,
+        source_channel: lead.source_channel,
         consent_given: true,
         consent_at: new Date().toISOString(),
         consent_purpose: "contacto-comercial",

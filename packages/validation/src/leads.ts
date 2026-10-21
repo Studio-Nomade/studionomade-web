@@ -96,6 +96,88 @@ export const optionalChileanPhoneSchema = z.preprocess(
     .optional()
 );
 
+/**
+ * Calificación del lead (formulario dedicado de /contacto). Los valores son
+ * claves estables: deben coincidir con los checks de
+ * `supabase/migrations/20261021120000_lead_qualification.sql`. Las etiquetas
+ * visibles viven en `apps/web/content/contact.ts`.
+ */
+export const LEAD_AREAS = ["branding", "architecture", "audiovisual", "web-design"] as const;
+export const LEAD_NEEDS = [
+  "imagen_marca",
+  "redes_sociales",
+  "produccion_audiovisual",
+  "estrategia_comunicacional",
+  "diseno_web",
+  "interiores_stands",
+  "asesoria_comunicacional",
+  "otro"
+] as const;
+export const LEAD_BUDGET_RANGES = [
+  "menos_1m",
+  "1m_3m",
+  "3m_8m",
+  "8m_20m",
+  "mas_20m",
+  "sin_definir"
+] as const;
+export const LEAD_TIMELINES = ["lo_antes_posible", "1_3_meses", "3_6_meses", "sin_fecha"] as const;
+export const LEAD_SOURCE_CHANNELS = [
+  "recomendacion",
+  "instagram",
+  "linkedin",
+  "behance",
+  "google",
+  "otro"
+] as const;
+
+export type LeadArea = (typeof LEAD_AREAS)[number];
+export type LeadNeed = (typeof LEAD_NEEDS)[number];
+export type LeadBudgetRange = (typeof LEAD_BUDGET_RANGES)[number];
+export type LeadTimeline = (typeof LEAD_TIMELINES)[number];
+export type LeadSourceChannel = (typeof LEAD_SOURCE_CHANNELS)[number];
+
+/** Campos de selección múltiple: llegan como varias entradas con el mismo nombre. */
+export const LEAD_MULTI_VALUE_FIELDS = ["areas", "needs"] as const;
+
+/** Un valor suelto se trata como lista de uno; vacíos y duplicados se descartan. */
+const toList = (value: unknown) => {
+  const list = (Array.isArray(value) ? value : [value]).filter(
+    (item) => !(typeof item === "string" && item.trim() === "") && item !== undefined
+  );
+  return list.length ? [...new Set(list)] : undefined;
+};
+
+const choiceList = <T extends readonly [string, ...string[]]>(values: T, message: string) =>
+  z
+    .array(z.enum(values, { errorMap: () => ({ message }) }), {
+      required_error: message,
+      invalid_type_error: message
+    })
+    .min(1, message)
+    .max(values.length, message);
+
+/** Selección múltiple opcional: sin marcas queda `undefined`. */
+const optionalMultiChoice = <T extends readonly [string, ...string[]]>(
+  values: T,
+  message: string
+) => z.preprocess(toList, choiceList(values, message).optional());
+
+/** Selección múltiple obligatoria: al menos una marca. */
+const requiredMultiChoice = <T extends readonly [string, ...string[]]>(
+  values: T,
+  message: string
+) => z.preprocess(toList, choiceList(values, message));
+
+const singleChoice = <T extends readonly [string, ...string[]]>(values: T, message: string) =>
+  z.enum(values, { errorMap: () => ({ message }) });
+
+const AREAS_MESSAGE = "Selecciona al menos un área de interés.";
+const NEEDS_MESSAGE = "Selecciona al menos una opción.";
+const BUDGET_MESSAGE = "Selecciona un rango de presupuesto.";
+const TIMELINE_MESSAGE = "Selecciona un plazo.";
+const SOURCE_MESSAGE = "Selecciona una opción válida.";
+
 export const leadSubmissionSchema = z
   .object({
     form_slug: z.string().trim().min(1).max(100),
@@ -114,6 +196,20 @@ export const leadSubmissionSchema = z
     company: optionalText(160, "El nombre no puede superar 160 caracteres."),
     message: optionalText(2_000, "El mensaje no puede superar 2.000 caracteres."),
     project_stage: z.preprocess(emptyToUndefined, projectStageSchema.optional()),
+    areas: optionalMultiChoice(LEAD_AREAS, AREAS_MESSAGE),
+    needs: optionalMultiChoice(LEAD_NEEDS, NEEDS_MESSAGE),
+    budget_range: z.preprocess(
+      emptyToUndefined,
+      singleChoice(LEAD_BUDGET_RANGES, BUDGET_MESSAGE).optional()
+    ),
+    timeline: z.preprocess(
+      emptyToUndefined,
+      singleChoice(LEAD_TIMELINES, TIMELINE_MESSAGE).optional()
+    ),
+    source_channel: z.preprocess(
+      emptyToUndefined,
+      singleChoice(LEAD_SOURCE_CHANNELS, SOURCE_MESSAGE).optional()
+    ),
     source_path: z.string().trim().min(1).max(2_048),
     landing_path: optionalText(2_048),
     referrer: optionalText(2_048),
@@ -146,7 +242,41 @@ export const campaignLeadSubmissionSchema = leadSubmissionSchema.extend({
   phone: optionalChileanPhoneSchema
 });
 
+/**
+ * Formulario dedicado de /contacto: además de los datos de contacto exige
+ * empresa o marca, áreas, necesidades, presupuesto y plazo para calificar el
+ * lead. El canal de procedencia y el mensaje son opcionales.
+ */
+export const qualifiedLeadSubmissionSchema = leadSubmissionSchema.extend({
+  company: z
+    .string({
+      required_error: "Ingresa tu empresa o marca.",
+      invalid_type_error: "Ingresa tu empresa o marca."
+    })
+    .trim()
+    .min(1, "Ingresa tu empresa o marca.")
+    .max(160, "El nombre no puede superar 160 caracteres."),
+  areas: requiredMultiChoice(LEAD_AREAS, AREAS_MESSAGE),
+  needs: requiredMultiChoice(LEAD_NEEDS, NEEDS_MESSAGE),
+  budget_range: singleChoice(LEAD_BUDGET_RANGES, BUDGET_MESSAGE),
+  timeline: singleChoice(LEAD_TIMELINES, TIMELINE_MESSAGE)
+});
+
 export type LeadSubmission = z.infer<typeof leadSubmissionSchema>;
 export type CampaignLeadSubmission = z.infer<typeof campaignLeadSubmissionSchema>;
+export type QualifiedLeadSubmission = z.infer<typeof qualifiedLeadSubmissionSchema>;
+
+/**
+ * Convierte el `FormData` en la entrada de los schemas: los campos de selección
+ * múltiple conservan todas sus entradas (`Object.fromEntries` se quedaría solo
+ * con la última).
+ */
+export function leadFormInput(formData: FormData): Record<string, unknown> {
+  const input: Record<string, unknown> = Object.fromEntries(formData.entries());
+  for (const field of LEAD_MULTI_VALUE_FIELDS) {
+    if (formData.has(field)) input[field] = formData.getAll(field);
+  }
+  return input;
+}
 /** Cualquier schema de formulario cuya salida sea un `LeadSubmission`. */
 export type LeadSubmissionSchema = z.ZodType<LeadSubmission, z.ZodTypeDef, unknown>;
