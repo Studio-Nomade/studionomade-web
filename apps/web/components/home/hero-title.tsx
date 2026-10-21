@@ -22,8 +22,10 @@ export function HeroTitle({ title, as: Tag = "h2" }: { title: string; as?: "h2" 
   const words = splitTitle(title);
   return (
     <Tag className={styles.title} data-long={title.length > 12 || undefined}>
-      <span className={styles.srOnly}>{title}</span>
-      <span aria-hidden="true">
+      <span data-split-plain="" className={styles.srOnly}>
+        {title}
+      </span>
+      <span aria-hidden="true" translate="no" data-split-visual="">
         {words.map((chars, wordIndex) => (
           <Fragment key={`${wordIndex}-${chars.map(({ char }) => char).join("")}`}>
             {wordIndex > 0 ? " " : null}

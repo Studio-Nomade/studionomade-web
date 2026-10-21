@@ -110,8 +110,10 @@ export function SplitText({
   // que la versión partida se oculta y se expone una copia legible.
   return (
     <Tag {...common} data-motion="chars">
-      <span className={styles.srOnly}>{text}</span>
-      <span aria-hidden="true">
+      <span data-split-plain="" className={styles.srOnly}>
+        {text}
+      </span>
+      <span aria-hidden="true" translate="no" data-split-visual="">
         {words.map((word, index) => (
           <Fragment key={`${index}-${word}`}>
             {index > 0 ? " " : null}
