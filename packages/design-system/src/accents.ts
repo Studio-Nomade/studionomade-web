@@ -2,6 +2,8 @@ export const ACCENTS = [
   "inmobiliarias",
   "branding",
   "architecture",
+  "audiovisual",
+  "web-design",
   "cinnalove",
   "kumelen",
   "nexa",

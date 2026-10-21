@@ -5,6 +5,7 @@ import { RevealRoot } from "@studionomade/ui";
 import "@studionomade/design-system/styles.css";
 import { SiteAnalytics } from "../components/analytics/site-analytics";
 import { MotionShell } from "../components/public/motion-shell";
+import { faviconFor } from "../content/area-meta";
 import { parseConsentMode } from "../lib/analytics/consent";
 import { normalizeMetaPixelId } from "../lib/analytics/meta-pixel";
 
@@ -17,7 +18,9 @@ const analyticsConsentMode = parseConsentMode(process.env.NEXT_PUBLIC_ANALYTICS_
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://studionomade.cl"),
   title: "Studio Nomade",
-  description: "Placeholder de fundación del ecosistema web Studio Nomade.",
+  description:
+    "Studio Nomade: estudio creativo de Branding, Architecture, Audiovisual y Web Design en Santiago, Algarrobo, Madrid y Lisboa.",
+  icons: faviconFor("studio"),
   robots: allowIndexing ? { index: true, follow: true } : { index: false, follow: false }
 };
 
