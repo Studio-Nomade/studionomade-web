@@ -15,7 +15,7 @@ export function PublicFooter({ reveal = true }: { reveal?: boolean }) {
           alt="Studio Nomade"
           width={258}
           height={258}
-          sizes="160px"
+          sizes="(max-width: 48em) 40vw, 12vw"
         />
       }
       logoSize="compact"
