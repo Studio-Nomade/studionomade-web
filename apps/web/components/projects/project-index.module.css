@@ -1,56 +1,87 @@
-/* Listado /proyectos: mismo lenguaje que los casos (Inter fino, gris #555, máscara). */
+/* Listado /proyectos (referencia mubien.com/work): cuadrícula de borde a borde
+   dentro del margen del sitio, una imagen por caso y un recuadro claro que
+   aparece al hover abajo a la izquierda. En touch o móvil el recuadro va bajo
+   la imagen, siempre visible. */
 
 .index {
-  padding: clamp(var(--sp-10), 9vw, var(--sp-13)) var(--site-margin) var(--case-y-xl);
+  --index-gap: var(--sp-2);
+  --panel-inset: var(--sp-4);
+  --panel-blur: 0.875rem;
+
+  padding: clamp(var(--sp-10), 8vw, var(--sp-11)) var(--site-margin) var(--case-y-xl);
   background: var(--surface-page);
   color: var(--text-title);
   font-family: var(--font-core);
-  line-height: var(--lh-case);
 }
 
-.index h1 {
+.index :where(h1, h2, p) {
+  margin: 0;
   color: inherit;
   font-family: var(--font-core);
+  letter-spacing: 0;
 }
 
+/* ---- Cabecera: título corto + bajada de una línea ---- */
+
 .header {
-  max-width: 76.125rem;
-  margin: 0 auto var(--case-y-md);
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-6);
+  margin-bottom: var(--sp-7);
 }
 
 .title {
-  font-size: var(--fs-case-title);
-  font-weight: var(--fw-case-title);
-  letter-spacing: var(--tr-case-title);
-  line-height: var(--lh-case);
+  font-size: var(--fs-title-cta);
+  font-weight: var(--fw-block-title);
+  letter-spacing: var(--tr-heading);
+  line-height: var(--lh-block-title);
 }
 
 .lead {
-  max-width: 36rem;
-  margin: var(--sp-4) auto 0;
-  font-size: var(--fs-case-body);
+  max-width: 34rem;
+  color: var(--text-muted);
+  font-size: var(--fs-case-small);
+  line-height: var(--lh-heading);
 }
+
+/* ---- Cuadrícula ---- */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(var(--sp-8), 6vw, var(--sp-11)) clamp(var(--sp-4), 3.75vw, 3.375rem);
-  max-width: 76.75rem;
-  margin-inline: auto;
+  gap: var(--index-gap);
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
+.item {
+  min-width: 0;
+}
+
 .card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
+  position: relative;
+  display: block;
   color: inherit;
   text-decoration: none;
 }
 
+.card:hover {
+  color: inherit;
+}
+
+.card:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
 .media {
-  aspect-ratio: 587 / 708;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-sm);
   background: var(--surface-media);
 }
 
@@ -64,53 +95,46 @@
   transform: scale(var(--media-zoom));
 }
 
-.card:hover {
-  color: inherit;
-}
+/* ---- Recuadro del proyecto ---- */
 
-.card:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
-}
-
-.meta {
+.panel {
   display: flex;
-  justify-content: space-between;
-  margin-top: var(--sp-2);
-  color: var(--sn-black);
-  font-size: var(--fs-case-small);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-1) var(--sp-5);
 }
 
 .code {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  font-weight: var(--fw-bold);
-}
-
-.code::before {
-  content: "";
-  display: block;
-  width: var(--sp-5);
-  height: 2px;
-  background: var(--accent);
-  transition: width var(--dur-base) var(--ease-out);
-}
-
-.card:hover .code::before,
-.card:focus-visible .code::before {
-  width: var(--sp-8);
+  margin-bottom: var(--sp-2);
+  padding: var(--sp-1) var(--sp-2);
+  border: var(--border-hairline);
+  border-color: var(--accent-line);
+  border-radius: var(--radius-pill);
+  color: var(--text-strong);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tr-eyebrow);
+  line-height: var(--lh-heading);
 }
 
 .name {
-  font-size: var(--fs-case-headline);
-  font-weight: var(--fw-light);
-  line-height: var(--lh-case);
+  font-size: var(--fs-case-label);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
 }
 
-.summary {
-  max-width: 34rem;
-  font-size: var(--fs-case-small);
+.tagline {
+  color: var(--text-strong);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.excerpt {
+  margin-top: var(--sp-1);
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
   line-height: var(--lh-body);
 }
 
@@ -123,8 +147,45 @@
   white-space: nowrap;
 }
 
-@media (max-width: 48em) {
+/* Con puntero fino y ancho de escritorio, el recuadro flota sobre la imagen. */
+@media (hover: hover) and (pointer: fine) and (min-width: 48em) {
+  .panel {
+    position: absolute;
+    bottom: var(--panel-inset);
+    left: var(--panel-inset);
+    width: min(24rem, calc(100% - 2 * var(--panel-inset)));
+    padding: var(--sp-4) var(--sp-5) var(--sp-5);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--surface-page) 88%, transparent);
+    box-shadow: var(--shadow-admin-raised);
+    backdrop-filter: blur(var(--panel-blur)) saturate(1.2);
+    opacity: 0;
+    transform: translateY(var(--sp-3));
+    pointer-events: none;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+  }
+
+  .card:hover .panel,
+  .card:focus-visible .panel {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 47.99em) {
   .grid {
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-5);
+  }
+
+  .header {
+    flex-direction: column;
+    margin-bottom: var(--sp-6);
+  }
+
+  .panel {
+    padding-bottom: 0;
   }
 }
