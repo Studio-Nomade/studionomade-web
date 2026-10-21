@@ -211,6 +211,57 @@ describe("captura atómica con service_role", () => {
     await request(`leads?id=eq.${leadId}`, { method: "DELETE" }, true);
     await request(`form_submissions?id=eq.${lead.submission_id}`, { method: "DELETE" }, true);
   });
+
+  it("guarda la calificación del formulario de contacto", async () => {
+    const email = `db-${crypto.randomUUID()}@example.com`;
+    const response = await request(
+      "rpc/capture_lead",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          p: {
+            form_slug: "contacto-general",
+            payload: { name: "Lead calificado", email },
+            source_path: "/contacto",
+            name: "Lead calificado",
+            email,
+            company: "Marca Ejemplo",
+            areas: ["branding", "web-design"],
+            needs: ["imagen_marca", "diseno_web"],
+            budget_range: "3m_8m",
+            timeline: "1_3_meses",
+            source_channel: "instagram",
+            consent_given: true,
+            consent_at: "2026-10-21T12:00:00.000Z",
+            consent_version: "2026-10-v1",
+            origin_type: "contacto",
+            origin_slug: "contacto"
+          }
+        })
+      },
+      true
+    );
+    expect(response.status).toBe(200);
+    const leadId = (await response.json()) as string;
+
+    const leadResponse = await request(
+      `leads?id=eq.${leadId}&select=submission_id,company,areas,needs,budget_range,timeline,source_channel`,
+      {},
+      true
+    );
+    const [lead] = (await leadResponse.json()) as Array<Record<string, unknown>>;
+    expect(lead).toMatchObject({
+      company: "Marca Ejemplo",
+      areas: ["branding", "web-design"],
+      needs: ["imagen_marca", "diseno_web"],
+      budget_range: "3m_8m",
+      timeline: "1_3_meses",
+      source_channel: "instagram"
+    });
+
+    await request(`leads?id=eq.${leadId}`, { method: "DELETE" }, true);
+    await request(`form_submissions?id=eq.${lead.submission_id}`, { method: "DELETE" }, true);
+  });
 });
 
 describe("constraints y relaciones", () => {
@@ -227,6 +278,33 @@ describe("constraints y relaciones", () => {
             email: `db-${crypto.randomUUID()}@example.com`,
             project_stage: "Etapa: inventada",
             origin_type: "campana"
+          }
+        })
+      },
+      true
+    );
+    expect(response.status).toBeGreaterThanOrEqual(400);
+  });
+
+  it.each([
+    { areas: ["inventada"] },
+    { needs: ["inventada"] },
+    { budget_range: "1000000" },
+    { timeline: "ayer" },
+    { source_channel: "tiktok" }
+  ])("rechaza calificaciones fuera del check: %o", async (invalid) => {
+    const response = await request(
+      "rpc/capture_lead",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          p: {
+            form_slug: "contacto-general",
+            payload: {},
+            name: "Calificación inválida",
+            email: `db-${crypto.randomUUID()}@example.com`,
+            origin_type: "contacto",
+            ...invalid
           }
         })
       },
