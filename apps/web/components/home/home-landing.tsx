@@ -1,23 +1,20 @@
 import Image from "next/image";
 import { Button, Counter, Parallax, Reveal, SplitText } from "@studionomade/ui";
 import {
-  HOME_FEATURED,
+  HOME_CONTACT,
+  HOME_HERO_SLIDES,
   HOME_INSTAGRAM,
   HOME_MANIFESTO,
   HOME_MEETING,
   HOME_OFFICES,
   HOME_POSTS,
   HOME_REEL,
-  HOME_SERVICES,
-  HOME_SERVICES_NOTE,
   reelEmbedUrl
 } from "../../content/home";
-import { HomeContactForm } from "./home-contact-form";
+import { HomeAreas } from "./home-areas";
 import { HomeHero } from "./home-hero";
 import { ReelPlayer } from "./reel-player";
 import styles from "./home-landing.module.css";
-
-const pad = (value: number) => String(value).padStart(2, "0");
 
 /** Órbita del manifiesto (rescatada de la home anterior); se dibuja al entrar. */
 function Orbit() {
@@ -97,18 +94,13 @@ export function HomeLanding() {
     <main id="inicio" className={styles.page}>
       <h1 className={styles.srOnly}>Studio Nomade</h1>
 
-      <HomeHero projects={HOME_FEATURED} />
+      <HomeHero slides={HOME_HERO_SLIDES} />
 
       {/* ---- Creative Movement ---- */}
-      <section id="nosotros" className={styles.manifesto} aria-labelledby="home-movement">
-        <h2 id="home-movement" className={styles.movementTitle}>
-          <Reveal as="span" preset="fade" className={styles.eyebrow}>
-            {HOME_MANIFESTO.eyebrow}
-          </Reveal>{" "}
-          <SplitText by="chars" className={styles.masthead}>
-            {HOME_MANIFESTO.title.toUpperCase()}
-          </SplitText>
-        </h2>
+      <section id="creative-movement" className={styles.manifesto} aria-labelledby="home-movement">
+        <Masthead id="home-movement" className={styles.movementTitle}>
+          {HOME_MANIFESTO.title}
+        </Masthead>
         <div className={styles.manifestoGrid}>
           <Reveal preset="stroke" className={styles.orbitWrap}>
             <Orbit />
@@ -130,62 +122,19 @@ export function HomeLanding() {
                 </Reveal>
               ))}
             </dl>
+            <Reveal className={styles.manifestoCta} step={5}>
+              <span className={styles.magnet} data-cursor-magnetic="">
+                <Button href={HOME_MANIFESTO.cta.href} variant="outline" size="md">
+                  {HOME_MANIFESTO.cta.label}
+                </Button>
+              </span>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* ---- Servicios ---- */}
-      <section id="servicios" className={styles.services} aria-labelledby="home-servicios">
-        <div className={styles.sectionHead}>
-          <Masthead id="home-servicios">SERVICIOS</Masthead>
-          <Reveal as="p" className={styles.sectionNote} step={2}>
-            {HOME_SERVICES_NOTE}
-          </Reveal>
-        </div>
-        <ul className={styles.serviceGrid}>
-          {HOME_SERVICES.map((service, index) => {
-            const isArea = service.href.startsWith("/");
-            return (
-              <Reveal
-                as="li"
-                className={styles.service}
-                key={service.name}
-                step={index}
-                data-accent={service.accent}
-              >
-                <a
-                  className={styles.serviceLink}
-                  href={service.href}
-                  aria-label={isArea ? `Ver área ${service.name}` : `Consultar por ${service.name}`}
-                  data-cursor-label={isArea ? "Ver" : "Hablemos"}
-                >
-                  <span className={styles.serviceMedia}>
-                    <Image
-                      src={service.image.src}
-                      alt=""
-                      fill
-                      sizes="(min-width: 64em) 25vw, (min-width: 48em) 50vw, 100vw"
-                    />
-                  </span>
-                  <span className={styles.serviceShade} aria-hidden="true" />
-                  <span className={styles.serviceTop}>
-                    <span className={styles.serviceIndex}>{pad(index + 1)}</span>
-                    <span className={styles.serviceCode}>{service.code}</span>
-                  </span>
-                  <span className={styles.serviceBottom}>
-                    <span className={styles.serviceDescription}>{service.description}</span>
-                    <span className={styles.serviceMore} aria-hidden="true">
-                      {isArea ? "Ver área" : "Hablemos"} →
-                    </span>
-                    <span className={styles.serviceRule} aria-hidden="true" />
-                    <span className={styles.serviceName}>{service.name}</span>
-                  </span>
-                </a>
-              </Reveal>
-            );
-          })}
-        </ul>
-      </section>
+      {/* ---- Áreas ---- */}
+      <HomeAreas />
 
       {/* ---- Agendemos una reunión ---- */}
       <section className={styles.meeting} aria-labelledby="home-reunion">
@@ -219,7 +168,7 @@ export function HomeLanding() {
       {/* ---- Reel ---- */}
       <section className={styles.reel} aria-labelledby="home-reel">
         <div className={styles.sectionHead}>
-          <Masthead id="home-reel">{HOME_REEL.title.toUpperCase()}</Masthead>
+          <Masthead id="home-reel">{HOME_REEL.title}</Masthead>
           <Reveal as="p" className={styles.sectionNote} step={2}>
             Showreel Studio Nomade
           </Reveal>
@@ -242,9 +191,7 @@ export function HomeLanding() {
       {/* ---- Instagram ---- */}
       <section className={styles.instagram} aria-labelledby="home-instagram">
         <div className={styles.sectionHead}>
-          <Masthead id="home-instagram" className={styles.mastheadLong}>
-            {HOME_INSTAGRAM.title.toUpperCase()}
-          </Masthead>
+          <Masthead id="home-instagram">{HOME_INSTAGRAM.title}</Masthead>
           <Reveal as="p" className={styles.sectionNote} step={2}>
             <a
               href={HOME_INSTAGRAM.href}
@@ -313,16 +260,23 @@ export function HomeLanding() {
         ))}
       </section>
 
-      {/* ---- Contacto ---- */}
+      {/* ---- Contacto: el formulario vive en /contacto ---- */}
       <section id="contacto" className={styles.contact} aria-labelledby="home-contacto">
         <div className={styles.contactHead}>
-          <Masthead id="home-contacto">CONTACTO</Masthead>
+          <Masthead id="home-contacto">{HOME_CONTACT.title}</Masthead>
           <Reveal as="p" className={styles.contactLead} step={2}>
-            Podemos ayudarte. ¡Conversemos!
+            {HOME_CONTACT.lead}
           </Reveal>
         </div>
-        <Reveal className={styles.contactCard} step={3}>
-          <HomeContactForm />
+        <Reveal className={styles.contactActions} step={3}>
+          <span className={styles.magnet} data-cursor-magnetic="">
+            <Button href={HOME_CONTACT.primary.href} variant="outline" size="md">
+              {HOME_CONTACT.primary.label}
+            </Button>
+          </span>
+          <Button href={HOME_CONTACT.secondary.href} variant="ghost" size="md">
+            {HOME_CONTACT.secondary.label}
+          </Button>
         </Reveal>
       </section>
 
