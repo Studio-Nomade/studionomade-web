@@ -117,3 +117,9 @@ A&A aclarado lo mínimo para AA con `#0a0a0a`; la línea conserva `#6e62f5`) y
 `[data-accent="web-design"]` (`--accent: #e9c736`, amarillo del isologo WD), para
 que las cuatro áreas tengan página, favicon y color propios. Aprobado por
 Sebastián (dirección) al pedir favicon e identidad por área.
+
+## 2026-10-21 — Masthead y titulares de bloque con más peso
+
+`--fw-masthead` pasa de `var(--fw-hairline)` (100) a `var(--fw-medium)` (500) y
+`--fw-block-title` de `var(--fw-thin)` (200) a `var(--fw-regular)` (400). Pedido de
+dirección: "si vamos a usar la tipo en ese tamaño, que tengan también más espesor".

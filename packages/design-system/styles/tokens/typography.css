@@ -75,12 +75,13 @@
   --tr-campaign: -0.01em; /* @kind font */
 
   /* Rediseño del sitio público. Todo en Inter (variable 100–900): masthead en
-     100 con tracking cerrado, titulares de bloque en 200. Aditiva: no reemplaza
+     500 con tracking cerrado, titulares de bloque en 400 (2026-10-21: antes
+     100/200, se engrosaron porque a ese tamaño les faltaba carácter). Aditiva: no reemplaza
      a --fs-h1..--fs-h5, que siguen sirviendo a campañas y páginas interiores.
      Los máximos son los de 1440 px; la fórmula fluida vive en responsive.css. */
   --fw-hairline: 100; /* @kind font */
-  --fw-masthead: var(--fw-hairline);
-  --fw-block-title: var(--fw-thin);
+  --fw-masthead: var(--fw-medium);
+  --fw-block-title: var(--fw-regular);
   --tr-masthead: -2px;
   --lh-masthead: 1; /* @kind font */
   --lh-block-title: 1.15; /* @kind font */
