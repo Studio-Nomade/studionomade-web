@@ -5,7 +5,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { HOME_AREAS, HOME_HERO_SLIDES } from "../../content/home";
 import { HomeHero } from "./home-hero";
 import { HomeLanding } from "./home-landing";
-import { ReelPlayer } from "./reel-player";
+
+// InstagramFeed es un Server Component asíncrono (API de Instagram): en los
+// tests de render se reemplaza por su versión de respaldo síncrona.
+vi.mock("./instagram-feed", () => ({
+  InstagramFeed: () => <a href="https://www.instagram.com/studionomade_/">Ir al perfil</a>
+}));
 
 function mockReducedMotion(reduce: boolean) {
   vi.stubGlobal(
@@ -31,7 +36,6 @@ describe("HomeLanding", () => {
       "Creative Movement",
       "Áreas",
       "Agendemos una reunión",
-      "Reel",
       "Instagram",
       "Últimas publicaciones",
       "Contacto"
@@ -94,20 +98,14 @@ describe("HomeLanding", () => {
     expect(cta.closest("[data-cursor-magnetic]")).not.toBeNull();
   });
 
-  it("sin URL de reel no ofrece reproducir", () => {
+  it("ya no tiene sección de reel ni de oficinas con mapas", () => {
     render(<HomeLanding />);
-    expect(screen.queryByRole("button", { name: /Reproducir/ })).toBeNull();
-  });
-
-  it("las oficinas enlazan a Google Maps en otra pestaña", () => {
-    render(<HomeLanding />);
-    const links = screen.getAllByRole("link", { name: /Cómo llegar/ });
-    expect(links).toHaveLength(2);
-    for (const link of links) {
-      expect(link.getAttribute("href")).toMatch(/^https:\/\/www\.google\.com\/maps\//);
-      expect(link).toHaveAttribute("target", "_blank");
-      expect(link).toHaveAttribute("rel", "noopener noreferrer");
-    }
+    expect(screen.queryByRole("heading", { name: "Reel" })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Cómo llegar/ })).toBeNull();
+    expect(screen.getByRole("link", { name: "Ir al perfil" })).toHaveAttribute(
+      "href",
+      "https://www.instagram.com/studionomade_/"
+    );
   });
 });
 
@@ -200,30 +198,5 @@ describe("HomeHero", () => {
     expect(video).toHaveAttribute("poster", first.image.src);
     expect(video.querySelector("source")).toHaveAttribute("src", "/video/demo.mp4");
     expect(container.querySelectorAll("img")).toHaveLength(1);
-  });
-});
-
-describe("ReelPlayer", () => {
-  it("abre el video en un diálogo modal y lo descarga al cerrar", () => {
-    HTMLDialogElement.prototype.showModal ??= function (this: HTMLDialogElement) {
-      this.setAttribute("open", "");
-    };
-    HTMLDialogElement.prototype.close ??= function (this: HTMLDialogElement) {
-      this.removeAttribute("open");
-      this.dispatchEvent(new Event("close"));
-    };
-    const { container } = render(
-      <ReelPlayer embedUrl="https://player.vimeo.com/video/1?autoplay=1" title="Reel" />
-    );
-    expect(container.querySelector("iframe")).toBeNull();
-    fireEvent.click(screen.getByRole("button", { name: "Reproducir Reel" }));
-    const dialog = container.querySelector("dialog")!;
-    expect(dialog).toHaveAttribute("open");
-    expect(within(dialog).getByTitle("Reel")).toHaveAttribute(
-      "src",
-      "https://player.vimeo.com/video/1?autoplay=1"
-    );
-    fireEvent.click(within(dialog).getByRole("button", { name: "Cerrar" }));
-    expect(container.querySelector("iframe")).toBeNull();
   });
 });

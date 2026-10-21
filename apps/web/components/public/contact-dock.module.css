@@ -1,6 +1,8 @@
 .dock {
-  --dock-surface: color-mix(in srgb, var(--surface-band) 86%, transparent);
-  --dock-size: var(--sp-8);
+  --dock-surface: color-mix(in srgb, var(--surface-band) 88%, transparent);
+  --dock-radius: calc(var(--radius-sm) * 6);
+  --dock-ease: var(--motion-ease-expo-out);
+  --dock-dur: var(--dur-slow);
 
   position: fixed;
 
@@ -11,68 +13,39 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
   color: var(--text-strong);
   font-family: var(--font-core);
   pointer-events: none;
 }
 
-.bar,
-.dock[data-open] .panel {
-  pointer-events: auto;
-}
-
-.bar {
-  transition:
-    opacity var(--dur-fast) var(--ease-standard),
-    transform var(--motion-dur) var(--motion-ease-power3-out);
-}
-
-.dock[data-hidden] .bar {
-  opacity: 0;
-  transform: translate3d(0, var(--sp-5), 0);
-  pointer-events: none;
-}
-
-.bar {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  padding: var(--sp-2);
-  border-radius: calc(var(--radius-sm) * 4);
-  background: var(--dock-surface);
-  box-shadow: var(--shadow-admin-raised);
-  backdrop-filter: blur(14px);
-}
-
-.mark {
-  display: block;
-  overflow: hidden;
-  width: var(--dock-size);
-  height: var(--dock-size);
-  border-radius: calc(var(--radius-sm) * 2.5);
-  background: var(--surface-invert);
-}
-
-.mark img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
+/* ---- Píldora ---- */
 
 .toggle {
   display: flex;
   align-items: center;
   gap: var(--sp-4);
-  min-height: var(--dock-size);
-  padding: 0 var(--sp-2) 0 var(--sp-1);
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-5);
   border: 0;
-  background: none;
+  border-radius: var(--radius-pill);
+  background: var(--dock-surface);
+  box-shadow: var(--shadow-admin-raised);
   color: inherit;
   font: inherit;
   font-size: var(--fs-body-sm);
   font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
   cursor: pointer;
+  backdrop-filter: blur(16px);
+  pointer-events: auto;
+  transition:
+    opacity var(--dock-dur) var(--dock-ease),
+    transform var(--dock-dur) var(--dock-ease),
+    background var(--dur-base) var(--ease-standard);
+}
+
+.toggle:hover {
+  background: var(--surface-page);
 }
 
 .toggle:focus-visible,
@@ -81,15 +54,52 @@
   outline-offset: var(--sp-1);
 }
 
+.dock[data-hidden] .toggle {
+  opacity: 0;
+  transform: translate3d(0, var(--sp-6), 0) scale(0.96);
+  pointer-events: none;
+}
+
+/* El texto cambia de "Contacto directo" a "Cerrar" deslizándose en su línea. */
+.toggleText {
+  display: grid;
+  overflow: hidden;
+}
+
+.toggleLabel {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  transition:
+    transform var(--dock-dur) var(--dock-ease),
+    opacity var(--dur-base) var(--ease-standard);
+}
+
+.toggleLabel[data-state="open"] {
+  justify-self: end;
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+}
+
+.dock[data-open] .toggleLabel[data-state="closed"] {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+}
+
+.dock[data-open] .toggleLabel[data-state="open"] {
+  opacity: 1;
+  transform: none;
+}
+
 .plus {
   position: relative;
   display: block;
   flex: none;
-  width: var(--dock-size);
-  height: var(--dock-size);
-  border-radius: calc(var(--radius-sm) * 2.5);
-  background: var(--surface-page);
-  transition: transform var(--motion-dur) var(--motion-ease-power3-out);
+  width: var(--sp-7);
+  height: var(--sp-7);
+  border-radius: var(--radius-circle);
+  background: var(--surface-invert);
+  color: var(--text-on-invert);
+  transition: transform var(--dock-dur) var(--dock-ease);
 }
 
 .plus::before,
@@ -98,7 +108,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 38%;
+  width: 34%;
   height: 1px;
   background: currentColor;
   transform: translate(-50%, -50%);
@@ -109,44 +119,40 @@
 }
 
 .dock[data-open] .plus {
-  transform: rotate(45deg);
+  transform: rotate(135deg);
 }
 
+/* ---- Panel: se despliega desde la esquina del botón ---- */
+
 .panel {
-  width: min(22rem, calc(100vw - var(--site-margin) * 2));
-  padding: var(--sp-4);
-  border-radius: calc(var(--radius-sm) * 4);
+  width: min(21rem, calc(100vw - var(--site-margin) * 2));
+  padding: var(--sp-3);
+  border-radius: var(--dock-radius);
   background: var(--dock-surface);
   box-shadow: var(--shadow-admin-raised);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
+  clip-path: inset(calc(100% - var(--sp-9)) 0 0 calc(100% - var(--sp-11)) round var(--dock-radius));
   opacity: 0;
-  transform: translate3d(0, var(--sp-4), 0) scale(0.98);
-  transform-origin: bottom right;
+  transform: translate3d(0, var(--sp-3), 0);
   visibility: hidden;
   transition:
-    opacity var(--dur-fast) var(--ease-standard),
-    transform var(--motion-dur) var(--motion-ease-power3-out),
-    visibility 0s linear var(--motion-dur);
+    clip-path var(--dock-dur) var(--dock-ease),
+    opacity var(--dur-base) var(--ease-standard),
+    transform var(--dock-dur) var(--dock-ease),
+    visibility 0s linear var(--dock-dur);
 }
 
 .dock[data-open] .panel {
+  clip-path: inset(0 0 0 0 round var(--dock-radius));
   opacity: 1;
   transform: none;
   visibility: visible;
+  pointer-events: auto;
   transition:
+    clip-path var(--dock-dur) var(--dock-ease),
     opacity var(--dur-fast) var(--ease-standard),
-    transform var(--motion-dur) var(--motion-ease-power3-out),
+    transform var(--dock-dur) var(--dock-ease),
     visibility 0s linear 0s;
-}
-
-.panelTitle {
-  margin: 0 0 var(--sp-3);
-  padding-inline: var(--sp-2);
-  color: var(--text-muted);
-  font-size: var(--fs-caption);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--tr-eyebrow);
-  text-transform: uppercase;
 }
 
 .list {
@@ -158,12 +164,27 @@
   list-style: none;
 }
 
+/* Cada canal entra con un leve desfase, de abajo hacia arriba. */
+.row {
+  opacity: 0;
+  transform: translate3d(0, var(--sp-2), 0);
+  transition:
+    opacity var(--dur-base) var(--ease-standard),
+    transform var(--dock-dur) var(--dock-ease);
+}
+
+.dock[data-open] .row {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc((4 - var(--dock-index, 0)) * 40ms + 80ms);
+}
+
 .item {
   display: flex;
   align-items: center;
   gap: var(--sp-4);
-  padding: var(--sp-2);
-  border-radius: calc(var(--radius-sm) * 2.5);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: calc(var(--radius-sm) * 4);
   color: inherit;
   text-decoration: none;
   transition: background var(--dur-fast) var(--ease-standard);
@@ -179,14 +200,14 @@
   place-items: center;
   width: var(--sp-7);
   height: var(--sp-7);
-  border-radius: calc(var(--radius-sm) * 2);
-  background: var(--surface-invert);
-  color: var(--text-on-invert);
+  border: 1px solid currentColor;
+  border-color: color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: var(--radius-circle);
 }
 
 .icon svg {
-  width: 55%;
-  height: 55%;
+  width: 48%;
+  height: 48%;
 }
 
 .text {
@@ -210,23 +231,22 @@
 
 @media (max-width: 48em) {
   .dock {
-    --dock-size: var(--sp-7);
-
     right: var(--sp-4);
     bottom: var(--sp-4);
   }
 
-  .toggleLabel {
-    position: absolute;
-    overflow: hidden;
-    width: 1px;
-    height: 1px;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
   .toggle {
-    padding: 0;
+    padding-left: var(--sp-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .row,
+  .toggle,
+  .toggleLabel,
+  .plus {
+    transition-duration: 0ms;
   }
 }
 

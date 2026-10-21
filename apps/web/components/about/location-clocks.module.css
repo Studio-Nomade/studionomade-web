@@ -1,27 +1,90 @@
 .list {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--sp-6);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-8) var(--site-gutter);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .item {
-  display: grid;
-  align-content: start;
-  gap: var(--sp-1);
-  padding-top: var(--sp-5);
-  border-top: var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-5);
+  text-align: center;
 }
 
 .item p {
   margin: 0;
 }
 
+/* ---- Esfera ---- */
+
+.dial {
+  width: min(12rem, 100%);
+  height: auto;
+  overflow: visible;
+  color: var(--text-title);
+}
+
+.face {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.5;
+  opacity: 0.35;
+}
+
+.tick {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 0.6;
+  opacity: 0.45;
+}
+
+.tick[data-major] {
+  stroke-width: 1;
+  opacity: 0.9;
+}
+
+.hour,
+.minute {
+  stroke: currentColor;
+  stroke-linecap: round;
+  transform-box: view-box;
+  transform-origin: 50px 50px;
+  transition: transform var(--dur-reveal) var(--motion-ease-expo-out);
+}
+
+.hour {
+  stroke-width: 1.6;
+  transform: rotate(var(--hour, 0deg));
+}
+
+.minute {
+  stroke-width: 0.9;
+  transform: rotate(var(--minute, 0deg));
+}
+
+.dial:not([data-ready]) .hour,
+.dial:not([data-ready]) .minute {
+  opacity: 0;
+}
+
+.pivot {
+  fill: currentColor;
+}
+
+/* ---- Texto ---- */
+
+.meta {
+  display: grid;
+  gap: var(--sp-1);
+}
+
 .city {
   color: var(--text-title);
-  font-size: var(--fs-heading-4);
+  font-size: var(--fs-heading-5);
   font-weight: var(--fw-semibold);
   line-height: var(--lh-heading);
 }
@@ -33,17 +96,17 @@
 
 .clock {
   display: flex;
+  justify-content: center;
   align-items: baseline;
-  gap: var(--sp-3);
-  margin-top: var(--sp-5);
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
 }
 
 .time {
   color: var(--text-title);
-  font-size: var(--fs-stat);
+  font-size: var(--fs-body);
   font-variant-numeric: tabular-nums;
-  font-weight: var(--fw-thin);
-  line-height: var(--lh-tight);
+  font-weight: var(--fw-medium);
 }
 
 .offset {
@@ -52,20 +115,13 @@
   letter-spacing: var(--tr-eyebrow);
 }
 
-@media (max-width: 63.99em) {
+@media (max-width: 47.99em) {
   .list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: var(--sp-8);
-  }
-}
-
-@media (max-width: 29.99em) {
-  .list {
-    gap: var(--sp-6) var(--sp-4);
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
   }
 
-  .clock {
-    flex-direction: column;
-    gap: var(--sp-1);
+  .dial {
+    width: min(10rem, 60%);
   }
 }

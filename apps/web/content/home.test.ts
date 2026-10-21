@@ -10,10 +10,7 @@ import {
   HOME_INSTAGRAM,
   HOME_MANIFESTO,
   HOME_MEETING,
-  HOME_OFFICES,
-  HOME_POSTS,
-  HOME_REEL,
-  reelEmbedUrl
+  HOME_POSTS
 } from "./home";
 import { publicProjects } from "./projects";
 
@@ -43,8 +40,7 @@ describe("contenido de la home", () => {
       ...HOME_AREAS.flatMap((area) => area.images.map((image) => image.src)),
       ...HOME_INSTAGRAM.images.map((image) => image.src),
       ...HOME_POSTS.map((post) => post.image.src),
-      HOME_MEETING.image.src,
-      HOME_REEL.poster.src
+      HOME_MEETING.image.src
     ];
     for (const src of sources) {
       expect(src, src).toMatch(/^\/(home|areas|proyectos)\/.+\.webp$/);
@@ -57,7 +53,6 @@ describe("contenido de la home", () => {
     for (const area of HOME_AREAS) {
       for (const image of area.images) expect(image.alt.length).toBeGreaterThan(10);
     }
-    expect(HOME_REEL.poster.alt.length).toBeGreaterThan(10);
   });
 
   it("las cuatro áreas enlazan a su página con dos imágenes distintas e isologo", () => {
@@ -80,46 +75,11 @@ describe("contenido de la home", () => {
     expect(HOME_CONTACT.secondary.href).toBe("/contacto#agenda");
     expect(HOME_MEETING.href).toBe("/contacto#agenda");
   });
-
-  it("las oficinas enlazan a Google Maps con su dirección", () => {
-    expect(HOME_OFFICES.map((office) => office.name)).toEqual([
-      "Oficina Principal",
-      "Estudio Fotográfico"
-    ]);
-    for (const office of HOME_OFFICES) {
-      const url = new URL(office.mapsUrl);
-      expect(url.origin).toBe("https://www.google.com");
-      expect(url.searchParams.get("query")).toContain(office.address.replace("Av.", "Avenida"));
-    }
-  });
 });
 
-describe("reelEmbedUrl", () => {
-  it("convierte una URL pública de Vimeo en la del reproductor", () => {
-    expect(reelEmbedUrl("https://vimeo.com/123456789")).toBe(
-      "https://player.vimeo.com/video/123456789?autoplay=1&dnt=1"
-    );
-    expect(reelEmbedUrl("https://player.vimeo.com/video/42")).toBe(
-      "https://player.vimeo.com/video/42?autoplay=1&dnt=1"
-    );
-  });
-
-  it("conserva el hash de un video no listado", () => {
-    expect(reelEmbedUrl("https://vimeo.com/123/abc123def")).toBe(
-      "https://player.vimeo.com/video/123?h=abc123def&autoplay=1&dnt=1"
-    );
-  });
-
-  it("rechaza lo que el CSP no permite o no es una URL de video", () => {
-    expect(reelEmbedUrl("")).toBeNull();
-    expect(reelEmbedUrl("no es una url")).toBeNull();
-    expect(reelEmbedUrl("http://vimeo.com/123")).toBeNull();
-    expect(reelEmbedUrl("https://www.youtube.com/watch?v=abc")).toBeNull();
-    expect(reelEmbedUrl("https://vimeo.com/studionomade")).toBeNull();
-    expect(reelEmbedUrl("https://evil.example/vimeo.com/123")).toBeNull();
-  });
-
-  it("el reel vacío no rompe la home (TODO-contenido)", () => {
-    expect(typeof HOME_REEL.reelUrl).toBe("string");
+describe("HOME_INSTAGRAM", () => {
+  it("apunta al perfil oficial @studionomade_", () => {
+    expect(HOME_INSTAGRAM.handle).toBe("@studionomade_");
+    expect(HOME_INSTAGRAM.href).toBe("https://www.instagram.com/studionomade_/");
   });
 });

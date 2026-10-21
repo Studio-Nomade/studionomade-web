@@ -17,10 +17,9 @@ describe("contenido de /nosotros", () => {
     }
   });
 
-  it("lista las cuatro bases con zonas horarias válidas", () => {
+  it("lista una hora por país (Santiago, Madrid, Lisboa) con zonas válidas", () => {
     expect(ABOUT.locations.items.map((location) => location.city)).toEqual([
       "Santiago",
-      "Algarrobo",
       "Madrid",
       "Lisboa"
     ]);

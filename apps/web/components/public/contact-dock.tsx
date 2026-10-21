@@ -1,37 +1,35 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { MailIcon, WhatsAppIcon } from "@studionomade/ui";
 import { DIRECT_CONTACTS } from "../../content/contact";
 import styles from "./contact-dock.module.css";
 
 /**
- * Botón flotante de contacto directo (referencia mubien.com): una píldora
- * abajo a la derecha que acompaña la navegación y abre los correos por área y
- * el WhatsApp comercial. Cierra con Escape, con un clic fuera o al elegir.
+ * Botón flotante de contacto directo: una píldora "Contacto directo" abajo a la
+ * derecha que aparece al dejar atrás el banner principal y abre los correos por
+ * área y el WhatsApp comercial. La apertura es un despliegue suave desde la
+ * esquina del botón. Cierra con Escape, con un clic fuera o al elegir un canal.
  */
 export function ContactDock() {
   const panelId = useId();
   const [open, setOpen] = useState(false);
-  const [atEnd, setAtEnd] = useState(false);
+  const [hidden, setHidden] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  // El botón se retira donde estorba: al final de la página (el footer ya
-  // muestra contactos y redes) y sobre secciones marcadas con `data-dock-hide`
-  // (el hero de la home, que tiene su propia píldora "Ver proyecto").
+  // Visible solo fuera del banner principal: el hero marcado con
+  // `data-dock-hide` (home) o, si la página no tiene uno, la primera pantalla.
+  // Al final de la página se retira: el footer ya muestra contactos y redes.
   useEffect(() => {
     const check = () => {
-      const remaining =
-        document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
-      const overHidden = Array.from(document.querySelectorAll("[data-dock-hide]")).some(
-        (element) => {
-          const rect = element.getBoundingClientRect();
-          return rect.top < window.innerHeight && rect.bottom > window.innerHeight * 0.55;
-        }
-      );
-      setAtEnd(remaining < window.innerHeight * 0.18 || overHidden);
+      const viewport = window.innerHeight;
+      const remaining = document.documentElement.scrollHeight - (window.scrollY + viewport);
+      const banners = Array.from(document.querySelectorAll("[data-dock-hide]"));
+      const overBanner = banners.length
+        ? banners.some((element) => element.getBoundingClientRect().bottom > viewport * 0.35)
+        : window.scrollY < viewport * 0.6;
+      setHidden(overBanner || remaining < viewport * 0.18);
     };
     check();
     window.addEventListener("scroll", check, { passive: true });
@@ -43,8 +41,8 @@ export function ContactDock() {
   }, []);
 
   useEffect(() => {
-    if (atEnd) setOpen(false);
-  }, [atEnd]);
+    if (hidden) setOpen(false);
+  }, [hidden]);
 
   useEffect(() => {
     if (!open) return;
@@ -70,20 +68,22 @@ export function ContactDock() {
       ref={rootRef}
       className={styles.dock}
       data-open={open || undefined}
-      data-hidden={atEnd || undefined}
+      data-hidden={hidden || undefined}
     >
       <div id={panelId} className={styles.panel} role="region" aria-label="Contacto directo">
-        <p className={styles.panelTitle}>Contacto directo</p>
         <ul className={styles.list}>
-          {DIRECT_CONTACTS.map((contact) => (
-            <li key={contact.href}>
+          {DIRECT_CONTACTS.map((contact, index) => (
+            <li
+              key={contact.href}
+              className={styles.row}
+              style={{ "--dock-index": index } as CSSProperties}
+            >
               <a
                 className={styles.item}
                 href={contact.href}
                 target={contact.kind === "whatsapp" ? "_blank" : undefined}
                 rel={contact.kind === "whatsapp" ? "noopener noreferrer" : undefined}
                 tabIndex={open ? undefined : -1}
-                data-kind={contact.kind}
                 onClick={() => setOpen(false)}
               >
                 <span className={styles.icon} aria-hidden="true">
@@ -99,22 +99,25 @@ export function ContactDock() {
         </ul>
       </div>
 
-      <div className={styles.bar}>
-        <span className={styles.mark} aria-hidden="true">
-          <Image src="/icons/studio-180.png" alt="" width={44} height={44} />
+      <button
+        ref={toggleRef}
+        type="button"
+        className={styles.toggle}
+        aria-expanded={open}
+        aria-controls={panelId}
+        tabIndex={hidden ? -1 : undefined}
+        onClick={() => setOpen((value) => !value)}
+      >
+        <span className={styles.toggleText}>
+          <span className={styles.toggleLabel} data-state="closed">
+            Contacto directo
+          </span>
+          <span className={styles.toggleLabel} data-state="open" aria-hidden={!open}>
+            Cerrar
+          </span>
         </span>
-        <button
-          ref={toggleRef}
-          type="button"
-          className={styles.toggle}
-          aria-expanded={open}
-          aria-controls={panelId}
-          onClick={() => setOpen((value) => !value)}
-        >
-          <span className={styles.toggleLabel}>{open ? "Cerrar" : "Contacto directo"}</span>
-          <span className={styles.plus} aria-hidden="true" />
-        </button>
-      </div>
+        <span className={styles.plus} aria-hidden="true" />
+      </button>
     </div>
   );
 }
