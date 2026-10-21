@@ -28,6 +28,66 @@ export type Database = {
   };
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          area: string | null;
+          author_name: string | null;
+          body: Json;
+          category: string;
+          cover_alt: string | null;
+          cover_url: string | null;
+          created_at: string;
+          created_by: string | null;
+          excerpt: string | null;
+          id: string;
+          published_at: string | null;
+          slug: string;
+          status: Database["public"]["Enums"]["content_status"];
+          tags: string[];
+          title: string;
+          updated_at: string;
+          updated_by: string | null;
+        };
+        Insert: {
+          area?: string | null;
+          author_name?: string | null;
+          body?: Json;
+          category?: string;
+          cover_alt?: string | null;
+          cover_url?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          excerpt?: string | null;
+          id?: string;
+          published_at?: string | null;
+          slug: string;
+          status?: Database["public"]["Enums"]["content_status"];
+          tags?: string[];
+          title: string;
+          updated_at?: string;
+          updated_by?: string | null;
+        };
+        Update: {
+          area?: string | null;
+          author_name?: string | null;
+          body?: Json;
+          category?: string;
+          cover_alt?: string | null;
+          cover_url?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          excerpt?: string | null;
+          id?: string;
+          published_at?: string | null;
+          slug?: string;
+          status?: Database["public"]["Enums"]["content_status"];
+          tags?: string[];
+          title?: string;
+          updated_at?: string;
+          updated_by?: string | null;
+        };
+        Relationships: [];
+      };
       area_services: {
         Row: {
           area_id: string;
@@ -377,7 +437,10 @@ export type Database = {
       };
       leads: {
         Row: {
+          areas: string[] | null;
+          assigned_area: string | null;
           assigned_to: string | null;
+          budget_range: string | null;
           company: string | null;
           consent_at: string | null;
           consent_given: boolean;
@@ -395,15 +458,19 @@ export type Database = {
           landing_url: string | null;
           message: string | null;
           name: string | null;
+          needs: string[] | null;
           notes: string | null;
           origin_slug: string | null;
           origin_type: Database["public"]["Enums"]["lead_origin_type"];
           page_id: string | null;
           phone: string | null;
+          priority: string | null;
           project_stage: string | null;
           referrer: string | null;
+          source_channel: string | null;
           status: Database["public"]["Enums"]["lead_status"];
           submission_id: string | null;
+          timeline: string | null;
           updated_at: string;
           utm_campaign: string | null;
           utm_content: string | null;
@@ -412,7 +479,10 @@ export type Database = {
           utm_term: string | null;
         };
         Insert: {
+          areas?: string[] | null;
+          assigned_area?: string | null;
           assigned_to?: string | null;
+          budget_range?: string | null;
           company?: string | null;
           consent_at?: string | null;
           consent_given?: boolean;
@@ -430,15 +500,19 @@ export type Database = {
           landing_url?: string | null;
           message?: string | null;
           name?: string | null;
+          needs?: string[] | null;
           notes?: string | null;
           origin_slug?: string | null;
           origin_type?: Database["public"]["Enums"]["lead_origin_type"];
           page_id?: string | null;
           phone?: string | null;
+          priority?: string | null;
           project_stage?: string | null;
           referrer?: string | null;
+          source_channel?: string | null;
           status?: Database["public"]["Enums"]["lead_status"];
           submission_id?: string | null;
+          timeline?: string | null;
           updated_at?: string;
           utm_campaign?: string | null;
           utm_content?: string | null;
@@ -447,7 +521,10 @@ export type Database = {
           utm_term?: string | null;
         };
         Update: {
+          areas?: string[] | null;
+          assigned_area?: string | null;
           assigned_to?: string | null;
+          budget_range?: string | null;
           company?: string | null;
           consent_at?: string | null;
           consent_given?: boolean;
@@ -465,15 +542,19 @@ export type Database = {
           landing_url?: string | null;
           message?: string | null;
           name?: string | null;
+          needs?: string[] | null;
           notes?: string | null;
           origin_slug?: string | null;
           origin_type?: Database["public"]["Enums"]["lead_origin_type"];
           page_id?: string | null;
           phone?: string | null;
+          priority?: string | null;
           project_stage?: string | null;
           referrer?: string | null;
+          source_channel?: string | null;
           status?: Database["public"]["Enums"]["lead_status"];
           submission_id?: string | null;
+          timeline?: string | null;
           updated_at?: string;
           utm_campaign?: string | null;
           utm_content?: string | null;

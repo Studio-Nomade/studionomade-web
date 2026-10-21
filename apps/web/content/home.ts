@@ -193,29 +193,6 @@ export const HOME_INSTAGRAM = {
   ] satisfies HomeImage[]
 } as const;
 
-export interface HomePost {
-  title: string;
-  date: string;
-  /** Fecha legible, ya formateada en español. */
-  dateLabel: string;
-  tags: string[];
-  image: HomeImage;
-}
-
-/** "Últimas publicaciones" de la home actual (el blog aún no tiene ruta propia). */
-export const HOME_POSTS: HomePost[] = [
-  {
-    title: "Guía: Paso a paso para crear un sitio web efectivo",
-    date: "2025-11-26",
-    dateLabel: "26 nov 2025",
-    tags: ["Empresas emergentes", "Ecommerce", "Web Design", "Desarrollo web"],
-    image: {
-      src: "/home/legado/blog-sitio-web.webp",
-      alt: "Equipo trabajando sobre un mapa de experiencia con notas adhesivas"
-    }
-  }
-];
-
 /**
  * Cierre de la home. El formulario vive en /contacto (con su consentimiento);
  * aquí solo se invita a ir allí o a agendar una videollamada.

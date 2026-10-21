@@ -795,3 +795,23 @@
     gap: var(--site-gutter);
   }
 }
+
+.postLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.postLink:hover {
+  text-decoration: underline;
+  text-underline-offset: var(--sp-1);
+}
+
+.postLink:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--sp-1);
+}
+
+.postsMore {
+  margin: var(--sp-8) 0 0;
+  text-align: center;
+}

@@ -5,11 +5,11 @@ import {
   HOME_HERO_SLIDES,
   HOME_INSTAGRAM,
   HOME_MANIFESTO,
-  HOME_MEETING,
-  HOME_POSTS
+  HOME_MEETING
 } from "../../content/home";
 import { HomeAreas } from "./home-areas";
 import { HomeHero } from "./home-hero";
+import { HomePosts } from "./home-posts";
 import { InstagramFeed } from "./instagram-feed";
 import styles from "./home-landing.module.css";
 
@@ -152,27 +152,7 @@ export function HomeLanding() {
             id="home-blog"
           />
         </div>
-        {HOME_POSTS.map((post) => (
-          <article className={styles.post} key={post.title}>
-            <Reveal preset="mask" direction="left" className={styles.postMedia}>
-              <Image
-                src={post.image.src}
-                alt={post.image.alt}
-                fill
-                sizes="(min-width: 64em) 55vw, 100vw"
-              />
-            </Reveal>
-            <Reveal className={styles.postBody} step={2}>
-              <time dateTime={post.date}>{post.dateLabel}</time>
-              <h3>{post.title}</h3>
-              <ul className={styles.tags} aria-label="Temas">
-                {post.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-            </Reveal>
-          </article>
-        ))}
+        <HomePosts />
       </section>
 
       {/* ---- Contacto: el formulario vive en /contacto ---- */}
