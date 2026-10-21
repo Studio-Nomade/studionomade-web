@@ -104,6 +104,22 @@
 
 .parallax img {
   object-fit: cover;
+  object-position: var(--media-focus, 50% 50%);
+}
+
+/* Mockups con fondo propio: pieza completa, sin recorte ni desborde de parallax. */
+.media[data-fit="contain"] {
+  background: transparent;
+}
+
+.media[data-fit="contain"] .parallax [data-parallax-inner] {
+  top: 0;
+  height: 100%;
+}
+
+.media[data-fit="contain"] img {
+  padding: var(--sp-7);
+  object-fit: contain;
 }
 
 /* ---- Hero ---- */
@@ -117,10 +133,13 @@
   padding-bottom: var(--sp-12);
 }
 
+/* 2026-10-21: de Thin (200) al peso de titular de bloque (400), en línea con
+   el engrosamiento de --fw-masthead / --fw-block-title: a 96 px el Thin quedaba
+   más liviano que la cita en Semibold que lo sigue. */
 .heroTitle {
   color: var(--text-title);
   font-size: var(--fs-title-hero);
-  font-weight: var(--fw-thin);
+  font-weight: var(--fw-block-title);
   line-height: var(--lh-heading);
   text-align: center;
 }
@@ -137,6 +156,14 @@
   font-size: var(--fs-lead);
   line-height: var(--lh-heading);
   list-style: none;
+}
+
+/* Servicios con nombres largos (Audiovisual, Web Design): centrados y a todo el
+   ancho, para que no quede un servicio suelto a la izquierda al envolver. */
+.page:is([data-area="audiovisual"], [data-area="web-design"]) .services {
+  justify-content: center;
+  gap: var(--sp-3) var(--sp-8);
+  width: 100%;
 }
 
 .quote {
@@ -341,6 +368,33 @@
   line-height: var(--lh-heading);
 }
 
+/* Alcance sin cifras validadas: frentes de trabajo con un filete de acento. */
+.points {
+  display: grid;
+  gap: var(--sp-5);
+  width: fit-content;
+  max-width: 100%;
+  margin: var(--sp-8) auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.point {
+  display: grid;
+  grid-template-columns: var(--sp-6) minmax(0, 1fr);
+  column-gap: var(--sp-4);
+  align-items: baseline;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-heading);
+}
+
+.point::before {
+  content: "";
+  height: 2px;
+  background: var(--accent);
+  transform: translateY(-0.3em);
+}
+
 /* ---- Galería: 2 + 1 ancha ---- */
 
 .gallery {
@@ -350,13 +404,20 @@
   padding: var(--site-section-y) var(--site-margin);
 }
 
+/* Cada marco toma la proporción de su imagen (`--media-ratio`, 587:708 y
+   1228:708 en Branding y Architecture, 16:9 en Audiovisual). Los mockups
+   completos (`contain`) van en un marco vertical fijo. */
 .gallery > .media {
+  aspect-ratio: var(--media-ratio, 587 / 708);
+}
+
+.gallery > .media[data-fit="contain"] {
   aspect-ratio: 587 / 708;
 }
 
 .gallery > .wide {
   grid-column: 1 / -1;
-  aspect-ratio: 1228 / 708;
+  aspect-ratio: var(--media-ratio, 1228 / 708);
 }
 
 /* ---- Metodología ---- */
@@ -660,7 +721,7 @@
 .contactTitle {
   margin-top: var(--sp-7);
   font-size: var(--fs-title-cta);
-  font-weight: var(--fw-light);
+  font-weight: var(--fw-block-title);
   line-height: var(--lh-heading);
 }
 

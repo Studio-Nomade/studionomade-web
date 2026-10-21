@@ -5,9 +5,14 @@ import { AREA_LABELS, type PublicProject } from "../../content/projects";
 import styles from "./project-index.module.css";
 
 /**
- * Listado de casos: grilla de dos columnas con portada en máscara, código de
- * área y zoom al hover. Cada tarjeta lleva el acento de su caso en la marca de
- * área (decorativa; el texto queda en neutro para cumplir AA).
+ * Listado de casos (referencia: mubien.com/work). Cuadrícula de borde a borde
+ * con el margen del sitio, dos columnas en escritorio y una en móvil, con una
+ * sola imagen por proyecto.
+ *
+ * Con puntero fino, al pasar el cursor (o al enfocar con teclado) aparece un
+ * recuadro claro abajo a la izquierda con la sigla del área, el nombre, la
+ * bajada y un texto corto. En touch o pantallas angostas el recuadro va siempre
+ * bajo la imagen. Todo es CSS: el componente sigue siendo de servidor.
  */
 export function ProjectIndex({ projects }: { projects: PublicProject[] }) {
   return (
@@ -17,12 +22,16 @@ export function ProjectIndex({ projects }: { projects: PublicProject[] }) {
           Proyectos
         </SplitText>
         <Reveal as="p" delay={0.3} className={styles.lead}>
-          Ideas que se transforman en identidades, espacios y experiencias memorables.
+          Identidades, espacios y experiencias que diseñamos junto a nuestros clientes.
         </Reveal>
       </header>
       <ul className={styles.grid}>
         {projects.map((project, index) => (
-          <li key={project.slug} data-accent={project.accent ?? project.area}>
+          <li
+            key={project.slug}
+            className={styles.item}
+            data-accent={project.accent ?? project.area}
+          >
             <Link
               href={`/proyectos/${project.slug}`}
               className={styles.card}
@@ -33,19 +42,19 @@ export function ProjectIndex({ projects }: { projects: PublicProject[] }) {
                   src={project.cover.src}
                   alt=""
                   fill
-                  sizes="(max-width: 48em) 100vw, 45vw"
+                  sizes="(max-width: 48em) 100vw, 50vw"
                   priority={index < 2}
                 />
               </Reveal>
-              <span className={styles.meta}>
-                <span className={styles.code}>
+              <div className={styles.panel}>
+                <p className={styles.code}>
                   {project.areaCode}
-                  <span className={styles.srOnly}> {AREA_LABELS[project.areaCode]}</span>
-                </span>
-                <span>{project.year}</span>
-              </span>
-              <span className={styles.name}>{project.title}</span>
-              <span className={styles.summary}>{project.summary}</span>
+                  <span className={styles.srOnly}> · {AREA_LABELS[project.areaCode]}</span>
+                </p>
+                <h2 className={styles.name}>{project.displayName}</h2>
+                <p className={styles.tagline}>{project.tagline}</p>
+                <p className={styles.excerpt}>{project.excerpt}</p>
+              </div>
             </Link>
           </li>
         ))}

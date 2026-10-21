@@ -7,6 +7,8 @@
  * reutilizables entre casos.
  */
 
+import { AREA_BY_SLUG, STUDIO_AREAS, type StudioAreaMeta, type StudioAreaSlug } from "./area-meta";
+
 /** Texto con tramos de distinto peso, tal como los dibuja Figma. */
 export type RichText = string | Array<{ text: string; weight?: 400 | 600 | 700 }>;
 
@@ -76,16 +78,30 @@ export type CaseBlock =
     }
   | { type: "credits"; items: Array<{ role: string; name: string }> };
 
-export type ProjectArea = "branding" | "architecture";
+/** Las cuatro áreas del Studio (`area-meta.ts` es la fuente de slugs, siglas y nombres). */
+export type ProjectArea = StudioAreaSlug;
+
+export type ProjectAreaCode = StudioAreaMeta["code"];
 
 export type PublicProject = {
   slug: string;
+  /** Título del caso tal como lo escribe Figma (cabecera del caso, metadatos). */
   title: string;
+  /**
+   * Nombre normalizado para el listado: solo la primera letra en mayúscula
+   * ("CinnaLove" → "Cinnalove", "NEXA" → "Nexa"), respetando los nombres propios
+   * compuestos ("Reebok x Lollapalooza", "Jaecoo 7").
+   */
+  displayName: string;
+  /** Bajada del listado con el formato "<Nombre> - <servicio>". */
+  tagline: string;
+  /** Texto corto (1–2 líneas) del recuadro del listado. */
+  excerpt: string;
   client: string;
   year: string;
   area: ProjectArea;
-  /** Código de área de la página de Figma: B&D Branding & Design · A&D Architecture & Design. */
-  areaCode: "B&D" | "A&D";
+  /** Sigla del área (B&D, A&D, A&A, WD); debe coincidir con `AREA_BY_SLUG[area].code`. */
+  areaCode: ProjectAreaCode;
   /** Nombre del acento en `accents.css` (`data-accent`). Sin él, el del área. */
   accent?: string;
   /** Plantilla del sitio legado, solo para trazabilidad. */
@@ -94,15 +110,20 @@ export type PublicProject = {
   summary: string;
   /** Imagen de portada: tarjeta del listado, Open Graph y "Siguiente proyecto". */
   cover: CaseImage;
-  /** TODO-contenido: URLs de Behance sin confirmar. Sin URL el botón no se muestra. */
+  /** Proyecto publicado en Behance. Sin URL el botón "Ver en Behance" no se muestra. */
   behanceUrl?: string;
   blocks: CaseBlock[];
 };
 
-export const AREA_LABELS: Record<PublicProject["areaCode"], string> = {
-  "B&D": "Branding & Design",
-  "A&D": "Architecture & Design"
-};
+/** Nombre completo de cada sigla de área, derivado de `STUDIO_AREAS`. */
+export const AREA_LABELS = Object.fromEntries(
+  STUDIO_AREAS.map((area) => [area.code, area.name])
+) as Record<ProjectAreaCode, string>;
+
+/** Sigla del área de un proyecto según `area-meta.ts`. */
+export function areaCodeOf(area: ProjectArea): ProjectAreaCode {
+  return AREA_BY_SLUG[area].code;
+}
 
 const image = (
   slug: string,
@@ -121,11 +142,15 @@ const DEFAULT_CREDITS = (client: string) => [
 const cinnalove: PublicProject = {
   slug: "cinnalove",
   title: "CinnaLove",
+  displayName: "Cinnalove",
+  tagline: "Cinnalove - Branding y packaging",
+  excerpt: "Identidad y packaging construidos desde el trazo vivo del rollo de canela.",
   client: "CinnaLove",
   year: "2025",
   area: "branding",
   areaCode: "B&D",
   accent: "cinnalove",
+  behanceUrl: "https://www.behance.net/gallery/236259723/CinnaLove-Branding",
   template: "anagrama",
   summary:
     "Identidad, packaging y sistema visual para CinnaLove, construidos desde el trazo vivo del rollo de canela.",
@@ -208,11 +233,15 @@ const cinnalove: PublicProject = {
 const nexa: PublicProject = {
   slug: "nexa",
   title: "NEXA",
+  displayName: "Nexa",
+  tagline: "Nexa - Desarrollo de marca",
+  excerpt: "Identidad cálida y contemporánea para una energía renovable que conecta comunidades.",
   client: "Nexa",
   year: "2024",
   area: "branding",
   areaCode: "B&D",
   accent: "nexa",
+  behanceUrl: "https://www.behance.net/gallery/217881153/NEXA-BRANDING",
   template: "arte",
   summary:
     "Identidad visual cálida y contemporánea para NEXA, energía renovable que conecta comunidades y entorno.",
@@ -291,11 +320,16 @@ const nexa: PublicProject = {
 const kumelen: PublicProject = {
   slug: "kumelen",
   title: "Kumelen",
+  displayName: "Kumelen",
+  tagline: "Kumelen - Marca y diseño web",
+  excerpt:
+    "Marca, narrativa y sitio para un turismo consciente con la naturaleza y la cultura chilena.",
   client: "Kumelen Endémico",
   year: "2025",
   area: "branding",
   areaCode: "B&D",
   accent: "kumelen",
+  behanceUrl: "https://www.behance.net/gallery/217925879/Kumelen-Proyecto-branding",
   template: "fashion",
   summary:
     "Marca, narrativa y diseño web para Kumelen Endémico, turismo consciente que conecta con la naturaleza y la cultura chilena.",
@@ -386,6 +420,9 @@ const kumelen: PublicProject = {
 const reebok: PublicProject = {
   slug: "reebok-x-lollapalooza",
   title: "Reebok x Lollapalooza",
+  displayName: "Reebok x Lollapalooza",
+  tagline: "Reebok x Lollapalooza - Stand experiencial",
+  excerpt: "Eternal Trend: un stand circular e inmersivo entre legado, juego y sostenibilidad.",
   client: "Reebok",
   year: "2025",
   area: "architecture",
@@ -533,6 +570,9 @@ const reebok: PublicProject = {
 const equifax: PublicProject = {
   slug: "equifax",
   title: "Equifax",
+  displayName: "Equifax",
+  tagline: "Equifax - Experiencia de marca",
+  excerpt: "FAST TRACK: un evento inmersivo inspirado en la velocidad y la toma de decisiones.",
   client: "EQUIFAX",
   year: "2024",
   area: "architecture",
@@ -637,32 +677,34 @@ const equifax: PublicProject = {
   ]
 };
 
+const JAECOO_COVER: CaseImage = {
+  src: "/home/legado/reel.webp",
+  alt: "Render del espacio Jaecoo 7 en un centro comercial, con el auto en exhibición",
+  width: 1600,
+  height: 900
+};
+
 /** Caso previo al rediseño: se mantiene con los bloques genéricos. */
 const jaecoo: PublicProject = {
   slug: "jaecoo-7",
   title: "Jaecoo 7",
+  displayName: "Jaecoo 7",
+  tagline: "Jaecoo 7 - Lanzamiento de producto",
+  excerpt: "Un espacio inmersivo para presentar un nuevo modelo en un contexto de alta exposición.",
   client: "Jaecoo",
   year: "2025",
   area: "architecture",
   areaCode: "A&D",
   summary:
     "Una experiencia espacial inmersiva para presentar un nuevo modelo en un contexto de alta exposición.",
-  cover: {
-    src: "/home/arch-gallery-1.webp",
-    alt: "Lanzamiento del Jaecoo 7",
-    width: 1400,
-    height: 788
-  },
+  // `/home/arch-gallery-1.webp` (la portada anterior) es merchandising de Equifax;
+  // la imagen propia del caso es el render del espacio Jaecoo 7 (portada del reel).
+  cover: JAECOO_COVER,
   blocks: [
     {
       type: "hero",
       variant: "inset",
-      image: {
-        src: "/home/arch-gallery-1.webp",
-        alt: "Lanzamiento del Jaecoo 7",
-        width: 1400,
-        height: 788
-      },
+      image: JAECOO_COVER,
       quote:
         "Una experiencia espacial inmersiva para presentar un nuevo modelo en un contexto de alta exposición."
     },
@@ -678,6 +720,9 @@ const jaecoo: PublicProject = {
     },
     {
       type: "bento",
+      // TODO-contenido: solo `arch-gallery-3` es del Jaecoo 7; `arch-1` es el stand
+      // de Reebok y `arch-gallery-2` (tótems de audio) no está confirmado. Reemplazar
+      // cuando el equipo entregue más imágenes del lanzamiento.
       items: [
         { src: "/home/arch-1.webp", alt: "Espacio del lanzamiento", width: 1081, height: 1351 },
         { src: "/home/arch-gallery-2.webp", alt: "Detalle del montaje", width: 1081, height: 1351 },

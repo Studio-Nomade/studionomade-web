@@ -49,4 +49,26 @@ describe("AreaPage", () => {
     expect(container.querySelectorAll("main [data-placeholder]")).toHaveLength(6);
     expect(screen.queryByText("Fa Casol")).toBeNull();
   });
+
+  it("Audiovisual: banda, galería de 6, frentes de trabajo sin cifras y sin equipo", () => {
+    const { container } = render(<AreaPage area={areas.audiovisual} />);
+    expect(screen.getByRole("heading", { level: 1, name: "Audiovisual" })).toBeTruthy();
+    expect(container.querySelector("[data-media='banded']")).toBeTruthy();
+    const gallery = screen.getByRole("region", { name: "Galería de proyectos" });
+    expect(gallery.querySelectorAll("img")).toHaveLength(6);
+    expect(container.querySelector("[data-motion='counter']")).toBeNull();
+    expect(screen.getByText("Cobertura de ferias, festivales y activaciones")).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: "Conoce al equipo" })).toBeNull();
+    expect(container.querySelector("#contacto form")).toBeTruthy();
+  });
+
+  it("Web Design: carrusel de sitios y mockups completos en la galería", () => {
+    const { container } = render(<AreaPage area={areas["web-design"]} />);
+    expect(screen.getByRole("heading", { level: 1, name: "Web Design" })).toBeTruthy();
+    const rail = screen.getByRole("region", { name: "Sitios en teléfono" });
+    expect(within(rail).getAllByRole("group")).toHaveLength(3);
+    expect(container.querySelectorAll("[data-fit='contain']")).toHaveLength(2);
+    expect(screen.getByText("Lanzamiento y soporte")).toBeTruthy();
+    expect(screen.getByText("Plataformas y herramientas a medida")).toBeTruthy();
+  });
 });

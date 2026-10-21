@@ -36,7 +36,11 @@ export const AREA_TEAMS: Record<AreaSlug, TeamMember[]> = {
     PEOPLE.catalina,
     PEOPLE.ernesto,
     PEOPLE.nicolas
-  ]
+  ],
+  // TODO-contenido: falta definir el equipo de Audiovisual y de Web Design. Con
+  // la lista vacía, la página del área omite la sección "Conoce al equipo".
+  audiovisual: [],
+  "web-design": []
 };
 
 /** Iniciales para el retrato de reemplazo: primera letra de nombre y apellido. */
