@@ -1,0 +1,220 @@
+/* /contacto: hero claro, banda con formulario + canales directos y agenda. */
+
+.hero {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-5);
+  padding: var(--site-section-y) var(--site-margin) var(--sp-11);
+  color: var(--text-title);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-title);
+  font-family: var(--font-core);
+  font-size: var(--fs-title-hero);
+  font-weight: var(--fw-thin);
+  letter-spacing: 0;
+  line-height: var(--lh-heading);
+}
+
+.lead {
+  max-width: var(--measure-tight);
+  margin: 0;
+  font-size: var(--fs-lead-xl);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-heading);
+}
+
+.jump {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3) var(--sp-6);
+  margin-top: var(--sp-4);
+}
+
+.jump a {
+  color: var(--text-strong);
+  font-size: var(--fs-body);
+  text-underline-offset: 0.25em;
+}
+
+.jump a:hover {
+  color: var(--text-link-hover);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--sp-7);
+  color: var(--text-title);
+  font-family: var(--font-core);
+  font-size: var(--fs-title-section);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+  line-height: var(--lh-heading);
+}
+
+/* ---- Formulario + canales ---- */
+
+.formBand {
+  padding: var(--sp-11) var(--site-margin);
+  background: var(--surface-band);
+  scroll-margin-top: var(--sp-9);
+}
+
+.formLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: var(--sp-9);
+  align-items: start;
+  max-width: var(--site-content-max);
+  margin-inline: auto;
+}
+
+.formCard {
+  padding: var(--sp-9);
+  background: var(--surface-page);
+}
+
+.channels {
+  position: sticky;
+  top: var(--sp-10);
+  padding-top: var(--sp-9);
+}
+
+.channelsTitle {
+  margin: 0;
+  color: var(--text-title);
+  font-family: var(--font-core);
+  font-size: var(--fs-heading-4);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0;
+  line-height: var(--lh-heading);
+}
+
+.channelsLead {
+  margin: var(--sp-2) 0 0;
+  color: var(--text-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.channelList {
+  display: grid;
+  gap: var(--sp-5);
+  margin: var(--sp-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.channelList li {
+  display: grid;
+  gap: var(--sp-1);
+  padding-top: var(--sp-4);
+  border-top: var(--border-rule);
+}
+
+.channelLabel {
+  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+}
+
+.channelValue {
+  color: var(--text-strong);
+  font-size: var(--fs-lead);
+  font-weight: var(--fw-light);
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.channelValue:hover {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+
+.channelValue:focus-visible,
+.jump a:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* ---- Agenda ---- */
+
+.agenda {
+  max-width: calc(var(--site-content-max) + 2 * var(--site-margin));
+  margin-inline: auto;
+  padding: var(--sp-11) var(--site-margin) var(--sp-12);
+  scroll-margin-top: var(--sp-9);
+}
+
+.agendaIntro {
+  max-width: var(--measure);
+  margin: 0 auto var(--sp-7);
+  text-align: center;
+}
+
+.agendaIntro .sectionTitle {
+  margin-bottom: var(--sp-3);
+}
+
+.agendaLead {
+  margin: 0;
+  color: var(--text-body);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+}
+
+@media (max-width: 63.99em) {
+  .formLayout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-8);
+  }
+
+  .channels {
+    position: static;
+    padding-top: 0;
+  }
+
+  .channelList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 47.99em) {
+  .hero {
+    padding-bottom: var(--sp-9);
+  }
+
+  .formBand {
+    padding: var(--sp-8) 0;
+  }
+
+  .formCard {
+    padding: var(--sp-8) var(--site-margin);
+  }
+
+  .channels {
+    padding-inline: var(--site-margin);
+  }
+
+  .channelList {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .agenda {
+    padding-block: var(--sp-9) var(--sp-10);
+  }
+}
