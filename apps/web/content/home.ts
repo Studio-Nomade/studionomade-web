@@ -1,17 +1,17 @@
 /**
  * Contenido de la home pública.
  *
- * Vive aparte de `projects.ts` y `areas.ts` a propósito: la home solo necesita
- * portada, código de área y año de cada caso destacado, y así no se acopla al
- * modelo completo de proyecto. Los enlaces apuntan a `/proyectos/<slug>`.
+ * El hero se arma desde `projects.ts` (`publicProjects`): título, área, año e
+ * imagen del caso salen de ahí y aquí solo se ajusta lo propio de la home
+ * (recorte, disciplinas que el caso no declara, video futuro). Las áreas salen
+ * de `area-meta.ts` (`STUDIO_AREAS`) y aquí se les da su par de imágenes.
  *
  * Origen: home del sitio legado (estructura y textos) y rediseño 2026 (códigos
- * de área B&D / A&D y acentos). Lo marcado `TODO-contenido` espera validación.
+ * de área y acentos). Lo marcado `TODO-contenido` espera validación.
  */
+import { STUDIO_AREAS, AREA_BY_SLUG, type StudioAreaMeta, type StudioAreaSlug } from "./area-meta";
+import { publicProjects, type PublicProject } from "./projects";
 import { SOCIAL_LINKS } from "./social";
-
-/** Códigos de área del rediseño: Branding & Design y Architecture & Design. */
-export type HomeAreaCode = "B&D" | "A&D";
 
 export interface HomeImage {
   src: string;
@@ -20,175 +20,160 @@ export interface HomeImage {
   focus?: "left" | "center" | "right";
 }
 
-export interface HomeFeaturedProject {
-  slug: string;
-  title: string;
-  code: HomeAreaCode;
-  /** Área de negocio: activa el acento (`data-accent`). */
-  area: "branding" | "architecture";
-  year: string;
-  /** Disciplinas del caso, en el orden del diseño. */
-  disciplines: string[];
-  image: HomeImage;
+/**
+ * Video de una diapositiva del hero. Con video, la imagen deja de mostrarse y
+ * `poster` es lo que se ve mientras carga (y con movimiento reducido).
+ */
+export interface HomeHeroVideo {
+  src: string;
+  poster: string;
+  type?: "video/mp4" | "video/webm";
 }
 
-export const AREA_LABELS: Record<HomeAreaCode, string> = {
-  "B&D": "Branding & Design",
-  "A&D": "Architecture & Design"
-};
+export interface HomeHeroSlide {
+  slug: string;
+  title: string;
+  href: `/proyectos/${string}`;
+  /** Sigla del área del caso (B&D, A&D…): va en el cuadrado del botón. */
+  code: StudioAreaMeta["code"];
+  /** Área del caso: activa el acento (`data-accent`). */
+  area: StudioAreaSlug;
+  areaName: string;
+  year: string;
+  /** Disciplinas del caso, en el orden del diseño (puede ir vacío). */
+  disciplines: string[];
+  image: HomeImage;
+  video?: HomeHeroVideo;
+}
 
-/** Slider del hero: los 5 casos del rediseño, en el orden del ciclo de casos. */
-export const HOME_FEATURED: HomeFeaturedProject[] = [
-  {
-    slug: "cinnalove",
-    title: "CinnaLove",
-    code: "B&D",
-    area: "branding",
-    year: "2025",
-    disciplines: ["Research", "Branding", "Packaging"],
+/**
+ * Ajustes de la home por caso. La imagen por defecto es la del bloque `hero`
+ * del caso (o su portada); se reemplaza solo si no sirve a pantalla completa.
+ */
+const HERO_OVERRIDES: Record<
+  string,
+  { image?: HomeImage; focus?: HomeImage["focus"]; disciplines?: string[]; video?: HomeHeroVideo }
+> = {
+  "reebok-x-lollapalooza": { disciplines: ["Stand", "Activación", "Render"] },
+  nexa: { disciplines: ["Branding", "Identidad", "Arte"] },
+  // La portada del caso es merchandising de otro proyecto: se usa la del área.
+  "jaecoo-7": {
     image: {
-      src: "/home/legado/cinnalove.webp",
-      alt: "Bolsas de CinnaLove con el isotipo en espiral sobre fondo gris",
-      focus: "left"
-    }
-  },
-  {
-    slug: "kumelen",
-    title: "Kumelen",
-    code: "B&D",
-    area: "branding",
-    year: "2025",
-    disciplines: ["Research", "Branding", "Diseño Web"],
-    image: {
-      src: "/home/legado/kumelen.webp",
-      alt: "Afiches de Kumelen en un muro urbano mientras pasa un peatón",
-      focus: "center"
-    }
-  },
-  {
-    slug: "equifax",
-    title: "Equifax",
-    code: "A&D",
-    area: "architecture",
-    year: "2024",
-    disciplines: ["Experiencia", "Branding", "Render"],
-    image: {
-      src: "/home/legado/equifax.webp",
-      alt: "Render nocturno del stand Equifax Fast Track con autos y pantallas",
-      focus: "center"
-    }
-  },
-  {
-    slug: "reebok-x-lollapalooza",
-    title: "Reebok x Lollapalooza",
-    code: "A&D",
-    area: "architecture",
-    year: "2025",
-    disciplines: ["Stand", "Activación", "Render"],
-    image: {
-      src: "/home/legado/reebok-x-lollapalooza.webp",
-      alt: "Stand circular de Reebok en Lollapalooza al atardecer, con público",
-      focus: "center"
-    }
-  },
-  {
-    slug: "nexa",
-    title: "Nexa",
-    code: "B&D",
-    area: "branding",
-    year: "2024",
-    disciplines: ["Branding", "Identidad", "Arte"],
-    image: {
-      src: "/home/legado/nexa.webp",
-      alt: "Tarjetas de presentación de Nexa Energía en tono coral",
-      focus: "center"
+      src: "/areas/architecture/galeria-jaecoo.webp",
+      alt: "Visitantes frente a la pantalla del lanzamiento del Jaecoo 7 en un centro comercial"
     }
   }
-];
+};
+
+/** Diapositiva del hero a partir del caso publicado. */
+export function heroSlideFrom(project: PublicProject): HomeHeroSlide {
+  const override = HERO_OVERRIDES[project.slug] ?? {};
+  const hero = project.blocks.find((block) => block.type === "hero");
+  const caseImage = hero?.type === "hero" ? hero.image : project.cover;
+  const image = override.image ?? { src: caseImage.src, alt: caseImage.alt };
+  return {
+    slug: project.slug,
+    title: project.title,
+    href: `/proyectos/${project.slug}`,
+    code: project.areaCode,
+    area: project.area,
+    areaName: AREA_BY_SLUG[project.area].name,
+    year: project.year,
+    disciplines: override.disciplines ?? (hero?.type === "hero" ? (hero.tags ?? []) : []),
+    image: { ...image, focus: override.focus ?? image.focus },
+    ...(override.video ? { video: override.video } : {})
+  };
+}
+
+/** Hero: los casos publicados, en el orden de `publicProjects`. */
+export const HOME_HERO_SLIDES: HomeHeroSlide[] = publicProjects.map(heroSlideFrom);
 
 /** Bloque "Creative Movement": texto de la home actual. */
 export const HOME_MANIFESTO = {
-  eyebrow: "Creative",
-  title: "Movement",
+  title: "Creative Movement",
   lead: "Somos un estudio enfocado en la comunicación asertiva y la creatividad.",
   body: "Buscamos trabajar en conjunto con personas que desean llevar sus ideas y expresiones a resoluciones, respuestas e identidades auténticas.",
   /** Cifras aprobadas en las páginas de área (decisión del cliente). */
   stats: [
     { value: 100, prefix: "+", label: "Marcas desarrolladas" },
     { value: 50, prefix: "+", label: "Experiencias diseñadas" }
-  ]
+  ],
+  /** El equipo vive en /nosotros; la home solo enlaza. */
+  cta: { label: "Conoce al equipo", href: "/nosotros" }
 } as const;
 
-export interface HomeService {
-  name: string;
-  code: string;
+export interface HomeArea extends StudioAreaMeta {
   description: string;
-  /** Sin página propia: la tarjeta lleva al formulario de contacto. */
-  href: string;
-  /** Solo las áreas con página tienen acento propio. */
-  accent?: "branding" | "architecture";
-  image: HomeImage;
+  /** Imagen en reposo y la que la reemplaza al pasar el cursor (o al hacer scroll en táctil). */
+  images: [HomeImage, HomeImage];
 }
 
-// TODO-contenido: bajada de la sección Servicios, por validar con el equipo.
-export const HOME_SERVICES_NOTE =
+// TODO-contenido: bajada de la sección Áreas, por validar con el equipo.
+export const HOME_AREAS_NOTE =
   "Cuatro áreas que trabajan juntas, de la marca al espacio y la pantalla.";
 
-export const HOME_SERVICES: HomeService[] = [
-  {
-    name: "Branding",
-    code: "B&D",
+const AREA_CONTENT: Record<StudioAreaSlug, Pick<HomeArea, "description" | "images">> = {
+  branding: {
     description:
       "Desarrollamos y renovamos marcas con una metodología propia, para construir identidades auténticas, coherentes y memorables.",
-    href: "/areas/branding",
-    accent: "branding",
-    image: {
-      src: "/home/branding-collateral-2.webp",
-      alt: "Papelería de la marca Boden en verde y negro"
-    }
+    images: [
+      {
+        src: "/areas/branding/galeria-cinnalove.webp",
+        alt: "Bolsa de tela de CinnaLove con el trazo de canela"
+      },
+      { src: "/proyectos/nexa/hero.webp", alt: "Tarjetas de presentación de NEXA en tono coral" }
+    ]
   },
-  {
-    name: "Architecture",
-    code: "A&D",
+  architecture: {
     description:
       "Diseñamos espacios que van más allá de lo funcional para convertirse en experiencias memorables.",
-    href: "/areas/architecture",
-    accent: "architecture",
-    image: {
-      src: "/home/arch-value-2.webp",
-      alt: "Render de un stand modular iluminado en azul"
-    }
+    images: [
+      {
+        src: "/areas/architecture/hero-reebok-eternal-trend.webp",
+        alt: "Stand circular de Reebok Eternal Trend en Lollapalooza"
+      },
+      {
+        src: "/proyectos/equifax/grid-02.webp",
+        alt: "Pantallas y simuladores del espacio Fast Track de Equifax"
+      }
+    ]
   },
-  {
-    name: "Audiovisual",
-    code: "AV",
+  audiovisual: {
     // TODO-contenido: validar la descripción con el equipo.
     description:
-      "Fotografía, video y motion para contar cada proyecto desde nuestro estudio fotográfico.",
-    href: "#contacto",
-    image: {
-      src: "/home/cinnalove-banner-1.webp",
-      alt: "Fotografía de producto de un rollo de canela de CinnaLove"
-    }
+      "Fotografía, video y motion para contar cada proyecto, del rodaje en terreno a la animación.",
+    images: [
+      {
+        src: "/areas/audiovisual/rodaje-festival.webp",
+        alt: "Integrante del equipo grabando con un gimbal en un festival"
+      },
+      {
+        src: "/areas/audiovisual/gimbal-movil.webp",
+        alt: "Teléfono en un gimbal durante una grabación"
+      }
+    ]
   },
-  {
-    name: "Web Design",
-    code: "WD",
+  "web-design": {
     // TODO-contenido: validar la descripción con el equipo.
     description: "Sitios y experiencias digitales a medida, del diseño de interfaz al desarrollo.",
-    href: "#contacto",
-    image: {
-      src: "/home/branding-project-2.webp",
-      alt: "Sitio web de OMG Superfood en tablet, notebook y teléfono"
-    }
+    images: [
+      { src: "/home/mockup-kumelen.webp", alt: "Sitio móvil de Kumelen Endémico en un teléfono" },
+      { src: "/home/mockup-nexa.webp", alt: "Sitio móvil de NEXA Energía en un teléfono" }
+    ]
   }
-];
+};
+
+/** Las cuatro áreas del Studio, en el orden de `STUDIO_AREAS`. */
+export const HOME_AREAS: HomeArea[] = STUDIO_AREAS.map((area) => ({
+  ...area,
+  ...AREA_CONTENT[area.slug]
+}));
 
 export const HOME_MEETING = {
   kicker: "¿Tienes un proyecto en mente?",
   lines: ["Agendemos", "una reunión"],
   cta: "Agenda una reunión",
-  href: "#contacto",
+  href: "/contacto#agenda",
   image: {
     src: "/home/legado/reunion.webp",
     alt: ""
@@ -273,8 +258,16 @@ export const HOME_POSTS: HomePost[] = [
   }
 ];
 
-/** Consentimiento vigente del formulario de la home (con enlace a /privacidad). */
-export const HOME_CONTACT_CONSENT_VERSION = "2026-10-v1" as const;
+/**
+ * Cierre de la home. El formulario vive en /contacto (con su consentimiento);
+ * aquí solo se invita a ir allí o a agendar una videollamada.
+ */
+export const HOME_CONTACT = {
+  title: "Contacto",
+  lead: "Podemos ayudarte. ¡Conversemos!",
+  primary: { label: "Cuéntanos tu proyecto", href: "/contacto" },
+  secondary: { label: "Agendar una videollamada", href: "/contacto#agenda" }
+} as const;
 
 export interface HomeOffice {
   name: string;

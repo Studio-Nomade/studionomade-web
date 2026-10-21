@@ -2,74 +2,83 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { LEAD_CONSENTS, isLeadConsentVersion } from "./legal/consentimientos";
+import { STUDIO_AREAS } from "./area-meta";
 import {
-  AREA_LABELS,
-  HOME_CONTACT_CONSENT_VERSION,
-  HOME_FEATURED,
+  HOME_AREAS,
+  HOME_CONTACT,
+  HOME_HERO_SLIDES,
   HOME_INSTAGRAM,
+  HOME_MANIFESTO,
   HOME_MEETING,
   HOME_OFFICES,
   HOME_POSTS,
   HOME_REEL,
-  HOME_SERVICES,
   reelEmbedUrl
 } from "./home";
+import { publicProjects } from "./projects";
 
 const publicDir = resolve(__dirname, "../public");
 
 describe("contenido de la home", () => {
-  it("el hero muestra los 5 casos del rediseño, en el orden del ciclo", () => {
-    expect(HOME_FEATURED.map((project) => project.slug)).toEqual([
-      "cinnalove",
-      "kumelen",
-      "equifax",
-      "reebok-x-lollapalooza",
-      "nexa"
-    ]);
+  it("el hero muestra los casos publicados, en su orden", () => {
+    expect(HOME_HERO_SLIDES.map((slide) => slide.slug)).toEqual(
+      publicProjects.map((project) => project.slug)
+    );
+    expect(HOME_HERO_SLIDES).toHaveLength(6);
   });
 
-  it("el código de área corresponde al área de negocio", () => {
-    for (const project of HOME_FEATURED) {
-      expect(project.code).toBe(project.area === "branding" ? "B&D" : "A&D");
-      expect(AREA_LABELS[project.code]).toBeTruthy();
-      expect(project.year).toMatch(/^20\d{2}$/);
+  it("cada diapositiva enlaza a su caso con la sigla y el año del área", () => {
+    for (const slide of HOME_HERO_SLIDES) {
+      const project = publicProjects.find((item) => item.slug === slide.slug)!;
+      expect(slide.href).toBe(`/proyectos/${slide.slug}`);
+      expect(slide.code).toBe(project.areaCode);
+      expect(slide.code).toBe(STUDIO_AREAS.find((area) => area.slug === slide.area)?.code);
+      expect(slide.year).toMatch(/^20\d{2}$/);
     }
   });
 
   it("todas las imágenes existen en public/ y son WebP", () => {
     const sources = [
-      ...HOME_FEATURED.map((project) => project.image.src),
-      ...HOME_SERVICES.map((service) => service.image.src),
+      ...HOME_HERO_SLIDES.map((slide) => slide.image.src),
+      ...HOME_AREAS.flatMap((area) => area.images.map((image) => image.src)),
       ...HOME_INSTAGRAM.images.map((image) => image.src),
       ...HOME_POSTS.map((post) => post.image.src),
       HOME_MEETING.image.src,
       HOME_REEL.poster.src
     ];
     for (const src of sources) {
-      expect(src, src).toMatch(/^\/home\/.+\.webp$/);
+      expect(src, src).toMatch(/^\/(home|areas|proyectos)\/.+\.webp$/);
       expect(existsSync(resolve(publicDir, `.${src}`)), src).toBe(true);
     }
   });
 
   it("las imágenes con contenido llevan texto alternativo", () => {
-    for (const project of HOME_FEATURED) expect(project.image.alt.length).toBeGreaterThan(10);
+    for (const slide of HOME_HERO_SLIDES) expect(slide.image.alt.length).toBeGreaterThan(10);
+    for (const area of HOME_AREAS) {
+      for (const image of area.images) expect(image.alt.length).toBeGreaterThan(10);
+    }
     expect(HOME_REEL.poster.alt.length).toBeGreaterThan(10);
   });
 
-  it("solo Branding y Architecture enlazan a su área; el resto lleva al contacto", () => {
-    expect(HOME_SERVICES.map((service) => [service.name, service.href])).toEqual([
-      ["Branding", "/areas/branding"],
-      ["Architecture", "/areas/architecture"],
-      ["Audiovisual", "#contacto"],
-      ["Web Design", "#contacto"]
+  it("las cuatro áreas enlazan a su página con dos imágenes distintas e isologo", () => {
+    expect(HOME_AREAS.map((area) => [area.code, area.href])).toEqual([
+      ["B&D", "/areas/branding"],
+      ["A&D", "/areas/architecture"],
+      ["A&A", "/areas/audiovisual"],
+      ["WD", "/areas/web-design"]
     ]);
+    for (const area of HOME_AREAS) {
+      expect(area.images[0].src).not.toBe(area.images[1].src);
+      expect(existsSync(resolve(publicDir, `.${area.symbol}`)), area.symbol).toBe(true);
+      expect(area.description.length).toBeGreaterThan(20);
+    }
   });
 
-  it("el formulario usa el consentimiento vigente con enlace a /privacidad", () => {
-    expect(isLeadConsentVersion(HOME_CONTACT_CONSENT_VERSION)).toBe(true);
-    const consent = LEAD_CONSENTS[HOME_CONTACT_CONSENT_VERSION];
-    expect("link" in consent && consent.link.href).toBe("/privacidad");
+  it("el equipo y el contacto viven en sus páginas", () => {
+    expect(HOME_MANIFESTO.cta.href).toBe("/nosotros");
+    expect(HOME_CONTACT.primary.href).toBe("/contacto");
+    expect(HOME_CONTACT.secondary.href).toBe("/contacto#agenda");
+    expect(HOME_MEETING.href).toBe("/contacto#agenda");
   });
 
   it("las oficinas enlazan a Google Maps con su dirección", () => {

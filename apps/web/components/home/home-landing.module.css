@@ -28,21 +28,18 @@
 
 /* ---- Tipografía común ---- */
 
-/* Titular de sección: una palabra en Inter 100 a casi todo el ancho. El tope en
-   `vw` garantiza que la palabra más larga (INSTAGRAM, CONTACTO) quepa a 360 px
+/* Titular de sección: Inter con el peso de `--fw-masthead`, contenido en
+   `--fs-xxl` (126 px) para que tenga carácter sin ocupar la pantalla. El tope en
+   `vw` garantiza que la palabra más larga (Instagram, Movement) quepa a 360 px
    sin recortarse ni desbordar. */
 .masthead {
   max-width: 100%;
   color: var(--text-title);
   font-family: var(--font-core);
-  font-size: min(var(--fs-xxxl), 14.5vw);
+  font-size: min(var(--fs-xxl), 12vw);
   font-weight: var(--fw-masthead);
   letter-spacing: var(--tr-masthead);
   line-height: var(--lh-masthead);
-}
-
-.mastheadLong {
-  font-size: min(var(--fs-xxxl), 13.5vw);
 }
 
 .eyebrow {
@@ -107,9 +104,12 @@
 }
 
 .movementTitle {
-  display: grid;
-  justify-items: center;
+  width: 100%;
   text-align: center;
+}
+
+.manifestoCta {
+  margin-top: var(--sp-8);
 }
 
 .manifestoGrid {
@@ -181,14 +181,14 @@
   }
 }
 
-/* ---- Servicios ---- */
+/* ---- Áreas ---- */
 
-.services {
+.areas {
   padding: var(--site-section-y) var(--home-inline);
   background: var(--surface-band);
 }
 
-.serviceGrid {
+.areaGrid {
   display: grid;
   gap: var(--sp-4);
   margin: var(--sp-9) 0 0;
@@ -196,77 +196,114 @@
   list-style: none;
 }
 
-.serviceLink {
+.areaLink {
   position: relative;
   display: block;
-  aspect-ratio: var(--media-ratio-portrait);
+  aspect-ratio: var(--media-ratio-square);
   overflow: hidden;
   background: var(--surface-invert);
   color: var(--text-on-invert);
   text-decoration: none;
 }
 
-.serviceLink:focus-visible {
+.areaLink:hover {
+  color: var(--text-on-invert);
+}
+
+.areaLink:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-offset);
 }
 
-.serviceMedia {
+.areaMedia,
+.areaMediaAlt {
   position: absolute;
   inset: 0;
 }
 
-.serviceMedia img {
+.areaMedia img,
+.areaMediaAlt img {
   object-fit: cover;
 }
 
-.serviceShade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, var(--sn-black) 0%, transparent 70%);
-  opacity: 0.85;
+/* La segunda imagen espera bajo su máscara: sube al pasar el cursor, al
+   enfocar o, en táctil, al cruzar el centro de la pantalla (`data-swapped`). */
+.areaMediaAlt {
+  clip-path: inset(100% 0 0 0);
 }
 
-.serviceTop,
-.serviceBottom {
+.areaMediaAlt img {
+  transform: scale(var(--motion-mask-scale));
+}
+
+.area[data-swapped] .areaMediaAlt {
+  clip-path: inset(0);
+}
+
+.area[data-swapped] .areaMediaAlt img {
+  transform: none;
+}
+
+.areaShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--sn-black) 0%, transparent 75%);
+  opacity: 0.88;
+}
+
+/* Arriba, para la sigla y el isologo. */
+.areaShade::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 35%;
+  background: linear-gradient(to bottom, var(--sn-black) 0%, transparent 100%);
+  opacity: 0.55;
+}
+
+.areaTop,
+.areaBottom {
   position: absolute;
   right: var(--sp-5);
   left: var(--sp-5);
   display: flex;
 }
 
-.serviceTop {
+.areaTop {
   top: var(--sp-5);
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
+  gap: var(--sp-4);
 }
 
-.serviceBottom {
+.areaBottom {
   bottom: var(--sp-5);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--sp-3);
 }
 
-.serviceIndex {
-  font-size: var(--fs-caption);
-  font-weight: var(--fw-semibold);
-  font-variant-numeric: tabular-nums;
-}
-
-.serviceCode {
+.areaCode {
   font-size: var(--fs-heading-2);
-  font-weight: var(--fw-hairline);
+  font-weight: var(--fw-light);
+  letter-spacing: var(--tr-heading);
   line-height: var(--lh-masthead);
 }
 
-.serviceName {
-  font-size: var(--fs-heading-3);
-  font-weight: var(--fw-light);
+.areaSymbol {
+  width: var(--sp-9);
+  height: var(--sp-7);
+  object-fit: contain;
+  object-position: right center;
+}
+
+.areaName {
+  font-size: var(--fs-heading-4);
+  font-weight: var(--fw-medium);
   line-height: var(--lh-block-title);
 }
 
-.serviceRule {
+.areaRule {
   display: block;
   width: var(--sp-9);
   height: 2px;
@@ -274,84 +311,69 @@
   transform-origin: left center;
 }
 
-.serviceDescription {
+.areaDescription {
+  max-width: 36ch;
   font-size: var(--fs-body-sm);
   line-height: var(--lh-lead);
 }
 
-.serviceMore {
+.areaMore {
   font-size: var(--fs-caption);
   font-weight: var(--fw-semibold);
   letter-spacing: var(--tr-eyebrow);
   text-transform: uppercase;
 }
 
-/* Con puntero fino la tarjeta está "cerrada" (gris, sin imagen) y el hover o el
-   foco la revelan: la imagen sube por máscara, la regla de acento crece y
-   aparece la descripción. En táctil se ve abierta desde el principio. */
+/* Con puntero fino la tarjeta muestra solo la imagen, la sigla y el nombre; el
+   hover o el foco suben la segunda imagen por máscara, hacen crecer la regla de
+   acento y aparecen la descripción y «Ver área». En táctil todo queda a la vista. */
 @media (hover: hover) and (pointer: fine) {
-  .serviceLink {
-    background: var(--surface-page);
-    color: var(--text-title);
-  }
-
-  .serviceMedia,
-  .serviceShade {
-    clip-path: inset(100% 0 0 0);
-  }
-
-  .serviceMedia img {
-    transform: scale(var(--motion-mask-scale));
-  }
-
-  .serviceRule {
+  .areaRule {
     transform: scaleX(0);
   }
 
-  .serviceDescription,
-  .serviceMore {
+  .areaDescription,
+  .areaMore {
     opacity: 0;
     transform: translate3d(0, var(--sp-3), 0);
   }
 
-  .serviceLink:is(:hover, :focus-visible) {
-    color: var(--text-on-invert);
-  }
-
-  .serviceLink:is(:hover, :focus-visible) .serviceMedia,
-  .serviceLink:is(:hover, :focus-visible) .serviceShade {
+  .areaLink:is(:hover, :focus-visible) .areaMediaAlt {
     clip-path: inset(0);
   }
 
-  .serviceLink:is(:hover, :focus-visible) .serviceMedia img,
-  .serviceLink:is(:hover, :focus-visible) .serviceRule,
-  .serviceLink:is(:hover, :focus-visible) .serviceDescription,
-  .serviceLink:is(:hover, :focus-visible) .serviceMore {
+  .areaLink:is(:hover, :focus-visible) .areaMediaAlt img,
+  .areaLink:is(:hover, :focus-visible) .areaRule,
+  .areaLink:is(:hover, :focus-visible) .areaDescription,
+  .areaLink:is(:hover, :focus-visible) .areaMore {
     opacity: 1;
     transform: none;
   }
 }
 
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .serviceLink {
-    transition: color var(--dur-base) var(--ease-standard);
-  }
-
-  .serviceMedia,
-  .serviceShade {
+@media (prefers-reduced-motion: no-preference) {
+  .areaMediaAlt {
     transition: clip-path var(--motion-dur) var(--motion-ease-expo-in-out);
   }
 
-  .serviceMedia img {
+  .areaMediaAlt img {
     transition: transform var(--motion-dur) var(--motion-ease-expo-out);
   }
 
-  .serviceRule {
+  .areaMedia img {
+    transition: transform var(--motion-dur) var(--motion-ease-expo-out);
+  }
+
+  .areaLink:hover .areaMedia img {
+    transform: scale(var(--media-zoom));
+  }
+
+  .areaRule {
     transition: transform var(--motion-dur) var(--motion-ease-expo-out) 0.15s;
   }
 
-  .serviceDescription,
-  .serviceMore {
+  .areaDescription,
+  .areaMore {
     transition:
       opacity var(--dur-slow) var(--ease-out) 0.2s,
       transform var(--dur-slow) var(--ease-out) 0.2s;
@@ -359,13 +381,13 @@
 }
 
 @media (min-width: 48em) {
-  .serviceGrid {
+  .areaGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 64em) {
-  .serviceGrid {
+  .areaGrid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
@@ -698,53 +720,20 @@
   line-height: var(--lh-block-title);
 }
 
-.contactCard {
-  max-width: 60rem;
-  margin: var(--sp-9) auto 0;
-  padding: var(--sp-9) var(--sp-5);
-  background: var(--surface-page);
-}
-
-.form {
-  display: grid;
-  gap: var(--sp-5);
-}
-
-.formWide {
-  grid-column: 1 / -1;
-}
-
-.honeypot {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.formError {
-  margin-bottom: var(--sp-4);
-  color: var(--state-critical);
-  font-size: var(--fs-body-sm);
-}
-
-.formSuccess {
-  color: var(--text-title);
-  font-size: var(--fs-heading-3);
-  font-weight: var(--fw-light);
-  line-height: var(--lh-block-title);
+.contactActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-8);
   text-align: center;
 }
 
 @media (min-width: 48em) {
-  .contactCard {
-    padding: var(--sp-9);
-  }
-
-  .form {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--sp-6) var(--sp-9);
+  .contactActions {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--sp-6);
   }
 }
 
