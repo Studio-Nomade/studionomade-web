@@ -197,16 +197,24 @@
   left: var(--site-margin);
   display: grid;
   grid-template-areas:
-    "counter nav"
-    "pill pill";
-  grid-template-columns: 1fr auto;
+    "status"
+    "pill";
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: var(--sp-3) var(--sp-4);
 }
 
+/* Contador y flechas juntos a la izquierda. */
+.status {
+  display: flex;
+  grid-area: status;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
 .counter {
-  grid-area: counter;
   margin: 0;
+  white-space: nowrap;
   font-size: var(--fs-body-sm);
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--tr-eyebrow);
@@ -222,8 +230,6 @@
 
 .nav {
   display: flex;
-  grid-area: nav;
-  justify-self: end;
   gap: var(--sp-2);
 }
 
@@ -272,10 +278,12 @@
   position: relative;
   display: flex;
   grid-area: pill;
-  justify-self: center;
+  justify-self: start;
   align-items: center;
   gap: var(--sp-4);
-  width: min(100%, 26rem);
+  /* Hasta 64em, a la izquierda: a la derecha va el botón flotante de contacto
+     (hasta 4rem de ancho) con su separación. */
+  width: min(calc(100% - 4rem - var(--sp-4)), 26rem);
   height: var(--home-hero-bar);
   padding: var(--sp-1) var(--sp-6) var(--sp-1) var(--sp-1);
   overflow: hidden;
@@ -363,23 +371,32 @@
 @media (min-width: 48em) {
   .hero {
     --home-hero-bottom: var(--sp-7);
-    --home-hero-controls: var(--home-hero-bar);
-  }
-
-  .controls {
-    grid-template-areas: "counter pill nav";
-    grid-template-columns: 1fr auto 1fr;
-  }
-
-  .pill {
-    width: auto;
-    min-width: 22rem;
-    max-width: 34rem;
+    --home-hero-controls: calc(var(--sp-8) + var(--sp-3) + var(--home-hero-bar));
   }
 
   .navButton {
     width: var(--sp-8);
     height: var(--sp-8);
+  }
+}
+
+@media (min-width: 64em) {
+  .hero {
+    --home-hero-controls: var(--home-hero-bar);
+  }
+
+  /* Una fila: estado a la izquierda, botón al centro y la columna derecha
+     vacía para el botón flotante de contacto. */
+  .controls {
+    grid-template-areas: "status pill .";
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .pill {
+    justify-self: center;
+    width: auto;
+    min-width: 22rem;
+    max-width: 34rem;
   }
 }
 
