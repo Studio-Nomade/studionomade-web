@@ -11,8 +11,8 @@
 -- son opcionales; si no vienen, las columnas quedan en null. Los formularios
 -- existentes (campaña, áreas, lab) siguen funcionando sin cambios.
 --
--- Down (manual): restaurar capture_lead de 202610200001_lead_click_ids.sql y
--- eliminar las restricciones y columnas de abajo (destructivo: exportar antes).
+-- Down: supabase/rollbacks/202610210001_lead_qualification.down.sql
+-- (destructivo: exportar antes).
 
 alter table public.leads
   add column if not exists areas text[],

@@ -99,7 +99,7 @@ export const optionalChileanPhoneSchema = z.preprocess(
 /**
  * Calificación del lead (formulario dedicado de /contacto). Los valores son
  * claves estables: deben coincidir con los checks de
- * `supabase/migrations/20261021120000_lead_qualification.sql`. Las etiquetas
+ * `supabase/migrations/202610210001_lead_qualification.sql`. Las etiquetas
  * visibles viven en `apps/web/content/contact.ts`.
  */
 export const LEAD_AREAS = ["branding", "architecture", "audiovisual", "web-design"] as const;

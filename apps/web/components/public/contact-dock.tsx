@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
 import { MailIcon, WhatsAppIcon } from "@studionomade/ui";
-import { DOCK_CONTACTS } from "../../content/contact-dock";
+import { DIRECT_CONTACTS } from "../../content/contact";
 import styles from "./contact-dock.module.css";
 
 /**
@@ -75,7 +75,7 @@ export function ContactDock() {
       <div id={panelId} className={styles.panel} role="region" aria-label="Contacto directo">
         <p className={styles.panelTitle}>Contacto directo</p>
         <ul className={styles.list}>
-          {DOCK_CONTACTS.map((contact) => (
+          {DIRECT_CONTACTS.map((contact) => (
             <li key={contact.href}>
               <a
                 className={styles.item}
