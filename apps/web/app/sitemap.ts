@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { CAMPAIGNS } from "../campaigns/registry";
+import { STUDIO_AREAS } from "../content/area-meta";
 import { LAB_PROTOTYPES } from "../content/lab";
 import { publicProjects } from "../content/projects";
 
@@ -7,10 +8,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://studionomade.cl";
   return [
     { url: base },
-    { url: `${base}/areas/branding` },
-    { url: `${base}/areas/architecture` },
+    ...STUDIO_AREAS.map(({ href }) => ({ url: `${base}${href}` })),
     { url: `${base}/proyectos` },
-    { url: `${base}/studio` },
+    { url: `${base}/nosotros` },
     { url: `${base}/contacto` },
     { url: `${base}/privacidad` },
     { url: `${base}/terminos` },

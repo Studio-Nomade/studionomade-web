@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AREA_BY_SLUG } from "../../../content/area-meta";
 import { notFound } from "next/navigation";
 import { CasePage } from "../../../components/projects/case-page";
 import { PublicPage } from "../../../components/public/public-shell";
@@ -36,7 +37,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     name: project.title,
     description: project.summary,
     image: project.cover.src,
-    genre: project.area === "branding" ? "Branding & Design" : "Architecture & Design",
+    genre: AREA_BY_SLUG[project.area].name,
     creator: { "@type": "Organization", name: "Studio Nomade" },
     dateCreated: project.year
   };
