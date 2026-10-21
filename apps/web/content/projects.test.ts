@@ -3,7 +3,15 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { CASE_CYCLE, getNextProject, publicProjects, type CaseImage } from "./projects";
+import { AREA_BY_SLUG } from "./area-meta";
+import {
+  AREA_LABELS,
+  CASE_CYCLE,
+  getNextProject,
+  getPublicProject,
+  publicProjects,
+  type CaseImage
+} from "./projects";
 
 const publicDir = path.resolve(import.meta.dirname, "../public");
 
@@ -36,7 +44,7 @@ describe("casos de estudio", () => {
     for (const slug of CASE_CYCLE) {
       const project = publicProjects.find((item) => item.slug === slug);
       expect(project, slug).toBeDefined();
-      expect(project?.areaCode).toBe(project?.area === "branding" ? "B&D" : "A&D");
+      expect(project?.areaCode).toBe(project ? AREA_BY_SLUG[project.area].code : undefined);
       expect(project?.blocks[0]?.type, slug).toBe("hero");
       expect(project?.blocks.at(-1)?.type, slug).toBe("credits");
     }
@@ -65,9 +73,55 @@ describe("casos de estudio", () => {
     }
   });
 
-  it("no inventa enlaces de Behance (TODO-contenido)", () => {
+  it("enlaza Behance solo en los casos publicados allí", () => {
+    const withBehance = publicProjects
+      .filter((project) => project.behanceUrl)
+      .map((project) => project.slug)
+      .sort();
+    expect(withBehance).toEqual(["cinnalove", "kumelen", "nexa"]);
     for (const project of publicProjects) {
-      if (project.behanceUrl) expect(project.behanceUrl).toMatch(/^https:\/\/www\.behance\.net\//);
+      if (project.behanceUrl)
+        expect(project.behanceUrl).toMatch(/^https:\/\/www\.behance\.net\/gallery\/\d+\//);
+    }
+    expect(getPublicProject("nexa")?.behanceUrl).toBe(
+      "https://www.behance.net/gallery/217881153/NEXA-BRANDING"
+    );
+  });
+
+  it("cada caso trae los textos del listado y una sigla de las cuatro áreas", () => {
+    for (const project of publicProjects) {
+      expect(project.areaCode, project.slug).toBe(AREA_BY_SLUG[project.area].code);
+      expect(AREA_LABELS[project.areaCode], project.slug).toBeTruthy();
+      expect(project.tagline.startsWith(`${project.displayName} - `), project.slug).toBe(true);
+      expect(project.tagline.length, project.slug).toBeLessThan(60);
+      expect(project.excerpt.length, project.slug).toBeGreaterThan(20);
+      expect(project.excerpt.length, project.slug).toBeLessThanOrEqual(100);
+    }
+    expect(AREA_LABELS).toEqual({
+      "B&D": "Branding & Design",
+      "A&D": "Architecture & Design",
+      "A&A": "Audiovisual & Animation",
+      WD: "Web Design"
+    });
+  });
+
+  it("normaliza el nombre del listado a solo la primera letra en mayúscula", () => {
+    expect(publicProjects.map((project) => project.displayName)).toEqual([
+      "Cinnalove",
+      "Kumelen",
+      "Equifax",
+      "Reebok x Lollapalooza",
+      "Nexa",
+      "Jaecoo 7"
+    ]);
+    for (const { displayName } of publicProjects) {
+      const [first, ...rest] = displayName.split(" ");
+      // La primera palabra: inicial mayúscula y el resto en minúscula.
+      expect(first.slice(1), displayName).toBe(first.slice(1).toLowerCase());
+      expect(first[0], displayName).toBe(first[0].toUpperCase());
+      // Las demás solo pueden ser nombres propios (inicial mayúscula), conectores o cifras.
+      for (const word of rest)
+        expect(word, displayName).toMatch(/^(?:x|\d+|[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)$/);
     }
   });
 });
