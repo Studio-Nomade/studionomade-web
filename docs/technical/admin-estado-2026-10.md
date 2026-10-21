@@ -78,8 +78,8 @@ admin falta:
    el estado pasa a **derivado**. Si la integración no está configurada, el lead
    sigue calificado y queda el evento "Derivación pendiente".
 
-Migraciones de leads ya aplicadas en producción: `202610200001_lead_click_ids` y
-`202610210001_lead_qualification`. Pendientes de aplicar:
+Migraciones aplicadas en producción (StudioNomade-Web, 2026-10-21):
+`202610200001_lead_click_ids`, `202610210001_lead_qualification`,
 `202610210002_blog_posts` y `202610210003_lead_triage`.
 
 ## Variables de entorno (solo nombres)
@@ -119,4 +119,3 @@ Migraciones de leads ya aplicadas en producción: `202610200001_lead_click_ids` 
 5. **Roles:**
    - El primer superadmin se asigna desde el SQL Editor en `public.user_roles`.
    - Al resto se le asigna `commercial`, `editor`, etc.
-6. **Migraciones:** aplicar `202610210002_blog_posts` y `202610210003_lead_triage`.
