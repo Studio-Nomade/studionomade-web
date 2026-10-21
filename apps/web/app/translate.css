@@ -17,3 +17,21 @@ body {
   background: transparent !important;
   box-shadow: none !important;
 }
+
+/* Titulares partidos en letras: el traductor traduciría cada letra por
+   separado. Con la página traducida se oculta la versión animada y se muestra
+   el texto entero (que sí se traduce). */
+html.translated-ltr [data-split-visual],
+html.translated-rtl [data-split-visual] {
+  display: none !important;
+}
+
+html.translated-ltr [data-split-plain],
+html.translated-rtl [data-split-plain] {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  clip-path: none !important;
+  white-space: normal !important;
+}
