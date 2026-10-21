@@ -74,3 +74,15 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     ]
   }
 ];
+
+/** Páginas de navegación que no van en el footer de las landings de campaña. */
+const CAMPAIGN_HIDDEN_LINKS = new Set(["/proyectos", "/nosotros", "/blog", "/contacto"]);
+
+/**
+ * Footer de las landings de alta conversión: el mismo del sitio, sin los enlaces
+ * a Proyectos, Nosotros, Blog y Contacto (no sacan a la visita de la landing).
+ */
+export const CAMPAIGN_FOOTER_COLUMNS: FooterColumn[] = FOOTER_COLUMNS.map((column) => ({
+  ...column,
+  items: column.items.filter((item) => !item.href || !CAMPAIGN_HIDDEN_LINKS.has(item.href))
+})).filter((column) => column.items.length > 0);

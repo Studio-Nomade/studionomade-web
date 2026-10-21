@@ -3,14 +3,13 @@ import {
   Button,
   Circled,
   Counter,
-  Footer,
   Mark,
   Parallax,
   Reveal,
   SplitText,
   StrokeNumber
 } from "@studionomade/ui";
-import { footerSocialLinks } from "../../content/social";
+import { PublicFooter } from "../../components/public/public-footer";
 import type { CampaignCompositionProps } from "../types";
 import { inmobiliariasAssets as assets, inmobiliariasCaseImages as caseImages } from "./assets";
 import { inmobiliariasLanding as landing } from "./content";
@@ -407,33 +406,9 @@ export function InmobiliariasComposition(props: CampaignCompositionProps) {
         label="Cotizar"
       />
 
-      {/* 9 · Footer de campaña. */}
+      {/* 9 · Footer del sitio, variante de campaña (sin enlaces de navegación). */}
       <div className={styles.footerWrap}>
-        <Footer
-          logoSrc={assets.logo.src}
-          columns={[
-            {
-              title: "Studio",
-              items: [
-                { label: "Santa Beatriz 100" },
-                { label: "Oficina 1101" },
-                { label: "Providencia" }
-              ]
-            },
-            {
-              title: "Contacto",
-              items: [
-                { label: "contact@studionomade.cl", href: "mailto:contact@studionomade.cl" },
-                { label: "+569 34045111", href: "tel:+56934045111" }
-              ]
-            }
-          ]}
-          social={footerSocialLinks()}
-          legalLinks={[
-            { label: "Privacidad", href: "/privacidad" },
-            { label: "Términos", href: "/terminos" }
-          ]}
-        />
+        <PublicFooter variant="campaign" reveal={false} />
       </div>
     </main>
   );
