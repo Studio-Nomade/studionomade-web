@@ -22,6 +22,31 @@ export const META_PIXEL_CSP = {
 } as const;
 
 /**
+ * Orígenes de la etiqueta de Google (gtag.js) para conversiones y remarketing de
+ * Google Ads, según la guía de CSP de Google. Solo se abren si el sitio tiene
+ * `NEXT_PUBLIC_GOOGLE_ADS_ID`. `img-src` ya admite `https:`. Se incluyen los
+ * dominios regionales de Google de los mercados del estudio (Chile, España y
+ * Portugal), adonde la etiqueta también envía beacons.
+ */
+export const GOOGLE_ADS_CSP = {
+  scriptSrc: [
+    "https://www.googletagmanager.com",
+    "https://www.googleadservices.com",
+    "https://googleads.g.doubleclick.net",
+    "https://www.google.com"
+  ],
+  connectSrc: [
+    "https://www.google.com",
+    "https://www.google.cl",
+    "https://www.google.es",
+    "https://www.google.pt",
+    "https://googleads.g.doubleclick.net",
+    "https://www.googleadservices.com"
+  ],
+  frameSrc: ["https://td.doubleclick.net", "https://www.googletagmanager.com"]
+} as const;
+
+/**
  * Servicios de terceros que el sitio público incrusta o carga a pedido:
  * - Google Maps (embed sin API key) en el footer.
  * - Agenda de videollamadas: Calendly hoy, Google Calendar (citas) después.
@@ -48,6 +73,8 @@ export const PUBLIC_EMBEDS_CSP = {
 export interface ContentSecurityPolicyOptions {
   /** Abre los orígenes de `META_PIXEL_CSP`. */
   metaPixel?: boolean;
+  /** Abre los orígenes de `GOOGLE_ADS_CSP`. */
+  googleAds?: boolean;
   /** Solo `next dev`: React Refresh evalúa código y sin esto no hidrata. */
   allowDevEval?: boolean;
 }
@@ -59,7 +86,8 @@ export interface ContentSecurityPolicyOptions {
 function sharedDirectives(
   connectOrigin?: string,
   extraConnect: readonly string[] = [],
-  publicEmbeds = false
+  publicEmbeds = false,
+  extraFrame: readonly string[] = []
 ): string[] {
   const connectSources = [
     "'self'",
@@ -77,7 +105,8 @@ function sharedDirectives(
   const frameSources = [
     "https://player.vimeo.com",
     "https://www.behance.net",
-    ...(publicEmbeds ? PUBLIC_EMBEDS_CSP.frameSrc : [])
+    ...(publicEmbeds ? PUBLIC_EMBEDS_CSP.frameSrc : []),
+    ...extraFrame
   ];
   return [
     "default-src 'self'",
@@ -141,6 +170,9 @@ export function buildStrictContentSecurityPolicy(nonce: string, connectOrigin?: 
  * `buildStrictContentSecurityPolicy`. Es una decisión de producto —cuesta el
  * prerender—, no un detalle de implementación.
  *
+ * Con `googleAds` se suman los orígenes de `GOOGLE_ADS_CSP` (gtag.js, también
+ * como archivo externo con `next/script`).
+ *
  * Con `metaPixel` se suma únicamente `https://connect.facebook.net` a
  * `script-src` y los dos orígenes de beacons a `connect-src`. El píxel se carga
  * con `next/script` desde un archivo externo (sin snippet en línea), así que no
@@ -155,10 +187,20 @@ export function buildStaticContentSecurityPolicy(
     "'unsafe-inline'",
     ...(options.allowDevEval ? ["'unsafe-eval'"] : []),
     ...(options.metaPixel ? META_PIXEL_CSP.scriptSrc : []),
+    ...(options.googleAds ? GOOGLE_ADS_CSP.scriptSrc : []),
     ...PUBLIC_EMBEDS_CSP.scriptSrc
   ];
+  const extraConnect = [
+    ...(options.metaPixel ? META_PIXEL_CSP.connectSrc : []),
+    ...(options.googleAds ? GOOGLE_ADS_CSP.connectSrc : [])
+  ];
   return [
-    `script-src ${scriptSources.join(" ")}`,
-    ...sharedDirectives(connectOrigin, options.metaPixel ? META_PIXEL_CSP.connectSrc : [], true)
+    `script-src ${[...new Set(scriptSources)].join(" ")}`,
+    ...sharedDirectives(
+      connectOrigin,
+      extraConnect,
+      true,
+      options.googleAds ? GOOGLE_ADS_CSP.frameSrc : []
+    )
   ].join("; ");
 }

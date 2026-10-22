@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildStaticContentSecurityPolicy,
   buildStrictContentSecurityPolicy,
+  GOOGLE_ADS_CSP,
   META_PIXEL_CSP,
   PUBLIC_EMBEDS_CSP,
   SECURITY_HEADERS
@@ -85,6 +86,21 @@ describe("security headers", () => {
     expect(directive(policy, "script-src")).not.toContain("https://calendly.com");
     expect(buildStrictContentSecurityPolicy("abc")).not.toContain("translate.google");
     expect(policy).not.toMatch(/\*\.google/);
+  });
+
+  it("con Google Ads abre solo los orígenes de la etiqueta de Google", () => {
+    const policy = buildStaticContentSecurityPolicy(undefined, { googleAds: true });
+    for (const origin of GOOGLE_ADS_CSP.scriptSrc)
+      expect(directive(policy, "script-src")).toContain(origin);
+    for (const origin of GOOGLE_ADS_CSP.connectSrc)
+      expect(directive(policy, "connect-src")).toContain(origin);
+    for (const origin of GOOGLE_ADS_CSP.frameSrc)
+      expect(directive(policy, "frame-src")).toContain(origin);
+    expect(policy).not.toContain("nonce-");
+    expect(policy).not.toMatch(/\*\.google|\*\.doubleclick/);
+    expect(directive(buildStaticContentSecurityPolicy(), "script-src")).not.toContain(
+      "https://www.googletagmanager.com"
+    );
   });
 
   it("la política estricta del admin no abre Meta", () => {

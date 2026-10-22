@@ -8,12 +8,15 @@ import { SiteAnalytics } from "../components/analytics/site-analytics";
 import { MotionShell } from "../components/public/motion-shell";
 import { faviconFor } from "../content/area-meta";
 import { parseConsentMode } from "../lib/analytics/consent";
+import { normalizeConversionLabel, normalizeGoogleAdsId } from "../lib/analytics/google-ads";
 import { normalizeMetaPixelId } from "../lib/analytics/meta-pixel";
 
 const allowIndexing = process.env.VERCEL_ENV === "production";
 
 /** Sin `NEXT_PUBLIC_META_PIXEL_ID` válido no se carga nada de Meta. */
 const metaPixelId = normalizeMetaPixelId(process.env.NEXT_PUBLIC_META_PIXEL_ID);
+const googleAdsId = normalizeGoogleAdsId(process.env.NEXT_PUBLIC_GOOGLE_ADS_ID);
+const googleAdsLeadLabel = normalizeConversionLabel(process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL);
 const analyticsConsentMode = parseConsentMode(process.env.NEXT_PUBLIC_ANALYTICS_CONSENT_MODE);
 
 export const metadata: Metadata = {
@@ -48,7 +51,12 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         {/* Scroll suave, cursor y cortina entre páginas. El Preloader existe en
             @studionomade/ui pero queda apagado: retrasaría el LCP del sitio. */}
         <MotionShell />
-        <SiteAnalytics metaPixelId={metaPixelId} consentMode={analyticsConsentMode} />
+        <SiteAnalytics
+          metaPixelId={metaPixelId}
+          googleAdsId={googleAdsId}
+          googleAdsLeadLabel={googleAdsLeadLabel}
+          consentMode={analyticsConsentMode}
+        />
       </body>
     </html>
   );

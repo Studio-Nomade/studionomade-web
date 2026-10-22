@@ -16,7 +16,12 @@ vi.mock("next/script", () => ({
   default: ({ id, src }: { id: string; src: string }) => <script data-testid={id} data-src={src} />
 }));
 
-type TestWindow = Window & { fbq?: Fbq; _fbq?: Fbq; dataLayer?: unknown[] };
+type TestWindow = Window & {
+  fbq?: Fbq;
+  _fbq?: Fbq;
+  gtag?: (...args: unknown[]) => void;
+  dataLayer?: unknown[];
+};
 
 function setDoNotTrack(value: string | null) {
   Object.defineProperty(window.navigator, "doNotTrack", { value, configurable: true });
@@ -29,6 +34,7 @@ beforeEach(() => {
   delete target.fbq;
   delete target._fbq;
   delete target.dataLayer;
+  delete target.gtag;
 });
 
 afterEach(() => {
@@ -89,5 +95,33 @@ describe("SiteAnalytics", () => {
       "cta_click",
       { cta: "agendar-conversacion", path: "/campanas/inmobiliarias" }
     ]);
+  });
+
+  it("carga la etiqueta de Google Ads y registra la página vista", async () => {
+    const { container } = render(
+      <SiteAnalytics
+        googleAdsId="AW-123456789"
+        googleAdsLeadLabel="leadLabel1"
+        consentMode="implicit"
+      />
+    );
+    await act(async () => {});
+    expect(container.querySelector('[data-testid="google-tag"]')?.getAttribute("data-src")).toBe(
+      "https://www.googletagmanager.com/gtag/js?id=AW-123456789"
+    );
+    const calls = ((window as TestWindow).dataLayer ?? []).map((entry) =>
+      Object.prototype.toString.call(entry) === "[object Arguments]"
+        ? Array.from(entry as IArguments)
+        : entry
+    );
+    expect(calls).toContainEqual(["config", "AW-123456789", { send_page_view: false }]);
+    expect(calls).toContainEqual(["event", "page_view", { send_to: "AW-123456789" }]);
+  });
+
+  it("sin ID de Google Ads no carga la etiqueta", async () => {
+    const { container } = render(<SiteAnalytics consentMode="implicit" />);
+    await act(async () => {});
+    expect((window as TestWindow).gtag).toBeUndefined();
+    expect(container.querySelector('[data-testid="google-tag"]')).toBeNull();
   });
 });
