@@ -41,6 +41,7 @@ export const GOOGLE_ADS_CSP = {
     "https://www.google.es",
     "https://www.google.pt",
     "https://googleads.g.doubleclick.net",
+    "https://ad.doubleclick.net",
     "https://www.googleadservices.com"
   ],
   frameSrc: ["https://td.doubleclick.net", "https://www.googletagmanager.com"]
