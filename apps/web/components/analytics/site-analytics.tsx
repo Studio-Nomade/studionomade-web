@@ -17,6 +17,13 @@ import {
 } from "../../lib/analytics/consent";
 import { createDataLayerAdapter } from "../../lib/analytics/data-layer";
 import {
+  createGoogleAdsAdapter,
+  googleTagScriptSrc,
+  initGoogleAds,
+  installGtagStub,
+  type Gtag
+} from "../../lib/analytics/google-ads";
+import {
   createMetaPixelAdapter,
   initMetaPixel,
   installFbqStub,
@@ -28,10 +35,28 @@ import { configureAnalytics, track } from "../../lib/analytics/track";
 export interface SiteAnalyticsProps {
   /** ID numérico ya normalizado. Sin ID no se carga el píxel. */
   metaPixelId?: string;
+  /** `AW-…` ya normalizado. Sin ID no se carga la etiqueta de Google. */
+  googleAdsId?: string;
+  /** Etiqueta de la conversión de leads; sin ella solo hay remarketing. */
+  googleAdsLeadLabel?: string;
   consentMode: AnalyticsConsentMode;
 }
 
-type FbqWindow = Window & { fbq?: Fbq };
+type FbqWindow = Window & { fbq?: Fbq; gtag?: Gtag };
+
+const GOOGLE_CONSENT_DENIED = {
+  ad_storage: "denied",
+  ad_user_data: "denied",
+  ad_personalization: "denied",
+  analytics_storage: "denied"
+} as const;
+
+const GOOGLE_CONSENT_GRANTED = {
+  ad_storage: "granted",
+  ad_user_data: "granted",
+  ad_personalization: "granted",
+  analytics_storage: "granted"
+} as const;
 
 function useTrackingAllowed(mode: AnalyticsConsentMode): boolean {
   const [allowed, setAllowed] = useState(false);
@@ -69,14 +94,19 @@ function PageViews({ enabled }: { enabled: boolean }) {
 }
 
 /**
- * Medición del sitio público: Meta Pixel + dataLayer genérico.
+ * Medición del sitio público: Meta Pixel, etiqueta de Google Ads y dataLayer.
  *
  * Nada se carga ni se emite hasta que `isTrackingAllowed` lo permite (ver
  * lib/analytics/consent.ts). Los eventos de negocio (`cta_click`,
  * `contact_click`, `form_submit`) pasan por `track()`, que reparte al píxel y a
  * `window.dataLayer` para un GTM/GA futuro.
  */
-export function SiteAnalytics({ metaPixelId, consentMode }: SiteAnalyticsProps) {
+export function SiteAnalytics({
+  metaPixelId,
+  googleAdsId,
+  googleAdsLeadLabel,
+  consentMode
+}: SiteAnalyticsProps) {
   const allowed = useTrackingAllowed(consentMode);
   // `ready` llega un render después de configurar el adapter: los efectos de los
   // hijos corren antes que los del padre y el primer PageView se perdería.
@@ -88,8 +118,15 @@ export function SiteAnalytics({ metaPixelId, consentMode }: SiteAnalyticsProps) 
     if (!allowed) {
       configureAnalytics(undefined);
       target.fbq?.("consent", "revoke");
+      target.gtag?.("consent", "update", GOOGLE_CONSENT_DENIED);
       setReady(false);
       return;
+    }
+    if (googleAdsId) {
+      const alreadyInstalled = Boolean(target.gtag);
+      const gtag = installGtagStub(target);
+      if (alreadyInstalled) gtag("consent", "update", GOOGLE_CONSENT_GRANTED);
+      else initGoogleAds(gtag, googleAdsId);
     }
     if (metaPixelId) {
       const alreadyInstalled = Boolean(target.fbq);
@@ -100,11 +137,18 @@ export function SiteAnalytics({ metaPixelId, consentMode }: SiteAnalyticsProps) 
     configureAnalytics(
       combineAdapters(
         createDataLayerAdapter(() => window),
-        metaPixelId ? createMetaPixelAdapter(() => (window as FbqWindow).fbq) : undefined
+        metaPixelId ? createMetaPixelAdapter(() => (window as FbqWindow).fbq) : undefined,
+        googleAdsId
+          ? createGoogleAdsAdapter(
+              () => (window as FbqWindow).gtag,
+              googleAdsId,
+              googleAdsLeadLabel
+            )
+          : undefined
       )
     );
     setReady(true);
-  }, [allowed, metaPixelId]);
+  }, [allowed, metaPixelId, googleAdsId, googleAdsLeadLabel]);
 
   useEffect(() => {
     if (!ready) return;
@@ -123,6 +167,9 @@ export function SiteAnalytics({ metaPixelId, consentMode }: SiteAnalyticsProps) 
       </Suspense>
       {ready && metaPixelId && (
         <Script id="meta-pixel" src={META_PIXEL_SCRIPT_SRC} strategy="afterInteractive" />
+      )}
+      {ready && googleAdsId && (
+        <Script id="google-tag" src={googleTagScriptSrc(googleAdsId)} strategy="afterInteractive" />
       )}
     </>
   );

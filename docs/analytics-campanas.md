@@ -1,4 +1,4 @@
-# Medición de campañas y píxel de Meta
+# Medición de campañas: píxel de Meta y Google Ads
 
 Cómo se mide la campaña `/campanas/inmobiliarias` (y cualquier campaña futura del registry): qué se guarda en cada lead, qué eventos salen al navegador, cómo se activa el píxel de Meta y cómo se verifica.
 
@@ -7,6 +7,8 @@ Cómo se mide la campaña `/campanas/inmobiliarias` (y cualquier campaña futura
 | Variable                             | Tipo    | Valor por defecto | Efecto                                                                                                                                                              |
 | ------------------------------------ | ------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_META_PIXEL_ID`          | Pública | vacío             | ID numérico del píxel. Vacío o inválido: no se carga nada de Meta y el CSP no se abre a Meta.                                                                       |
+| `NEXT_PUBLIC_GOOGLE_ADS_ID`          | Pública | vacío             | ID de la etiqueta de Google (`AW-…`) de la cuenta Studio Nomade (350-440-9676). Vacío o inválido: no se carga gtag.js y el CSP no se abre a Google Ads.             |
+| `NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL`  | Pública | vacío             | Etiqueta de la conversión «Lead – formulario web» (lo que va después de la barra en `send_to`). Sin ella solo hay remarketing.                                      |
 | `NEXT_PUBLIC_ANALYTICS_CONSENT_MODE` | Pública | `implicit`        | `implicit`: mide salvo Do Not Track / Global Privacy Control o rechazo explícito. `explicit`: no mide hasta que un banner llame a `setAnalyticsConsent("granted")`. |
 
 Ambas se resuelven **en build** (van al bundle y al CSP de `next.config.ts`): tras cambiarlas en Vercel hay que redeployar. Son públicas por diseño; el ID de píxel no es un secreto. No se agregó ninguna variable privada.
@@ -68,6 +70,30 @@ CTAs marcados hoy en `/campanas/inmobiliarias` (todos llevan a `#form`):
 
 El píxel se inicializa con `autoConfig` desactivado (no rastrea botones ni metadatos por su cuenta) y `disablePushState` (los PageView los emite el sitio; así no se duplican). No se usa el `<noscript>` del snippet oficial: sin JavaScript no se puede respetar Do Not Track.
 
+## Google Ads
+
+Etiqueta de Google (gtag.js) sin GTM, en `apps/web/lib/analytics/google-ads.ts`.
+
+- Se carga con `next/script` desde `googletagmanager.com`, solo con consentimiento y solo si hay `NEXT_PUBLIC_GOOGLE_ADS_ID`.
+- `page_view` → `page_view` con `send_to: AW-…` (remarketing). El `config` va con `send_page_view: false` para no duplicar vistas en las navegaciones del App Router.
+- `form_submit` exitoso (contacto, áreas y campañas) → `conversion` con `send_to: AW-…/<etiqueta>` y `transaction_id` = id del lead, para que Google cuente cada lead una sola vez.
+- Revocar el consentimiento llama a `gtag("consent", "update", …denied)`.
+- CSP: `GOOGLE_ADS_CSP` en `packages/config/src/security.ts` (script, connect y frame), según la guía de CSP de Google. Incluye `google.cl`, `google.es` y `google.pt`.
+- El etiquetado automático (gclid) está activo en la cuenta; el `gclid` ya se guarda en cada lead, así que más adelante se pueden subir conversiones sin conexión (leads calificados).
+
+### Cuentas (octubre 2026)
+
+- **Studio Nomade (Administrador)** 621-284-1805: cuenta administradora (antes «Studio Nomade MCC»). No publica anuncios.
+- **Studio Nomade** 350-440-9676: cuenta publicitaria propia, en CLP y hora de Chile. Administradores directos: sebastian@ y ana@.
+- Edificio del Canto (808-346-5335) e Inmobiliaria Box (113-397-6660) no están vinculadas al administrador.
+
+### Verificación
+
+1. Abrir `https://<preview>/contacto?gclid=prueba` con Do Not Track desactivado.
+2. DevTools → Red: carga `gtag/js?id=AW-…` sin errores de CSP.
+3. Enviar el formulario: sale una petición a `googleadservices.com/pagead/conversion/…` con la etiqueta.
+4. En Google Ads → Objetivos → Conversiones, la acción pasa de «Sin verificar» a «Registrando conversiones» (puede tardar hasta 24 h).
+
 ## Decisión de consentimiento
 
 Chile (Ley 19.628) no exige hoy un banner de cookies. Se optó por un criterio conservador, fácil de endurecer:
@@ -111,16 +137,16 @@ No debe haber errores de CSP en la consola. Si los hay, revisar que `NEXT_PUBLIC
 ## Instagram en la home (últimas 5 publicaciones)
 
 La sección Instagram de la home muestra las 5 publicaciones más recientes de
-**@studionomade_** con la API de Instagram (inicio de sesión de Instagram,
+**@studionomade\_** con la API de Instagram (inicio de sesión de Instagram,
 `graph.instagram.com`) y cachea la respuesta una hora. Sin token muestra una
 selección fija de imágenes del sitio.
 
 Para conectarla (una vez, la persona dueña de la cuenta):
 
-1. La cuenta @studionomade_ debe ser profesional (empresa o creador).
+1. La cuenta @studionomade\_ debe ser profesional (empresa o creador).
 2. En developers.facebook.com, crear una app de tipo Empresa y agregar el producto
    **Instagram → API con inicio de sesión de Instagram**. En "Generar tokens de
-   acceso", agregar la cuenta @studionomade_ y generar el token (permiso
+   acceso", agregar la cuenta @studionomade\_ y generar el token (permiso
    `instagram_business_basic`).
 3. En Vercel (`studionomade-web` → Settings → Environment Variables) crear
    `INSTAGRAM_ACCESS_TOKEN` con ese token para Production y Preview, y redeplegar.

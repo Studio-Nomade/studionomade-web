@@ -25,6 +25,9 @@ const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
  */
 const metaPixelEnabled = /^\d{5,20}$/.test(process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() ?? "");
 
+/** Igual criterio para Google Ads (`normalizeGoogleAdsId`, lib/analytics/google-ads.ts). */
+const googleAdsEnabled = /^AW-\d{6,15}$/i.test(process.env.NEXT_PUBLIC_GOOGLE_ADS_ID?.trim() ?? "");
+
 /**
  * `optimizePackageImports` ahorra ~4 kB de JS compartido reescribiendo el barrel
  * de @studionomade/ui a imports directos, pero su caché de desarrollo se queda
@@ -49,6 +52,7 @@ const nextConfig: NextConfig = {
         key: "Content-Security-Policy",
         value: buildStaticContentSecurityPolicy(supabaseOrigin, {
           metaPixel: metaPixelEnabled,
+          googleAds: googleAdsEnabled,
           allowDevEval: isDevelopment
         })
       }
