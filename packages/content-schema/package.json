@@ -12,7 +12,8 @@
   "devDependencies": {
     "@studionomade/config": "workspace:*",
     "eslint": "9.25.1",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "vitest": "3.2.6"
   },
   "dependencies": {
     "zod": "3.24.3"

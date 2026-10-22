@@ -4,10 +4,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@studionomade/analytics": "workspace:*",
     "@studionomade/config": "workspace:*",
     "@studionomade/content-schema": "workspace:*",
     "@studionomade/database": "workspace:*",
@@ -16,7 +18,7 @@
     "@studionomade/ui": "workspace:*",
     "@studionomade/validation": "workspace:*",
     "next": "15.5.24",
-    "nodemailer": "7.0.6",
+    "nodemailer": "9.1.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "server-only": "0.0.1"

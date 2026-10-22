@@ -1,0 +1,44 @@
+/* CaseStatement — CinnaLove 1:5 (md, claro) y Reebok 27:46 (lg, negro). */
+
+.statement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(var(--sp-9), 7.15vw, 6.4375rem) var(--site-margin)
+    clamp(var(--sp-9), 5.7vw, 5.125rem);
+  text-align: center;
+}
+
+.text {
+  max-width: 55.625rem;
+  margin-top: clamp(var(--sp-7), 4.5vw, 4.0625rem);
+  font-size: var(--fs-case-body);
+  line-height: var(--lh-case);
+}
+
+.statement[data-size="lg"] {
+  padding-bottom: clamp(var(--sp-9), 6.46vw, 5.8125rem);
+}
+
+.statement[data-size="lg"] .text {
+  max-width: 55.25rem;
+  margin-top: clamp(var(--sp-7), 5.07vw, 4.5625rem);
+  font-size: var(--fs-case-statement);
+}
+
+.attribution {
+  margin-top: clamp(var(--sp-4), 1.875vw, 1.6875rem);
+  font-size: var(--fs-case-label);
+  line-height: var(--lh-case);
+}
+
+.button {
+  margin-top: clamp(var(--sp-6), 2.85vw, 2.625rem);
+}
+
+@media (max-width: 48em) {
+  .button {
+    width: 100%;
+    max-width: 20rem;
+  }
+}

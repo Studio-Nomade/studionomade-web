@@ -8,14 +8,19 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@studionomade/auth": "workspace:*",
     "@studionomade/config": "workspace:*",
+    "@studionomade/content-schema": "workspace:*",
+    "@studionomade/database": "workspace:*",
     "@studionomade/design-system": "workspace:*",
+    "@studionomade/domain": "workspace:*",
     "@studionomade/types": "workspace:*",
     "@studionomade/ui": "workspace:*",
     "@studionomade/validation": "workspace:*",
     "next": "15.5.24",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "server-only": "0.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.1",

@@ -1,73 +1,154 @@
 .footer {
+  position: relative;
   background: var(--surface-invert);
   color: var(--text-on-invert);
 }
 .inner {
-  max-width: var(--page-max);
+  max-width: calc(var(--site-content-max) + var(--site-margin) * 2);
   margin: 0 auto;
-  padding: var(--sp-11) var(--page-margin) var(--sp-8);
-}
-.tagline {
-  font-size: var(--fs-h2);
-  font-weight: var(--fw-light);
-  line-height: var(--lh-heading);
+  padding: var(--site-section-y) var(--site-margin) var(--sp-8);
 }
 .rule {
   height: 1px;
-  margin: var(--sp-9) 0 var(--sp-10);
   background: var(--text-on-invert-muted);
+}
+.tagline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  margin: 0;
+  padding-block: var(--sp-7);
+  font-size: var(--fs-heading-3);
+  font-weight: var(--fw-block-title);
+  line-height: var(--lh-block-title);
+}
+.dot {
+  opacity: var(--hover-fade);
 }
 .grid {
   display: grid;
-  grid-template-columns: 1.6fr repeat(2, 1fr);
-  gap: var(--sp-8);
+  grid-template-columns: var(--footer-logo-w) repeat(3, minmax(0, 1fr));
+  gap: var(--site-gutter);
   align-items: start;
+  padding-block: var(--sp-9);
+}
+.grid[data-columns="1"] {
+  grid-template-columns: var(--footer-logo-w) minmax(0, 1fr);
+}
+.grid[data-columns="2"] {
+  grid-template-columns: var(--footer-logo-w) repeat(2, minmax(0, 1fr));
+}
+.brand {
+  width: var(--footer-logo-w);
+}
+/* El logo (imagen del slot) se contiene en su columna sin deformarse. */
+.brand :is(img, svg) {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.grid[data-logo="compact"] {
+  --footer-logo-w-compact: calc(var(--footer-logo-w) * 0.55);
+
+  grid-template-columns: var(--footer-logo-w-compact) repeat(3, minmax(0, 1fr));
+}
+.grid[data-logo="compact"][data-columns="1"] {
+  grid-template-columns: var(--footer-logo-w-compact) minmax(0, 1fr);
+}
+.grid[data-logo="compact"][data-columns="2"] {
+  grid-template-columns: var(--footer-logo-w-compact) repeat(2, minmax(0, 1fr));
+}
+.grid[data-logo="compact"] .brand {
+  width: var(--footer-logo-w-compact);
+}
+.extra {
+  padding-block-end: var(--sp-9);
 }
 .logo {
-  width: var(--sp-12);
-  height: var(--sp-12);
+  display: block;
+  width: 100%;
+  height: auto;
   object-fit: contain;
 }
 .title {
   margin-bottom: var(--sp-4);
   color: var(--sn-white);
+  font-family: var(--font-core);
   font-size: var(--fs-body);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-semibold);
 }
 .list {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
   margin: 0;
   padding: 0;
   list-style: none;
   color: var(--text-on-invert-muted);
   font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 .list a {
-  padding-bottom: var(--sp-1);
-  border-bottom: 1px solid currentColor;
   color: var(--sn-white);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--sp-1);
+}
+.list a:hover {
+  color: var(--text-on-invert-muted);
 }
 .bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--sp-11);
+  gap: var(--sp-5);
   color: var(--text-on-invert-muted);
   font-size: var(--fs-body-sm);
 }
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-5);
+  margin: 0;
+}
+.legal a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: var(--sp-1);
+}
+.legal a:hover {
+  color: var(--sn-white);
+}
+.legal a:focus-visible {
+  outline: var(--focus-ring);
+  outline-color: var(--sn-white);
+  outline-offset: var(--sp-1);
+}
 .social {
   display: flex;
-  gap: var(--sp-5);
+  flex-wrap: wrap;
+  gap: var(--sp-3);
   align-items: center;
 }
 .social a {
+  display: grid;
+  place-items: center;
+  width: var(--sp-8);
+  height: var(--sp-8);
+  border: 1px solid var(--text-on-invert-muted);
+  border-radius: var(--radius-circle);
   color: var(--sn-white);
-  font-size: var(--fs-h3);
-  line-height: var(--lh-tight);
   text-decoration: none;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+.social a:hover {
+  border-color: var(--sn-white);
+  background: var(--sn-white);
+  color: var(--surface-invert);
 }
 .social svg {
   display: block;
@@ -77,15 +158,35 @@
 .social a:focus-visible,
 .list a:focus-visible {
   outline: var(--focus-ring);
+  outline-color: var(--sn-white);
   outline-offset: var(--sp-1);
 }
-@media (max-width: 48em) {
-  .grid {
+/* Revelado fijo, solo en escritorio y cuando el footer cabe en la ventana: se
+   pega al fondo del viewport por debajo del contenido, que lo descubre al
+   terminar. Sin JavaScript también funciona: es CSS puro. */
+@media (min-width: 64em) and (min-height: 48em) and (pointer: fine) {
+  .footer[data-reveal-fixed] {
+    position: sticky;
+    z-index: 0; /* por debajo de --z-content */
+    bottom: 0;
+  }
+}
+@media (max-width: 64em) {
+  .grid,
+  .grid[data-columns] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .brand {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 30em) {
+  .grid,
+  .grid[data-columns] {
     grid-template-columns: 1fr;
   }
   .bottom {
     align-items: flex-start;
     flex-direction: column;
-    gap: var(--sp-6);
   }
 }

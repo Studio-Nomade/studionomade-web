@@ -1,0 +1,26 @@
+.preloader {
+  position: fixed;
+  z-index: var(--z-preloader);
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  padding: var(--site-margin);
+  background: var(--surface-invert);
+  color: var(--text-on-invert);
+}
+
+.count {
+  font-family: var(--font-core);
+  font-size: var(--fs-heading-1);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fw-hairline);
+  line-height: var(--lh-masthead);
+  letter-spacing: var(--tr-masthead);
+}
+
+/* Solo cubre con JavaScript, con movimiento permitido y en la primera carga. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-reveal-failed]):not([data-preloaded])) .preloader {
+    display: flex;
+  }
+}

@@ -3,12 +3,28 @@ import type { ReactNode } from "react";
 import { fontVariables } from "@studionomade/design-system/fonts";
 import { RevealRoot } from "@studionomade/ui";
 import "@studionomade/design-system/styles.css";
+import "./translate.css";
+import { SiteAnalytics } from "../components/analytics/site-analytics";
+import { MotionShell } from "../components/public/motion-shell";
+import { faviconFor } from "../content/area-meta";
+import { parseConsentMode } from "../lib/analytics/consent";
+import { normalizeConversionLabel, normalizeGoogleAdsId } from "../lib/analytics/google-ads";
+import { normalizeMetaPixelId } from "../lib/analytics/meta-pixel";
 
 const allowIndexing = process.env.VERCEL_ENV === "production";
 
+/** Sin `NEXT_PUBLIC_META_PIXEL_ID` válido no se carga nada de Meta. */
+const metaPixelId = normalizeMetaPixelId(process.env.NEXT_PUBLIC_META_PIXEL_ID);
+const googleAdsId = normalizeGoogleAdsId(process.env.NEXT_PUBLIC_GOOGLE_ADS_ID);
+const googleAdsLeadLabel = normalizeConversionLabel(process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL);
+const analyticsConsentMode = parseConsentMode(process.env.NEXT_PUBLIC_ANALYTICS_CONSENT_MODE);
+
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://studionomade.cl"),
   title: "Studio Nomade",
-  description: "Placeholder de fundación del ecosistema web Studio Nomade.",
+  description:
+    "Studio Nomade: estudio creativo de Branding, Architecture, Audiovisual y Web Design en Santiago, Algarrobo, Madrid y Lisboa.",
+  icons: faviconFor("studio"),
   robots: allowIndexing ? { index: true, follow: true } : { index: false, follow: false }
 };
 
@@ -30,7 +46,17 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       </head>
       <body>
         {children}
+        {/* Motor de Reveal/SplitText/Parallax/Counter (GSAP, carga diferida). */}
         <RevealRoot />
+        {/* Scroll suave, cursor y cortina entre páginas. El Preloader existe en
+            @studionomade/ui pero queda apagado: retrasaría el LCP del sitio. */}
+        <MotionShell />
+        <SiteAnalytics
+          metaPixelId={metaPixelId}
+          googleAdsId={googleAdsId}
+          googleAdsLeadLabel={googleAdsLeadLabel}
+          consentMode={analyticsConsentMode}
+        />
       </body>
     </html>
   );

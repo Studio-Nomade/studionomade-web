@@ -1,33 +1,73 @@
 import "server-only";
 
 import { createServiceDatabaseClient } from "@studionomade/database";
-import { leadSubmissionSchema, readServerEnvironment } from "@studionomade/validation";
+import {
+  leadFormInput,
+  leadSubmissionSchema,
+  readServerEnvironment,
+  type LeadSubmissionSchema
+} from "@studionomade/validation";
 
-import { LEAD_CONSENTS } from "../../content/legal/consentimientos";
+import { isLeadConsentVersion } from "../../content/legal/consentimientos";
 import { isHoneypotFilled, verifyFormTimestamp } from "./anti-spam";
+import { echoLeadValues } from "./echo-values";
 import { hashIpAddress } from "./hash-ip";
 import { notifyLeadAndRecordFailures } from "./notify";
 import { hasReachedLeadRateLimit } from "./rate-limit";
+
+/** Campos que la persona no ve ni puede corregir (técnicos o de atribución). */
+const HIDDEN_FIELDS = new Set([
+  "form_slug",
+  "source_path",
+  "landing_path",
+  "referrer",
+  "origin_type",
+  "origin_slug",
+  "consent_version",
+  "t",
+  "t_signature",
+  "empresa_web"
+]);
 
 export interface LeadRequestMetadata {
   ipAddress: string;
   userAgent?: string;
 }
 
+export interface SubmitLeadOptions {
+  /** Schema del formulario. Los de campaña exigen proyecto y etapa. */
+  schema?: LeadSubmissionSchema;
+}
+
 export type SubmitLeadResult =
   | { success: true; leadId?: string }
-  | { success: false; message: string; fieldErrors?: Record<string, string[]> };
+  | {
+      success: false;
+      message: string;
+      fieldErrors?: Record<string, string[]>;
+      /** Lo que escribió la persona, para repoblar el formulario tras un error. */
+      values?: Record<string, string>;
+    };
 
 export async function submitLead(
   formData: FormData,
-  request: LeadRequestMetadata
+  request: LeadRequestMetadata,
+  { schema = leadSubmissionSchema }: SubmitLeadOptions = {}
 ): Promise<SubmitLeadResult> {
-  const parsed = leadSubmissionSchema.safeParse(Object.fromEntries(formData.entries()));
+  const values = echoLeadValues(formData);
+  const parsed = schema.safeParse(leadFormInput(formData));
   if (!parsed.success) {
+    const fieldErrors = parsed.error.flatten().fieldErrors as Record<string, string[]>;
+    // Si solo fallan campos ocultos (p. ej. la firma anti-spam no llegó), no hay
+    // nada que la persona pueda corregir en pantalla: se le pide recargar.
+    const onlyHidden = Object.keys(fieldErrors).every((field) => HIDDEN_FIELDS.has(field));
     return {
       success: false,
-      message: "Revisa los campos indicados.",
-      fieldErrors: parsed.error.flatten().fieldErrors
+      message: onlyHidden
+        ? "No fue posible validar el envío. Recarga la página e intenta nuevamente."
+        : "Revisa los campos indicados.",
+      fieldErrors: onlyHidden ? undefined : fieldErrors,
+      values
     };
   }
 
@@ -38,15 +78,19 @@ export async function submitLead(
   try {
     environment = readServerEnvironment(process.env);
   } catch {
-    return { success: false, message: "El formulario no está disponible temporalmente." };
+    return { success: false, message: "El formulario no está disponible temporalmente.", values };
   }
 
   if (!verifyFormTimestamp(lead.t, lead.t_signature, environment.LEAD_FORM_SECRET)) {
-    return { success: false, message: "No fue posible validar el envío. Intenta nuevamente." };
+    return {
+      success: false,
+      message: "No fue posible validar el envío. Intenta nuevamente.",
+      values
+    };
   }
 
-  if (!(lead.consent_version in LEAD_CONSENTS)) {
-    return { success: false, message: "La versión del consentimiento no es válida." };
+  if (!isLeadConsentVersion(lead.consent_version)) {
+    return { success: false, message: "La versión del consentimiento no es válida.", values };
   }
 
   const ipHash = hashIpAddress(request.ipAddress, environment.LEAD_IP_SALT);
@@ -57,7 +101,11 @@ export async function submitLead(
 
   try {
     if (await hasReachedLeadRateLimit(database, ipHash)) {
-      return { success: false, message: "No fue posible procesar el envío. Intenta más tarde." };
+      return {
+        success: false,
+        message: "No fue posible procesar el envío. Intenta más tarde.",
+        values
+      };
     }
 
     const { data: leadId, error } = await database.rpc("capture_lead", {
@@ -68,7 +116,13 @@ export async function submitLead(
           email: lead.email,
           phone: lead.phone,
           company: lead.company,
-          message: lead.message
+          message: lead.message,
+          project_stage: lead.project_stage,
+          areas: lead.areas,
+          needs: lead.needs,
+          budget_range: lead.budget_range,
+          timeline: lead.timeline,
+          source_channel: lead.source_channel
         },
         source_path: lead.source_path,
         ip_hash: ipHash,
@@ -78,6 +132,14 @@ export async function submitLead(
         phone: lead.phone,
         company: lead.company,
         message: lead.message,
+        project_stage: lead.project_stage,
+        // Calificación (/contacto). Sin la migración 202610210001 la RPC las
+        // ignora; igual quedan en `form_submissions.payload`.
+        areas: lead.areas,
+        needs: lead.needs,
+        budget_range: lead.budget_range,
+        timeline: lead.timeline,
+        source_channel: lead.source_channel,
         consent_given: true,
         consent_at: new Date().toISOString(),
         consent_purpose: "contacto-comercial",
@@ -87,21 +149,26 @@ export async function submitLead(
         utm_campaign: lead.utm_campaign,
         utm_term: lead.utm_term,
         utm_content: lead.utm_content,
+        gclid: lead.gclid,
+        fbclid: lead.fbclid,
+        fbp: lead.fbp,
+        fbc: lead.fbc,
         referrer: lead.referrer,
         landing_path: lead.landing_path ?? lead.source_path,
+        landing_url: lead.landing_url,
         origin_type: lead.origin_type,
         origin_slug: lead.origin_slug
       }
     });
 
     if (error || !leadId) {
-      return { success: false, message: "El formulario no está disponible temporalmente." };
+      return { success: false, message: "El formulario no está disponible temporalmente.", values };
     }
 
     await notifyLeadAndRecordFailures(database, leadId, lead, environment);
 
     return { success: true, leadId };
   } catch {
-    return { success: false, message: "El formulario no está disponible temporalmente." };
+    return { success: false, message: "El formulario no está disponible temporalmente.", values };
   }
 }

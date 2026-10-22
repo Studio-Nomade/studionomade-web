@@ -1,0 +1,47 @@
+/* CaseCredits — banda #EEE, contenedor x 298 → 1142 (590 + 254), padding 111 / 110. */
+
+.credits {
+  padding: clamp(var(--sp-9), 7.7vw, 6.9375rem) var(--site-margin)
+    clamp(var(--sp-9), 7.64vw, 6.875rem);
+  background: var(--surface-band);
+  color: var(--text-title);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 590fr) minmax(0, 254fr);
+  max-width: 52.75rem;
+  margin-inline: auto;
+}
+
+.title {
+  font-size: var(--fs-case-credits);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-case);
+}
+
+.list {
+  display: grid;
+  gap: clamp(var(--sp-6), 4.44vw, var(--sp-9));
+  font-size: var(--fs-case-body);
+  line-height: var(--lh-case);
+}
+
+.pair dt {
+  font-weight: var(--fw-bold);
+}
+
+.pair dd {
+  margin: 0;
+}
+
+@media (max-width: 48em) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .list {
+    gap: var(--sp-5);
+  }
+}

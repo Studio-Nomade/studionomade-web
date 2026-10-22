@@ -1,0 +1,37 @@
+/* Traductor de Google (selector propio en LanguageSwitch): se ocultan su barra,
+   globos y resaltados para que la página traducida se vea igual que la original. */
+.goog-te-banner-frame,
+.skiptranslate > iframe,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-text-highlight {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Titulares partidos en letras: el traductor traduciría cada letra por
+   separado. Con la página traducida se oculta la versión animada y se muestra
+   el texto entero (que sí se traduce). */
+html.translated-ltr [data-split-visual],
+html.translated-rtl [data-split-visual] {
+  display: none !important;
+}
+
+html.translated-ltr [data-split-plain],
+html.translated-rtl [data-split-plain] {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  overflow: visible !important;
+  clip-path: none !important;
+  white-space: normal !important;
+}

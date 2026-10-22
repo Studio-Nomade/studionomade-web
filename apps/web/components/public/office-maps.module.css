@@ -1,0 +1,68 @@
+.maps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--site-gutter);
+}
+
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin: 0;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 7;
+  border: 1px solid var(--text-on-invert-muted);
+  border-radius: var(--radius-sm);
+  background: var(--surface-invert);
+}
+
+.frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+
+  /* Mapa negro con calles blancas. */
+  filter: grayscale(1) invert(1) contrast(1.15) brightness(0.85);
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-4);
+  align-items: baseline;
+  color: var(--text-on-invert-muted);
+  font-size: var(--fs-body-sm);
+}
+
+.city {
+  color: var(--text-on-invert);
+  font-weight: var(--fw-semibold);
+}
+
+.caption a {
+  color: var(--text-on-invert);
+  text-decoration: underline;
+  text-underline-offset: var(--sp-1);
+}
+
+.caption a:focus-visible {
+  outline: var(--focus-ring);
+  outline-color: var(--sn-white);
+  outline-offset: var(--sp-1);
+}
+
+@media (max-width: 48em) {
+  .maps {
+    grid-template-columns: 1fr;
+  }
+
+  .frame {
+    aspect-ratio: 4 / 3;
+  }
+}

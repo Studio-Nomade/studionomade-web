@@ -1,0 +1,452 @@
+/* Hero de la home: proyectos destacados a pantalla completa (ref. mubien.com).
+
+   Las diapositivas se apilan y cambian por fundido (`data-active`). Abajo, una
+   barra con el contador a la izquierda, el botón «Ver proyecto» al centro y las
+   flechas a la derecha; el título del caso queda encima, a la izquierda.
+
+   `--home-hero-interval` llega en línea desde el componente: dura lo mismo que
+   el relleno del botón, que es el temporizador del autoplay. */
+
+.hero {
+  --home-hero-interval: 6000ms;
+  --home-hero-bottom: var(--sp-5);
+  /* Alto del botón: cuadrado de la sigla + su aire. */
+  --home-hero-bar: calc(var(--sp-8) + var(--sp-2));
+  /* En móvil la barra son dos filas: contador y flechas, y debajo el botón. */
+  --home-hero-controls: calc(var(--sp-7) + var(--sp-3) + var(--home-hero-bar));
+
+  position: relative;
+  height: 100svh;
+  min-height: calc(var(--sp-14) * 3);
+  overflow: hidden;
+  background: var(--surface-invert);
+  color: var(--text-on-invert);
+}
+
+.slides {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  /* El gesto horizontal es del carrusel; el vertical sigue siendo scroll. */
+  touch-action: pan-y;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-dur) var(--motion-ease-power3-out),
+    visibility 0s linear var(--motion-dur);
+}
+
+.slide[data-active] {
+  z-index: var(--z-content);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--motion-dur) var(--motion-ease-power3-out),
+    visibility 0s;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+}
+
+.media img,
+.video {
+  object-fit: cover;
+  object-position: center;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.media[data-focus="left"] :is(img, video) {
+  object-position: 25% 50%;
+}
+
+.media[data-focus="right"] :is(img, video) {
+  object-position: 75% 50%;
+}
+
+/* Lectura del texto blanco: oscurece de abajo hacia arriba y un poco el total. */
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--sn-black) 0%, transparent 70%);
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+.shade::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sn-black);
+  opacity: 0.22;
+}
+
+/* Arriba, para la cabecera transparente. */
+.shade::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 30%;
+  background: linear-gradient(to bottom, var(--sn-black) 0%, transparent 100%);
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+}
+
+.caption {
+  position: absolute;
+  right: var(--site-margin);
+  bottom: calc(var(--home-hero-bottom) + var(--home-hero-controls) + var(--sp-7));
+  left: var(--site-margin);
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-3);
+  pointer-events: none;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--font-core);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-eyebrow);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+}
+
+/* Código de área en pill con el acento del área. */
+.code {
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  color: var(--accent);
+  letter-spacing: 0;
+}
+
+.title {
+  max-width: 100%;
+  color: inherit;
+  font-family: var(--font-core);
+  font-size: min(var(--fs-xxl), 12vw);
+  font-weight: var(--fw-masthead);
+  letter-spacing: var(--tr-masthead);
+  line-height: var(--lh-masthead);
+  overflow-wrap: anywhere;
+}
+
+.title[data-long] {
+  font-size: min(var(--fs-xl), 9.5vw);
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* La máscara deja aire a los lados: con tracking negativo la letra asoma fuera
+   de su caja y `overflow: hidden` la recortaría. */
+.charMask {
+  display: inline-block;
+  overflow: hidden;
+  padding-block: 0.06em;
+  vertical-align: top;
+}
+
+.char {
+  display: inline-block;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-5);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-light);
+}
+
+.year {
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Barra de controles ---- */
+
+.controls {
+  position: absolute;
+  z-index: var(--z-content);
+  right: var(--site-margin);
+  bottom: var(--home-hero-bottom);
+  left: var(--site-margin);
+  display: grid;
+  grid-template-areas:
+    "status"
+    "pill";
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+}
+
+/* Contador y flechas juntos a la izquierda. */
+.status {
+  display: flex;
+  grid-area: status;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+.counter {
+  margin: 0;
+  white-space: nowrap;
+  font-size: var(--fs-body-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tr-eyebrow);
+}
+
+.counterCurrent {
+  font-weight: var(--fw-semibold);
+}
+
+.counterTotal {
+  color: var(--text-on-invert-muted);
+}
+
+.nav {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.navButton {
+  display: grid;
+  place-items: center;
+  width: var(--sp-7);
+  height: var(--sp-7);
+  padding: 0;
+  border: var(--border-on-invert);
+  border-radius: var(--radius-circle);
+  background: transparent;
+  color: var(--text-on-invert);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-base) var(--ease-standard),
+    border-color var(--dur-base) var(--ease-standard),
+    color var(--dur-base) var(--ease-standard);
+}
+
+.navButton svg {
+  width: var(--sp-4);
+  height: var(--sp-4);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.navButton:hover {
+  border-color: var(--sn-white);
+  background: var(--sn-white);
+  color: var(--text-strong);
+}
+
+.navButton:focus-visible,
+.pill:focus-visible {
+  outline: var(--focus-ring);
+  outline-color: var(--sn-white);
+  outline-offset: var(--focus-offset);
+}
+
+/* Botón «Ver proyecto»: vidrio claro, sigla en un cuadrado oscuro y una capa
+   más oscura que lo llena de izquierda a derecha mientras corre el tiempo. */
+.pill {
+  position: relative;
+  display: flex;
+  grid-area: pill;
+  justify-self: start;
+  align-items: center;
+  gap: var(--sp-4);
+  /* Hasta 64em, a la izquierda: a la derecha va el botón flotante de contacto
+     (hasta 4rem de ancho) con su separación. */
+  width: min(calc(100% - 4rem - var(--sp-4)), 26rem);
+  height: var(--home-hero-bar);
+  padding: var(--sp-1) var(--sp-6) var(--sp-1) var(--sp-1);
+  overflow: hidden;
+  border-radius: calc(var(--radius-sm) * 2.5);
+  background: color-mix(in srgb, var(--sn-white) 74%, transparent);
+  color: var(--text-strong);
+  text-decoration: none;
+  backdrop-filter: blur(var(--sp-4)) saturate(1.4);
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+
+.pill:hover {
+  background: color-mix(in srgb, var(--sn-white) 90%, transparent);
+  color: var(--text-strong);
+}
+
+/* Primera en el DOM: la sigla y el texto (posicionados) se pintan encima. */
+.progress {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--sn-ink) 16%, transparent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.hero[data-autoplay] .progress {
+  animation: heroProgress var(--home-hero-interval) linear forwards;
+}
+
+.hero[data-paused] .progress {
+  animation-play-state: paused;
+}
+
+@keyframes heroProgress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.pillCode,
+.pillText {
+  position: relative;
+}
+
+.pillCode {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--sp-8);
+  height: var(--sp-8);
+  border-radius: calc(var(--radius-sm) * 1.5);
+  background: var(--sn-ink);
+  color: var(--sn-white);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.02em;
+}
+
+.pillText {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pillDot {
+  color: var(--text-muted);
+}
+
+.pillName {
+  font-weight: var(--fw-bold);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 48em) {
+  .hero {
+    --home-hero-bottom: var(--sp-7);
+    --home-hero-controls: calc(var(--sp-8) + var(--sp-3) + var(--home-hero-bar));
+  }
+
+  .navButton {
+    width: var(--sp-8);
+    height: var(--sp-8);
+  }
+}
+
+@media (min-width: 64em) {
+  .hero {
+    --home-hero-controls: var(--home-hero-bar);
+  }
+
+  /* Una fila: estado a la izquierda, botón al centro y la columna derecha
+     vacía para el botón flotante de contacto. */
+  .controls {
+    grid-template-areas: "status pill .";
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .pill {
+    justify-self: center;
+    width: auto;
+    min-width: 22rem;
+    max-width: 34rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero[data-autoplay] .progress {
+    animation: none;
+  }
+}
+
+/* Mismas dos condiciones que el revelado de @studionomade/ui: sin JavaScript o
+   con movimiento reducido no se oculta ni se mueve nada. La diapositiva activa
+   arma su título letra a letra y las inactivas lo devuelven abajo, listo para
+   la siguiente vuelta. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-reveal-failed])) .char {
+    transform: translate3d(0, var(--reveal-shift-lines), 0);
+  }
+
+  :global(html:not([data-reveal-failed])) .meta,
+  :global(html:not([data-reveal-failed])) .details {
+    opacity: 0;
+    transform: translate3d(0, var(--motion-jump-y), 0);
+  }
+
+  :global(html:not([data-reveal-failed])) .hero[data-enhanced] .slide[data-active] .char {
+    transform: none;
+    transition: transform var(--motion-dur) var(--motion-ease-expo-out);
+    transition-delay: calc(var(--sn-reveal-step) * 40ms + 200ms);
+  }
+
+  :global(html:not([data-reveal-failed])) .hero[data-enhanced] .slide[data-active] .meta,
+  :global(html:not([data-reveal-failed])) .hero[data-enhanced] .slide[data-active] .details {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--motion-dur) var(--motion-ease-power3-out),
+      transform var(--motion-dur) var(--motion-ease-power3-out);
+  }
+
+  :global(html:not([data-reveal-failed])) .hero[data-enhanced] .slide[data-active] .details {
+    transition-delay: 450ms;
+  }
+
+  /* Acercamiento lento de la imagen activa. */
+  .media {
+    transform: scale(1.08);
+    transition: transform var(--motion-dur-counter) var(--motion-ease-power3-out);
+  }
+
+  .hero[data-enhanced] .slide[data-active] .media {
+    transform: none;
+  }
+}

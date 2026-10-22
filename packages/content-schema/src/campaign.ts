@@ -12,7 +12,6 @@ export const campaignContentSchema = z.object({
     badge: z.string(),
     submitLabel: z.string(),
     successMessage: z.string(),
-    consentLabel: z.string(),
     stages: z.array(z.object({ value: z.string(), label: z.string() }))
   })
 });

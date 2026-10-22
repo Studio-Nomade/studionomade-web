@@ -1,0 +1,20 @@
+.curtain {
+  position: fixed;
+  z-index: var(--z-curtain);
+  inset: 0;
+  display: none;
+  background: var(--surface-invert);
+  transform: scaleY(0);
+  pointer-events: none;
+}
+
+.curtain[data-active] {
+  display: block;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain {
+    display: none;
+  }
+}

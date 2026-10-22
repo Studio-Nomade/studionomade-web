@@ -31,7 +31,57 @@ const liveMaximums = {
   "--fs-xl": 102
 } as const;
 
+/** Titulares del rediseño (Inter), 390 → 1440 px. */
+const headingRange = {
+  "--fs-heading-1": [40, 76],
+  "--fs-heading-2": [32, 52],
+  "--fs-heading-3": [27, 32],
+  "--fs-heading-4": [18, 22],
+  "--fs-heading-5": [16, 18],
+  "--fs-heading-6": [14, 16],
+  // Páginas de servicio por área.
+  "--fs-title-hero": [40, 96],
+  "--fs-title-cta": [36, 64],
+  "--fs-title-section": [28, 40],
+  "--fs-lead-xl": [22, 32],
+  "--fs-body-xl": [18, 24],
+  "--fs-figure": [72, 128]
+} as const;
+
+/** Páginas de caso (Figma "WEB NOMADE 2026"), 390 → 1440 px. */
+const caseRange = {
+  "--fs-case-title": [44, 96],
+  "--fs-case-title-long": [32, 64],
+  "--fs-case-credits": [32, 48],
+  "--fs-case-headline": [26, 40],
+  "--fs-case-statement": [24, 36],
+  "--fs-case-lead": [22, 32],
+  "--fs-case-body": [18, 24],
+  "--fs-case-label": [16, 20],
+  "--fs-case-small": [15, 16]
+} as const;
+
 describe("escala fluida", () => {
+  it("ancla la tipografía de los casos en las medidas de Figma a 1440", () => {
+    for (const [token, [minimum, maximum]] of Object.entries(caseRange)) {
+      const value = css.match(new RegExp(`${token}:\\s*clamp\\(([^;]+)\\);`))?.[1];
+      expect(value, token).toBeDefined();
+      const parts = value!.split(",").map((part) => part.trim());
+      expect(parts[0]).toBe(`${minimum}px`);
+      expect(parts.at(-1)).toBe(`${maximum}px`);
+    }
+  });
+
+  it("ancla los titulares del rediseño entre su mínimo y su máximo", () => {
+    for (const [token, [minimum, maximum]] of Object.entries(headingRange)) {
+      const value = css.match(new RegExp(`${token}:\\s*clamp\\(([^;]+)\\);`))?.[1];
+      expect(value, token).toBeDefined();
+      const parts = value!.split(",").map((part) => part.trim());
+      expect(parts[0]).toBe(`${minimum}px`);
+      expect(parts.at(-1)).toBe(`${maximum}px`);
+    }
+  });
+
   it("mantiene el máximo legado como tercer argumento de cada clamp", () => {
     for (const [token, maximum] of Object.entries(legacyMaximums)) {
       const value = css.match(new RegExp(`${token}:\\s*clamp\\(([^;]+)\\);`))?.[1];

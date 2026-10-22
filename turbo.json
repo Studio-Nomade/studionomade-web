@@ -12,7 +12,9 @@
         "SLACK_LEADS_WEBHOOK_URL",
         "GOOGLE_SMTP_USER",
         "GOOGLE_SMTP_APP_PASSWORD",
-        "LEADS_NOTIFY_TO"
+        "LEADS_NOTIFY_TO",
+        "NEXT_PUBLIC_META_PIXEL_ID",
+        "NEXT_PUBLIC_ANALYTICS_CONSENT_MODE"
       ]
     },
     "lint": { "dependsOn": ["^lint"] },

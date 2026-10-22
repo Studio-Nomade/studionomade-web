@@ -1,0 +1,191 @@
+/* Listado /proyectos (referencia mubien.com/work): cuadrícula de borde a borde
+   dentro del margen del sitio, una imagen por caso y un recuadro claro que
+   aparece al hover abajo a la izquierda. En touch o móvil el recuadro va bajo
+   la imagen, siempre visible. */
+
+.index {
+  --index-gap: var(--sp-2);
+  --panel-inset: var(--sp-4);
+  --panel-blur: 0.875rem;
+
+  padding: clamp(var(--sp-10), 8vw, var(--sp-11)) var(--site-margin) var(--case-y-xl);
+  background: var(--surface-page);
+  color: var(--text-title);
+  font-family: var(--font-core);
+}
+
+.index :where(h1, h2, p) {
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-core);
+  letter-spacing: 0;
+}
+
+/* ---- Cabecera: título corto + bajada de una línea ---- */
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3) var(--sp-6);
+  margin-bottom: var(--sp-7);
+}
+
+.title {
+  font-size: var(--fs-title-cta);
+  font-weight: var(--fw-block-title);
+  letter-spacing: var(--tr-heading);
+  line-height: var(--lh-block-title);
+}
+
+.lead {
+  max-width: 34rem;
+  color: var(--text-muted);
+  font-size: var(--fs-case-small);
+  line-height: var(--lh-heading);
+}
+
+/* ---- Cuadrícula ---- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--index-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+}
+
+.card {
+  position: relative;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card:hover {
+  color: inherit;
+}
+
+.card:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-sm);
+  background: var(--surface-media);
+}
+
+.media img {
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.card:hover .media img,
+.card:focus-visible .media img {
+  transform: scale(var(--media-zoom));
+}
+
+/* ---- Recuadro del proyecto ---- */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-1) var(--sp-5);
+}
+
+.code {
+  margin-bottom: var(--sp-2);
+  padding: var(--sp-1) var(--sp-2);
+  border: var(--border-hairline);
+  border-color: var(--accent-line);
+  border-radius: var(--radius-pill);
+  color: var(--text-strong);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tr-eyebrow);
+  line-height: var(--lh-heading);
+}
+
+.name {
+  font-size: var(--fs-case-label);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-heading);
+}
+
+.tagline {
+  color: var(--text-strong);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-heading);
+}
+
+.excerpt {
+  margin-top: var(--sp-1);
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Con puntero fino y ancho de escritorio, el recuadro flota sobre la imagen. */
+@media (hover: hover) and (pointer: fine) and (min-width: 48em) {
+  .panel {
+    position: absolute;
+    bottom: var(--panel-inset);
+    left: var(--panel-inset);
+    width: min(24rem, calc(100% - 2 * var(--panel-inset)));
+    padding: var(--sp-4) var(--sp-5) var(--sp-5);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--surface-page) 88%, transparent);
+    box-shadow: var(--shadow-admin-raised);
+    backdrop-filter: blur(var(--panel-blur)) saturate(1.2);
+    opacity: 0;
+    transform: translateY(var(--sp-3));
+    pointer-events: none;
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+  }
+
+  .card:hover .panel,
+  .card:focus-visible .panel {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 47.99em) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-5);
+  }
+
+  .header {
+    flex-direction: column;
+    margin-bottom: var(--sp-6);
+  }
+
+  .panel {
+    padding-bottom: 0;
+  }
+}

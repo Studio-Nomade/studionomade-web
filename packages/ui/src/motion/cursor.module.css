@@ -1,0 +1,55 @@
+.cursor {
+  position: fixed;
+  z-index: var(--z-cursor);
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: var(--radius-circle);
+  background: var(--sn-white);
+  color: var(--sn-ink);
+  opacity: 0;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  transition:
+    width var(--dur-base) var(--motion-ease-power3-out),
+    height var(--dur-base) var(--motion-ease-power3-out),
+    opacity var(--dur-fast) var(--ease-standard),
+    scale var(--dur-fast) var(--ease-standard);
+}
+
+.cursor[data-visible] {
+  opacity: 1;
+}
+
+.cursor[data-state="hover"] {
+  width: var(--cursor-size-hover);
+  height: var(--cursor-size-hover);
+}
+
+.cursor[data-state="label"] {
+  width: var(--cursor-size-label);
+  height: var(--cursor-size-label);
+  mix-blend-mode: normal;
+  background: var(--sn-ink);
+  color: var(--sn-white);
+}
+
+.cursor[data-pressed] {
+  scale: 0.85;
+}
+
+.label {
+  font-family: var(--font-core);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+.cursor[data-state="label"] .label {
+  opacity: 1;
+}

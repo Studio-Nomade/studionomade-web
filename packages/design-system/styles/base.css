@@ -74,3 +74,20 @@ hr {
   background: var(--accent);
   color: var(--accent-contrast);
 }
+
+/* Scroll suave (Lenis, lo monta SmoothScroll en @studionomade/ui) y bloqueo de
+   scroll del menú. Sin JavaScript nada de esto aplica. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped,
+html[data-scroll-locked] {
+  overflow: hidden;
+}

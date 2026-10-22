@@ -1,0 +1,44 @@
+/* CaseGrid — contenedor 1228 (márgenes 106), gutter 54, gap 52 (64 con captions). */
+
+.grid {
+  padding: clamp(var(--sp-9), 8.4vw, 7.5625rem) var(--site-margin);
+}
+
+.grid[data-tone="mist"] {
+  padding-block: clamp(var(--sp-9), 13.96vw, 12.5625rem);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--sp-4), 3.6vw, 3.25rem) clamp(var(--sp-4), 3.75vw, 3.375rem);
+  max-width: 76.75rem;
+  margin-inline: auto;
+  list-style: none;
+}
+
+.grid[data-captions] .list {
+  row-gap: clamp(var(--sp-7), 4.44vw, var(--sp-9));
+}
+
+.figure {
+  display: block;
+}
+
+.media {
+  aspect-ratio: 587 / 708;
+}
+
+.caption {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-case-label);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-case);
+  text-align: right;
+}
+
+@media (max-width: 48em) {
+  .list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,42 @@
+/* CaseMedia — variantes full, full-ruled, framed y bleed-right. */
+
+.block[data-variant="full"] .media {
+  aspect-ratio: 1440 / 790;
+}
+
+.block[data-variant="full-ruled"] {
+  padding-block: var(--sp-1);
+}
+
+.block[data-variant="full-ruled"] .media {
+  aspect-ratio: 1440 / 839;
+}
+
+/* Tres enmarcadas seguidas dejan 323px entre imágenes (162 + 161). */
+.block[data-variant="framed"] {
+  padding: var(--case-y-xl) var(--site-margin);
+}
+
+.block[data-variant="framed"] .media {
+  max-width: 78.875rem;
+  aspect-ratio: 1262 / 708;
+  margin-inline: auto;
+}
+
+.block[data-variant="bleed-right"] {
+  padding-block: clamp(var(--sp-7), 6.4vw, 5.75rem);
+}
+
+.block[data-variant="bleed-right"] .media {
+  width: calc(100% - var(--sp-5));
+  max-width: 76.375rem;
+  aspect-ratio: 1222 / 699;
+  margin-left: auto;
+}
+
+@media (min-width: 90em) {
+  .block[data-variant="bleed-right"] .media {
+    width: 84.86%;
+    max-width: none;
+  }
+}

@@ -6,26 +6,20 @@ import { SplitLines } from "./split-lines";
 const LINES = ["Una idea clara.", "Una marca que la sostiene."];
 
 describe("SplitLines", () => {
-  it("renderiza una caja por línea", () => {
+  it("renderiza una máscara por línea", () => {
     const { container } = render(<SplitLines lines={LINES} />);
-    expect(container.querySelectorAll("[style*='--sn-reveal-step']")).toHaveLength(LINES.length);
+    expect(container.querySelectorAll("[data-split-inner]")).toHaveLength(LINES.length);
   });
 
-  it("escalona cada línea de forma incremental", () => {
-    const { container } = render(<SplitLines lines={LINES} />);
-    const inners = [...container.querySelectorAll<HTMLElement>("[style*='--sn-reveal-step']")];
-    expect(inners.map((el) => el.style.getPropertyValue("--sn-reveal-step"))).toEqual(["0", "1"]);
-  });
-
-  it("desplaza el inicio del escalonado con step", () => {
-    const { container } = render(<SplitLines lines={LINES} step={4} />);
-    const inners = [...container.querySelectorAll<HTMLElement>("[style*='--sn-reveal-step']")];
-    expect(inners.map((el) => el.style.getPropertyValue("--sn-reveal-step"))).toEqual(["4", "5"]);
-  });
-
-  it("se marca para el observador como una sola unidad", () => {
+  it("se marca para el runtime como una sola unidad de líneas", () => {
     const { container } = render(<SplitLines lines={LINES} />);
     expect(container.querySelectorAll("[data-reveal]")).toHaveLength(1);
+    expect(container.firstElementChild).toHaveAttribute("data-motion", "lines");
+  });
+
+  it("traduce step a retardo para encadenar con otro bloque", () => {
+    const { container } = render(<SplitLines lines={LINES} step={4} />);
+    expect(container.firstElementChild).toHaveAttribute("data-motion-delay", "0.36");
   });
 
   /**
