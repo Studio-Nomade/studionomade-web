@@ -32,7 +32,7 @@ export const leadSubmissionSchema = z
     source_path: z.string().trim().min(1).max(2_048),
     landing_path: optionalText(2_048),
     referrer: optionalText(2_048),
-    origin_type: z.enum(["campana", "area", "contacto", "importacion", "referido"]),
+    origin_type: z.enum(["campana", "area", "contacto", "prototipo", "importacion", "referido"]),
     origin_slug: optionalText(255),
     empresa_web: optionalText(500),
     t: z.string().min(1),

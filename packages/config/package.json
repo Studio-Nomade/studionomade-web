@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./security": "./src/security.ts",
     "./eslint": "./eslint/index.mjs",
     "./eslint/library": "./eslint/library.mjs",
     "./eslint/design-system": "./eslint/design-system.mjs",
