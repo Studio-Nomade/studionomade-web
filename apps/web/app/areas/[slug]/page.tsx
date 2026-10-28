@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AreaPage } from "../../../components/areas/area-page";
+import { faviconFor } from "../../../content/area-meta";
 import { areas, isAreaSlug } from "../../../content/areas";
 
 export function generateStaticParams() {
@@ -17,9 +18,10 @@ export async function generateMetadata({
 
   const area = areas[slug];
   return {
-    title: `${area.title} | Studio Nomade`,
-    description: area.what,
-    alternates: { canonical: `/areas/${area.slug}` }
+    title: `${area.name} | Studio Nomade`,
+    description: area.description,
+    alternates: { canonical: `/areas/${area.slug}` },
+    icons: faviconFor(area.slug)
   };
 }
 

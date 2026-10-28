@@ -1,0 +1,206 @@
+/* CaseHero — Figma 1:2 (inset-wide), 6:206 / 27:5 / 27:91 (inset), 6:65 (full). */
+
+.hero {
+  padding-top: clamp(var(--sp-9), 6.8vw, var(--sp-12));
+  text-align: center;
+}
+
+.heading {
+  padding-inline: var(--site-margin);
+}
+
+/* Código de área: no está en Figma; decisión del cliente. Texto neutro (AA sobre
+   blanco) con una marca corta de acento delante. */
+.area {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+  color: var(--sn-black);
+  font-size: var(--fs-case-small);
+  line-height: var(--lh-case);
+}
+
+.code {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-weight: var(--fw-bold);
+}
+
+.code::before {
+  content: "";
+  display: block;
+  width: var(--sp-5);
+  height: 2px;
+  background: var(--accent);
+}
+
+.title {
+  color: var(--text-title);
+  font-size: var(--fs-case-title);
+  font-weight: var(--fw-case-title);
+  letter-spacing: var(--tr-case-title);
+  line-height: var(--lh-case);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.hero[data-long] .title {
+  font-size: var(--fs-case-title-long);
+}
+
+.year {
+  margin-top: var(--sp-3);
+  color: var(--text-title);
+  font-size: var(--fs-case-lead);
+  line-height: var(--lh-case);
+}
+
+/* ---- Escenario: imagen + banda gris que arranca bajo su borde superior ---- */
+
+.stage {
+  margin-top: clamp(var(--sp-8), 7.4vw, 6.625rem);
+}
+
+.hero[data-long] .stage {
+  margin-top: clamp(var(--sp-8), 9.3vw, 8.375rem);
+}
+
+/* CinnaLove: la imagen arranca 180px bajo el año. */
+.hero[data-variant="inset-wide"] .stage {
+  margin-top: clamp(var(--sp-8), 12.5vw, 11.25rem);
+}
+
+.hero[data-variant="inset"] .stage {
+  background: linear-gradient(
+    var(--surface-page) 0 clamp(var(--sp-6), 5.5556vw, var(--sp-10)),
+    var(--surface-band) 0
+  );
+}
+
+.hero[data-variant="inset-wide"] .stage {
+  background: linear-gradient(
+    var(--surface-page) 0 clamp(var(--sp-6), 4.03vw, 3.625rem),
+    var(--surface-band) 0
+  );
+}
+
+.media {
+  width: calc(100% - var(--sp-7));
+  margin-inline: auto;
+}
+
+.hero[data-variant="inset"] .media {
+  max-width: 67.5625rem;
+  aspect-ratio: 1081 / 988;
+}
+
+.hero[data-variant="inset-wide"] .media {
+  max-width: 76.375rem;
+  aspect-ratio: 1222 / 1229;
+}
+
+.hero[data-variant="full"] .media {
+  width: 100%;
+  aspect-ratio: 1440 / 914;
+}
+
+/* Reebok: sin tags ni cita; la banda termina 143px bajo la imagen. */
+.hero[data-variant="inset"] .stage > .media:last-child {
+  margin-bottom: clamp(var(--sp-9), 9.93vw, 8.9375rem);
+}
+
+/* ---- Pie de la banda: servicios, cita y botón ---- */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-8) var(--site-margin) var(--case-y-lg);
+}
+
+.hero[data-variant="inset-wide"] .footer {
+  padding-top: clamp(var(--sp-8), 4.93vw, 4.4375rem);
+}
+
+/* Servicios: columnas de 295 (inset) o 370 (inset-wide) alineadas a la izquierda,
+   corridas a la derecha del centro como en Figma (x = 369 / 289). */
+.tags {
+  display: grid;
+  grid-template-columns: repeat(3, 18.4375rem);
+  align-self: flex-start;
+  margin-left: calc(50% - 21.9375rem);
+  color: var(--sn-black);
+  font-size: var(--fs-case-label);
+  line-height: var(--lh-case);
+  list-style: none;
+  text-align: left;
+}
+
+.hero[data-variant="inset-wide"] .tags {
+  grid-template-columns: repeat(3, 23.125rem);
+  margin-left: calc(50% - 26.9375rem);
+}
+
+.quote {
+  max-width: 65.8125rem;
+  margin-top: var(--case-y-lg);
+  color: var(--text-title);
+  font-size: var(--fs-case-lead);
+  line-height: var(--lh-case);
+}
+
+.hero[data-quote="narrow"] .quote {
+  max-width: 50.6875rem;
+  margin-top: clamp(var(--sp-8), 8vw, 7.25rem);
+}
+
+.button {
+  margin-top: var(--sp-9);
+}
+
+/* ---- Variante full: regla, claim y botón sobre blanco ---- */
+
+.claimBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(var(--sp-5), 2.43vw, 2.1875rem);
+  padding: clamp(var(--sp-8), 4.65vw, 4.1875rem) var(--site-margin)
+    clamp(var(--sp-9), 5.9vw, 5.3125rem);
+}
+
+.claim {
+  max-width: 36rem;
+  color: var(--text-title);
+  font-size: var(--fs-case-lead);
+  line-height: var(--lh-case);
+}
+
+@media (max-width: 64em) {
+  .tags,
+  .hero[data-variant="inset-wide"] .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--sp-3) var(--sp-5);
+    align-self: center;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 48em) {
+  .media {
+    width: calc(100% - var(--sp-7));
+  }
+
+  .quote {
+    margin-top: var(--sp-9);
+  }
+
+  .button {
+    width: 100%;
+    max-width: 20rem;
+  }
+}

@@ -43,6 +43,25 @@ export async function generateMetadata({
   };
 }
 
+function queryString(query: Record<string, string | string[] | undefined>): string {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    for (const item of Array.isArray(value) ? value : value === undefined ? [] : [value]) {
+      params.append(key, item);
+    }
+  }
+  const serialized = params.toString();
+  return serialized ? `?${serialized}` : "";
+}
+
+/** URL de aterrizaje tal como la vio el servidor; respaldo sin JavaScript. */
+function landingUrlFor(requestHeaders: Headers, path: string, search: string): string | undefined {
+  const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  if (!host) return undefined;
+  const protocol = requestHeaders.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? "https";
+  return `${protocol}://${host}${path}${search}`;
+}
+
 export default async function CampaignPage({
   params,
   searchParams
@@ -51,18 +70,26 @@ export default async function CampaignPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { slug } = await params;
-  await headers();
+  const requestHeaders = await headers();
   const campaign = campaignFor(slug);
   if (!campaign) notFound();
   const query = await searchParams;
   const utm = {
     ...utmSchema.parse(query),
     gclid: typeof query.gclid === "string" ? query.gclid : undefined,
-    fbclid: typeof query.fbclid === "string" ? query.fbclid : undefined
+    fbclid: typeof query.fbclid === "string" ? query.fbclid : undefined,
+    landing_url: landingUrlFor(requestHeaders, `/campanas/${slug}`, queryString(query)),
+    referrer: requestHeaders.get("referer") ?? undefined
   };
   const timestamp = Date.now();
   const secret = process.env.LEAD_FORM_SECRET;
-  if (!secret) throw new Error("LEAD_FORM_SECRET is required to render campaign forms");
+  // Sin secreto la landing igual se muestra (previews o entornos sin configurar):
+  // el formulario sale sin firma y el servidor rechaza el envío con su mensaje de
+  // error. Se registra para que la falta de configuración no pase inadvertida.
+  if (!secret)
+    console.error(
+      "[campanas] LEAD_FORM_SECRET no está configurado: el formulario no aceptará envíos"
+    );
   const { Composition, content, accent, formSlug, consentVersion } = campaign;
   const organization = {
     "@context": "https://schema.org",
@@ -81,7 +108,7 @@ export default async function CampaignPage({
         utm={utm}
         slug={slug}
         timestamp={String(timestamp)}
-        signature={signFormTimestamp(timestamp, secret)}
+        signature={secret ? signFormTimestamp(timestamp, secret) : ""}
         formSlug={formSlug}
         consentVersion={consentVersion}
       />

@@ -1,3 +1,4 @@
+import { CAMPAIGN_LEAD_CONSENT_VERSION } from "../content/legal/consentimientos";
 import { inmobiliariasAssets } from "./inmobiliarias/assets";
 import { InmobiliariasComposition } from "./inmobiliarias/composition";
 import { inmobiliariasContent } from "./inmobiliarias/content";
@@ -7,11 +8,11 @@ export const CAMPAIGNS = {
   inmobiliarias: {
     accent: "inmobiliarias",
     formSlug: "campana-inmobiliarias",
-    consentVersion: "2026-09-v1",
+    consentVersion: CAMPAIGN_LEAD_CONSENT_VERSION,
     meta: {
       title: "Branding para proyectos inmobiliarios | Studio Nomade",
       description:
-        "Construimos marcas inmobiliarias diferentes, coherentes y difíciles de confundir.",
+        "Branding, renders, sala de ventas, web y campañas para proyectos inmobiliarios. Cotiza sin compromiso.",
       ogImage: inmobiliariasAssets.renders
     },
     content: inmobiliariasContent,

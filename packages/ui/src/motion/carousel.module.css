@@ -1,0 +1,331 @@
+.carousel {
+  position: relative;
+  color: var(--text-title);
+}
+
+.carousel[data-invert] {
+  color: var(--text-on-invert);
+}
+
+.track {
+  display: flex;
+  gap: var(--sn-carousel-gap, var(--site-gutter));
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.carousel[data-variant="peek"] .slide {
+  flex-basis: var(--sn-carousel-slide, 82%);
+}
+
+/* Con JS el carril también se arrastra con el ratón. */
+.carousel[data-enhanced] .track {
+  cursor: grab;
+}
+
+.carousel[data-dragging] .track {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+/* ---- Bloque acompañante (`lead`): columna a la izquierda del riel ---- */
+
+.carousel[data-lead] {
+  display: grid;
+  grid-template-columns: var(--sn-carousel-lead, 30%) minmax(0, 1fr);
+  align-items: center;
+}
+
+.lead {
+  grid-row: 1;
+  grid-column: 1;
+  min-width: 0;
+}
+
+.carousel[data-lead] > .track,
+.carousel[data-lead] > .stage {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.carousel[data-lead] > .controls,
+.carousel[data-lead] > .meta,
+.carousel[data-lead] > .labels {
+  grid-column: 1 / -1;
+  /* Si el riel sangra hasta el borde, la barra se centra en la columna de contenido. */
+  margin-inline-end: var(--sn-carousel-bleed, 0);
+}
+
+@media (max-width: 47.99em) {
+  .carousel[data-lead] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .carousel[data-lead] > .track,
+  .carousel[data-lead] > .stage {
+    grid-row: 2;
+    grid-column: 1;
+  }
+}
+
+/* Sin JavaScript se navega deslizando: los controles solo aparecen al hidratar. */
+.controls {
+  display: none;
+}
+
+.carousel[data-enhanced] .controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-top: var(--sp-5);
+}
+
+.arrow,
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-2);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+.arrow svg {
+  width: var(--sp-6);
+  height: var(--sp-6);
+}
+
+.arrow svg[data-flip] {
+  transform: scaleX(-1);
+}
+
+.arrow:disabled {
+  opacity: var(--press-fade);
+  cursor: default;
+}
+
+.arrow:focus-visible,
+.toggle:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.carousel[data-invert] .arrow:focus-visible,
+.carousel[data-invert] .toggle:focus-visible {
+  outline-color: var(--sn-white);
+}
+
+.toggle {
+  font-family: var(--font-core);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+
+.count {
+  font-size: var(--fs-caption);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fw-semibold);
+}
+
+.count span {
+  opacity: var(--hover-fade);
+}
+
+.progress {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  overflow: hidden;
+}
+
+.progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: var(--press-fade);
+}
+
+.progress > span {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  transform: scaleX(var(--sn-carousel-progress));
+  transform-origin: left center;
+  transition: transform var(--motion-dur) var(--motion-ease-expo-in-out);
+}
+
+/* Solo barra: el indicador mide 1/n de la pista y recorre el scroll real. */
+.carousel[data-controls="progress"][data-enhanced] .controls {
+  justify-content: center;
+  margin-top: var(--sn-carousel-bar-gap, var(--sp-9));
+}
+
+.progress[data-mode="scroll"] {
+  flex: 0 1 var(--sn-carousel-bar, 100%);
+  height: var(--sn-carousel-bar-h, 1px);
+}
+
+.progress[data-mode="scroll"] > span {
+  right: auto;
+  width: calc(var(--sn-carousel-thumb) * 100%);
+  background: var(--sn-carousel-thumb-color, currentColor);
+  transform: translateX(calc(var(--sn-carousel-scroll) * 100%));
+  transition: transform var(--dur-fast) linear;
+}
+
+.track:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---- layout="sides": flechas a los lados y barra segmentada con etiquetas ---- */
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+.carousel[data-layout="sides"][data-enhanced] .stage {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: var(--site-gutter);
+}
+
+.stage > .arrow {
+  display: none;
+  width: var(--sp-7);
+  height: var(--sp-7);
+  min-width: var(--sp-7);
+}
+
+.carousel[data-layout="sides"][data-enhanced] .stage > .arrow {
+  display: inline-flex;
+}
+
+.stage > .arrow svg {
+  width: var(--sp-3);
+  height: var(--sp-5);
+}
+
+.stage > .arrow svg[data-flip] {
+  transform: scaleX(-1);
+}
+
+.meta {
+  display: none;
+}
+
+.carousel[data-layout="sides"][data-enhanced] .meta {
+  display: block;
+  margin-top: var(--sp-6);
+}
+
+.carousel[data-layout="sides"][data-enhanced] .stage ~ .meta {
+  margin-inline: calc(var(--sp-7) + var(--site-gutter));
+}
+
+.segments {
+  position: relative;
+  display: block;
+  height: 2px;
+  overflow: hidden;
+  background: var(--sn-rule);
+}
+
+.segments > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(100% / var(--sn-step-count));
+  background: currentColor;
+  transform: translateX(calc(var(--sn-carousel-progress) * 100%));
+  transition: transform var(--motion-dur) var(--motion-ease-expo-in-out);
+}
+
+.carousel[data-accent-progress] .segments > span,
+.carousel[data-accent-progress] .progress > span {
+  background: var(--accent);
+}
+
+.labels {
+  display: none;
+}
+
+/* Etiquetas como pestañas (cualquier layout): solo con JS, porque son botones. */
+.carousel[data-enhanced] .labels {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  margin-top: var(--sp-3);
+}
+
+.label {
+  justify-self: start;
+  padding: var(--sp-1) 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-core);
+  font-size: var(--fs-case-label);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-case);
+  cursor: pointer;
+  opacity: var(--hover-fade);
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+
+.label[aria-current],
+.label:hover {
+  opacity: 1;
+}
+
+.label:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+@media (max-width: 47.99em) {
+  .carousel[data-layout="sides"][data-enhanced] .stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .carousel[data-layout="sides"][data-enhanced] .stage > .arrow {
+    display: none;
+  }
+
+  .carousel[data-layout="sides"][data-enhanced] .stage ~ .meta {
+    margin-inline: 0;
+  }
+}

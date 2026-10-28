@@ -1,0 +1,107 @@
+/* CaseNext — portada del caso siguiente a sangre (1440 × 790), título blanco a 111px. */
+
+.next {
+  background: var(--surface-invert);
+}
+
+.link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1440 / 790;
+  min-height: 26rem;
+  color: var(--text-on-invert);
+  text-decoration: none;
+}
+
+.link .media {
+  position: absolute;
+  inset: 0;
+}
+
+.frame {
+  position: absolute;
+  inset: -8% 0;
+}
+
+.frame img {
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.link:hover .frame img,
+.link:focus-visible .frame img {
+  transform: scale(var(--media-zoom));
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 30%, var(--sn-black));
+  opacity: 0.62;
+}
+
+.copy {
+  position: absolute;
+  right: var(--site-margin);
+  bottom: clamp(var(--sp-7), 6vw, var(--sp-11));
+  left: clamp(var(--sp-5), 7.7vw, 6.9375rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.eyebrow,
+.meta {
+  font-size: var(--fs-case-label);
+  line-height: var(--lh-case);
+}
+
+.title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-case-title);
+  letter-spacing: var(--tr-case-title);
+  line-height: var(--lh-masthead);
+  text-wrap: balance;
+}
+
+.hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+  font-size: var(--fs-case-small);
+  font-weight: var(--fw-semibold);
+}
+
+.hint svg {
+  width: var(--sp-6);
+  height: var(--sp-6);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.link:hover .hint svg,
+.link:focus-visible .hint svg {
+  transform: translateX(var(--sp-2));
+}
+
+.link:hover {
+  color: var(--text-on-invert);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--sn-white);
+  outline-offset: calc(-1 * var(--sp-2));
+}
+
+@media (max-width: 48em) {
+  .link {
+    aspect-ratio: 4 / 5;
+    min-height: 0;
+  }
+
+  .copy {
+    left: var(--site-margin);
+  }
+}

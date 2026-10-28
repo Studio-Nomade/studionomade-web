@@ -1,0 +1,86 @@
+/* CaseObjectives — contenedor x 92 → 1287, segunda columna desde x 666. */
+
+.objectives {
+  display: grid;
+  grid-template-columns: minmax(0, 574fr) minmax(0, 621fr);
+  max-width: calc(74.6875rem + 2 * var(--site-margin));
+  margin-inline: auto;
+  padding: clamp(var(--sp-9), 8.8vw, 7.9375rem) var(--site-margin)
+    clamp(var(--sp-9), 7.36vw, 6.625rem);
+  background: var(--surface-page);
+}
+
+.title {
+  max-width: 15.625rem;
+  color: var(--text-title);
+  font-size: var(--fs-case-headline);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-case);
+}
+
+.list {
+  display: grid;
+  gap: clamp(var(--sp-5), 2.85vw, 2.5625rem);
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 33.5rem);
+  align-items: center;
+  gap: clamp(var(--sp-4), 1.53vw, 1.375rem);
+}
+
+.badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(3rem, 4.375vw, 3.9375rem);
+  aspect-ratio: 1;
+}
+
+.circle {
+  position: absolute;
+  inset: 0;
+}
+
+.circle svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.circle circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+
+.number {
+  position: relative;
+  color: var(--sn-black);
+  font-size: var(--fs-case-small);
+  line-height: var(--lh-case);
+}
+
+.text {
+  color: var(--text-title);
+  font-size: var(--fs-case-small);
+  line-height: var(--lh-case);
+}
+
+@media (max-width: 48em) {
+  .objectives {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-6);
+  }
+
+  .title {
+    max-width: none;
+  }
+
+  .list {
+    gap: var(--sp-5);
+  }
+}

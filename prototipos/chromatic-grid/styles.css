@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f3f0e8;
+  color: #111;
+  font-family: Arial, sans-serif;
+}
+main {
+  padding: 6vw;
+}
+h1 {
+  font-size: clamp(3rem, 10vw, 10rem);
+  margin: 0.2em 0;
+}
+section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 50vh;
+}
+i:nth-child(1) {
+  background: #6857ff;
+}
+i:nth-child(2) {
+  background: #55bb7b;
+}
+i:nth-child(3) {
+  background: #d71e47;
+}
+i:nth-child(4) {
+  background: #f2c511;
+}
+a {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #111;
+}

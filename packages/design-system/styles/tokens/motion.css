@@ -15,6 +15,17 @@
   --media-zoom: 1.03; /* @kind other */
   --hover-fade: 0.62; /* @kind other */
   --press-fade: 0.45; /* @kind other */
+
+  /* Rediseño (GSAP). Espejo en MOTION (src/motion.ts): los segundos y nombres
+     de ease que consume GSAP salen de aquí. Las curvas cubic-bezier son las
+     equivalentes CSS para lo que no anima GSAP (menú, barra de progreso). */
+  --motion-dur: 1200ms; /* @kind other */
+  --motion-dur-counter: 2400ms; /* @kind other */
+  --motion-ease-expo-in-out: cubic-bezier(0.87, 0, 0.13, 1); /* @kind other */
+  --motion-ease-expo-out: cubic-bezier(0.19, 1, 0.22, 1); /* @kind other */
+  --motion-ease-power3-out: cubic-bezier(0.215, 0.61, 0.355, 1); /* @kind other */
+  --motion-jump-y: 30px;
+  --motion-mask-scale: 1.2; /* @kind other */
 }
 @media (prefers-reduced-motion: reduce) {
   :root {
@@ -27,5 +38,9 @@
     --reveal-shift: 0px;
     --reveal-shift-lines: 0%;
     --media-zoom: 1 /* @kind other */;
+    --motion-dur: 0ms; /* @kind other */
+    --motion-dur-counter: 0ms; /* @kind other */
+    --motion-jump-y: 0px;
+    --motion-mask-scale: 1; /* @kind other */
   }
 }

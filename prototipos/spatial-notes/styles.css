@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #141414;
+  color: #eee;
+  font:
+    18px Arial,
+    sans-serif;
+}
+main {
+  min-height: 100vh;
+  padding: 8vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+h1 {
+  font-size: clamp(4rem, 14vw, 13rem);
+  max-width: 8ch;
+  margin: 0;
+}
+blockquote {
+  font-size: clamp(1.5rem, 4vw, 4rem);
+  max-width: 20ch;
+  margin-left: auto;
+}
+a {
+  color: #f2c511;
+}

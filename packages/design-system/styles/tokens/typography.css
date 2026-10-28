@@ -73,4 +73,54 @@
   --fs-campaign-3: 40px;
   --lh-campaign: 1; /* @kind font */
   --tr-campaign: -0.01em; /* @kind font */
+
+  /* Rediseño del sitio público. Todo en Inter (variable 100–900): masthead en
+     500 con tracking cerrado, titulares de bloque en 400 (2026-10-21: antes
+     100/200, se engrosaron porque a ese tamaño les faltaba carácter). Aditiva: no reemplaza
+     a --fs-h1..--fs-h5, que siguen sirviendo a campañas y páginas interiores.
+     Los máximos son los de 1440 px; la fórmula fluida vive en responsive.css. */
+  --fw-hairline: 100; /* @kind font */
+  --fw-masthead: var(--fw-medium);
+  --fw-block-title: var(--fw-regular);
+  --tr-masthead: -2px;
+  --lh-masthead: 1; /* @kind font */
+  --lh-block-title: 1.15; /* @kind font */
+  --fs-heading-1: 76px;
+  --fs-heading-2: 52px;
+  --fs-heading-3: 32px;
+  --fs-heading-4: 22px;
+  --fs-heading-5: 18px;
+  --fs-heading-6: 16px;
+  /* Páginas de servicio por área (Figma "SERVICIOS"): título del hero 96/200,
+     CTA y formulario 64, H2 de sección 40/600, lead y cita 32, cuerpo grande
+     24 y cifras 128/500. Máximos de 1440 px; la fórmula fluida en responsive.css. */
+  --fs-title-hero: 96px;
+  --fs-title-cta: 64px;
+  --fs-title-section: 40px;
+  --fs-lead-xl: 32px;
+  --fs-body-xl: 24px;
+  --fs-figure: 128px;
+  /* Cuerpo 16/28.8 y párrafo de bloque. */
+  --lh-body-site: 1.8; /* @kind font */
+  --fs-body-block: 15.7px;
+  /* Botón: Inter 600 13px. */
+  --fs-button: 13px;
+  --fw-button: 600; /* @kind font */
+
+  /* Páginas de caso (Figma "WEB NOMADE 2026"). Máximos a 1440 px; la fórmula
+     fluida vive en responsive.css. Todo Inter, line-height "normal" de Figma.
+     El titular usa el peso delgado del sistema (decisión documentada en
+     docs/design-system/tokens.md): Figma lo dibuja en 400. */
+  --fs-case-title: 96px;
+  --fs-case-title-long: 64px;
+  --fs-case-credits: 48px;
+  --fs-case-headline: 40px;
+  --fs-case-statement: 36px;
+  --fs-case-lead: 32px;
+  --fs-case-body: 24px;
+  --fs-case-label: 20px;
+  --fs-case-small: 16px;
+  --lh-case: 1.21; /* @kind font */
+  --fw-case-title: var(--fw-masthead);
+  --tr-case-title: var(--tr-masthead);
 }

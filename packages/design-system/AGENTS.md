@@ -10,8 +10,8 @@
 - Expose only `.`, `./styles.css`, `./fonts`, and approved assets.
 - Keep `next/font` usage inside `fonts/` only.
 - Do not request font files from third-party origins at runtime.
-- Use San Diego for approved display roles.
-- Use Archivo for core text.
+- Use Cy Grotesk Grand for approved display and campaign roles.
+- Use Inter (variable 100–900) for core text and the public-site redesign.
 - Use IBM Plex Mono for mono roles.
 - Restrict Cook Gothif and Missing Lovely to the approved Lab specimen.
 - Do not commit unlicensed font binaries.
@@ -20,6 +20,7 @@
 - Keep responsive values fluid between the approved breakpoints.
 - Preserve reduced-motion behavior.
 - Never add Tailwind or a competing style system.
+- Keep `MOTION` (`src/motion.ts`) synchronized with the `--motion-*` tokens.
 - Run `pnpm check:tokens` after token changes.
 - Run `pnpm lint:css` after CSS changes.
 - Run `pnpm --filter @studionomade/design-system typecheck`.

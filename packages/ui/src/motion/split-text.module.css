@@ -1,0 +1,52 @@
+.split {
+  display: block;
+}
+
+/* Máscara de palabra o letra. */
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+/* Máscara de línea. */
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.inner {
+  display: inline-block;
+}
+
+.line > .inner {
+  display: block;
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Mismas dos condiciones que en reveal.module.css: sin JavaScript o con
+   movimiento reducido, nada se desplaza y el titular se lee entero. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :global(html:not([data-reveal-failed])) .split:not([data-revealed]) .inner {
+    transform: translate3d(0, var(--reveal-shift-lines), 0);
+  }
+
+  /* Corte medido en el navegador: invisible solo hasta que GSAP lo parte. */
+  :global(html:not([data-reveal-failed]))
+    .split[data-motion="lines-auto"]:not([data-revealed]):not([data-split-ready]) {
+    opacity: 0;
+  }
+}
